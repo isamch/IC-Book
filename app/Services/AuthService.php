@@ -23,6 +23,22 @@ class AuthService
         $data['password'] = Hash::make($data['password']);
 
 
+        if (isset($data['photo'])) {
+
+            $path = 'images/profile/seller';
+
+            if ($data['user_type'] === 'buyer' ) {
+                $path = 'images/profile/buyer';
+            }
+
+            $data['photo'] = $data['photo']->store($path, 'public');
+
+
+        } else {
+            $data['photo'] = 'images/profile/default/default-profile.png';
+        }
+
+
         return $this->UserRepository->create($data);
     }
 

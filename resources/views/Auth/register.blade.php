@@ -14,11 +14,30 @@
                         <div class="relative w-32 h-32 rounded-full overflow-hidden border-4 border-green-500">
                             <img id="profile-preview" src="https://www.pngkey.com/png/detail/115-1150152_default-profile-picture-avatar-png-green.png" alt="Profile Picture"
                                 class="w-full h-full object-cover">
-                            <input type="file" id="profile-image" name="profile_image" accept="image/*"
+                            <input type="file" id="profile-image" name="photo" accept="image/*"
                                 class="absolute inset-0 w-full h-full opacity-0 cursor-pointer">
                         </div>
-                        @error('profile_image')
+                        @error('photo')
                             <div class="text-red-500 text-sm mt-1">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <div class="mb-4 text-center">
+                        <label class="block text-gray-700 mb-2">Role</label>
+                        <div class="flex justify-center space-x-6">
+                            <label class="inline-flex items-center cursor-pointer">
+                                <input type="radio" name="user_type" value="client" {{ old('user_type', 'client') == 'client' ? 'checked' : '' }}
+                                    class="form-radio h-5 w-5 text-green-500">
+                                <span class="ml-2 text-gray-700">Client</span>
+                            </label>
+                            <label class="inline-flex items-center cursor-pointer">
+                                <input type="radio" name="user_type" value="seller" {{ old('user_type') == 'seller' ? 'checked' : '' }}
+                                    class="form-radio h-5 w-5 text-green-500">
+                                <span class="ml-2 text-gray-700">Seller</span>
+                            </label>
+                        </div>
+                        @error('user_type')
+                            <div class="text-red-500 text-sm mt-2">{{ $message }}</div>
                         @enderror
                     </div>
 

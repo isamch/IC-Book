@@ -58,10 +58,12 @@
                 </div>
             @else
                 <!-- Show only on Login & Register Pages -->
-                @if (!request()->routeIs('login') && !request()->routeIs('register'))
-                    <a href="/login" class="text-gray-800">Login</a>
-                    <a href="{{ route('register.form') }}" class="text-gray-800">Register</a>
-                @endif
+                <a href="/login" class="px-4 py-1 border rounded-lg {{ request()->is('login') ? 'bg-green-500 text-white' : 'text-gray-800' }}">
+                    Login
+                </a>
+                <a href="{{ route('register.form') }}" class="px-4 py-1 border rounded-lg {{ request()->is('register') ? 'bg-green-500 text-white' : 'text-gray-800' }}">
+                    Register
+                </a>
             @endauth
         </div>
     </div>

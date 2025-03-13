@@ -29,7 +29,7 @@ class AuthController extends Controller
     {
 
 
-        $data = $request->only('first_name', 'last_name', 'email', 'password');
+        $data = $request->only('photo', 'user_type', 'first_name', 'last_name', 'email', 'password' , 'birthdate', 'user_type');
 
 
         $user = $this->authService->register($data);
