@@ -12,4 +12,10 @@ class UserRepository
     }
 
 
+    public function all()
+    {
+        return User::all();
+    }
+
+
 }

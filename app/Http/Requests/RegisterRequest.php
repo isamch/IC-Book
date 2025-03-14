@@ -26,7 +26,7 @@ class RegisterRequest extends FormRequest
         return [
 
             'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'user_type' => 'in:seller,client',
+            'user_type' => 'in:seller,buyer',
             'first_name' => 'bail|required|string|min:2|max:50',
             'last_name' => 'bail|required|string|min:2|max:50',
             'email' => 'bail|required|email|unique:users,email',

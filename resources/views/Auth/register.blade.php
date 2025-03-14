@@ -26,9 +26,9 @@
                         <label class="block text-gray-700 mb-2">Role</label>
                         <div class="flex justify-center space-x-6">
                             <label class="inline-flex items-center cursor-pointer">
-                                <input type="radio" name="user_type" value="client" {{ old('user_type', 'client') == 'client' ? 'checked' : '' }}
+                                <input type="radio" name="user_type" value="buyer" {{ old('user_type', 'client') == 'client' ? 'checked' : '' }}
                                     class="form-radio h-5 w-5 text-green-500">
-                                <span class="ml-2 text-gray-700">Client</span>
+                                <span class="ml-2 text-gray-700">Buyer</span>
                             </label>
                             <label class="inline-flex items-center cursor-pointer">
                                 <input type="radio" name="user_type" value="seller" {{ old('user_type') == 'seller' ? 'checked' : '' }}
@@ -105,7 +105,7 @@
                     </button>
 
                     <p class="mt-4 text-center text-gray-600">
-                        Already have an account? <a href="/login" class="text-green-500 hover:underline">Login here</a>.
+                        Already have an account? <a href="{ route('login.form') }}" class="text-green-500 hover:underline">Login here</a>.
                     </p>
                 </form>
             </div>

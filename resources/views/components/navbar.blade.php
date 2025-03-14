@@ -58,7 +58,7 @@
                 </div>
             @else
                 <!-- Show only on Login & Register Pages -->
-                <a href="/login" class="px-4 py-1 border rounded-lg {{ request()->is('login') ? 'bg-green-500 text-white' : 'text-gray-800' }}">
+                <a href="{{ route('login.form') }}" class="px-4 py-1 border rounded-lg {{ request()->is('login') ? 'bg-green-500 text-white' : 'text-gray-800' }}">
                     Login
                 </a>
                 <a href="{{ route('register.form') }}" class="px-4 py-1 border rounded-lg {{ request()->is('register') ? 'bg-green-500 text-white' : 'text-gray-800' }}">

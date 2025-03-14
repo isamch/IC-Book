@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
 use App\Services\AuthService;
 use Illuminate\Http\Request;
@@ -29,19 +30,44 @@ class AuthController extends Controller
     {
 
 
-        $data = $request->only('photo', 'user_type', 'first_name', 'last_name', 'email', 'password' , 'birthdate', 'user_type');
-
+        $data = $request->only('photo', 'user_type', 'first_name', 'last_name', 'email', 'password', 'birthdate', 'user_type');
 
         $user = $this->authService->register($data);
-
-        dd($user);
+        if (!$user) {
+            dd($user);
+        }
 
         return redirect()->route('login.form')->with('success_register', 'account created successfully');
+    }
+
+
+    // login :
+    public function showLoginForm()
+    {
+        return view('Auth.login');
+    }
+
+
+    public function login(LoginRequest $request)
+    {
+        $credentials = $request->only('email', 'password');
+
+        $user = $this->authService->login($credentials);
+
+        $request->session()->regenerate();
+
+        return redirect()->route('home')->with('success', 'Login Success!');
 
     }
 
 
 
+    public function logout(Request $request) {
+        $this->authService->logout();
 
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
 
+        return redirect()->route('login.form');
+    }
 }
