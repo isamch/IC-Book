@@ -32,6 +32,9 @@ Route::post('login', [AuthController::class, 'login'])->name('login');
 
 Route::post('logout', [AuthController::class, 'logout'])->name('logout');
 
+// Route::get('logout', [AuthController::class, 'logout'])->name('logout');
+
+
 
 // email verification :
 Route::prefix('email')->group(function () {
@@ -42,6 +45,8 @@ Route::prefix('email')->group(function () {
 Route::get('email/message', [VerificationController::class, 'ShowMessage'])->name('verification.notice');
 
 
+
+
 Route::get('home', function () {
     return view('pages.home');
 })->name('home');
@@ -49,4 +54,9 @@ Route::get('home', function () {
 
 Route::get('user', function () {
     dd(Auth::user());
+});
+
+Route::get('email', function () {
+    return view('auth.verify-email');
+
 });

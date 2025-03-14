@@ -71,7 +71,9 @@ class AuthController extends Controller
             return redirect()->back()->withInput()->withErrors(['login' => $e->getMessage()]);
         } catch (\Exception $e) {
 
-            return redirect()->back()->withInput()->withErrors(['email_not_verified' => $e->getMessage()]);
+
+            return redirect()->route('verification.notice')->with(['verify_email_needed' => 'warning', 'action' => 'need-verify', 'message' => ' It seems that you have not verified your email address yet. Please check your inbox for the verification link.!']);
+
         }
     }
 

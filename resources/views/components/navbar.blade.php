@@ -21,40 +21,31 @@
         <div class="flex items-center space-x-4">
 
             @auth
-                <div id="search-btn" class="text-gray-800 cursor-pointer">
-                    <i class="fas fa-search"></i>
-                </div>
+                <div class="flex items-center justify-center space-x-6">
 
-                <a href="#featured" class="text-gray-800">
-                    <i class="fas fa-heart"></i>
-                </a>
+                    <a href="#"
+                        class="text-gray-800 relative flex items-center justify-center w-12 h-12 rounded-full bg-green-100 hover:bg-green-200">
+                        <i class="fas fa-envelope text-xl text-green-500"></i>
+                        {{-- @if (Auth::user()->unreadMessagesCount() > 0) --}}
+                        <span class="absolute top-0 right-0 inline-block w-3 h-3 bg-red-500 rounded-full"></span>
+                        {{-- @endif --}}
+                    </a>
 
-                <div class="relative">
-                    <button class="text-gray-800 flex items-center">
-                        <i class="fas fa-user"></i>
-                        <span class="ml-2">{{ auth()->user()->name }}</span>
-                    </button>
-                    <!-- Dropdown Menu -->
-                    <div class="absolute right-0 mt-2 bg-white shadow-md rounded-md w-48 hidden group-hover:block">
-                        <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Profile</a>
+                    <a href="#"
+                        class="text-gray-800 flex items-center justify-center w-12 h-12 rounded-full bg-green-100 hover:bg-green-200">
+                        <img src="{{ asset('storage/' . Auth::user()->photo) }}" alt="Profile Image"
+                            class="w-10 h-10 rounded-full border-2 border-green-500 object-cover">
+                    </a>
 
-                        @if (auth()->user()->role == 'admin')
-                            <a href="{{ route('admin.dashboard') }}"
-                                class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Admin Dashboard</a>
-                        @elseif(auth()->user()->role == 'seller')
-                            <a href="{{ route('seller.dashboard') }}"
-                                class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Seller Dashboard</a>
-                        @elseif(auth()->user()->role == 'buyer')
-                            <a href="{{ route('buyer.dashboard') }}"
-                                class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Buyer Dashboard</a>
-                        @endif
+                    <form method="POST" action="{{ route('logout') }}"
+                        class="flex items-center justify-center w-12 h-12 rounded-full bg-red-100 hover:bg-red-200">
+                        @csrf
+                        <button type="submit"
+                            class="flex items-center justify-center w-10 h-10 rounded-full text-gray-800 hover:text-red-500">
+                            <i class="fas fa-sign-out-alt text-xl text-red-500"></i>
+                        </button>
+                    </form>
 
-                        <form action="#" method="POST" class="block">
-                            @csrf
-                            <button type="submit"
-                                class="w-full text-left px-4 py-2 text-red-600 hover:bg-gray-100">Logout</button>
-                        </form>
-                    </div>
                 </div>
             @else
                 <!-- Show only on Login & Register Pages -->
@@ -74,11 +65,10 @@
     <nav class="bg-green-500 py-2">
         <div class="container mx-auto flex justify-center space-x-6">
             <a href="/home" class="text-white hover:text-gray-200">Home</a>
-            <a href="#featured" class="text-white hover:text-gray-200">Featured</a>
-            <a href="#arrivals" class="text-white hover:text-gray-200">Arrivals</a>
+            <a href="#featured" class="text-white hover:text-gray-200">Books</a>
+            <a href="#arrivals" class="text-white hover:text-gray-200">posts</a>
             <a href="#reviews" class="text-white hover:text-gray-200">Reviews</a>
             <a href="#blogs" class="text-white hover:text-gray-200">Blogs</a>
         </div>
     </nav>
 </header>
-
