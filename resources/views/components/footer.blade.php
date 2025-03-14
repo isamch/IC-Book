@@ -1,7 +1,7 @@
 <!-- Footer Section -->
 <footer class="bg-gray-800 py-12">
     @auth
-        <div class="container mx-auto grid grid-cols-1 md:grid-cols-4 gap-8 text-white">
+        <div class="container mx-auto grid grid-cols-1 md:grid-cols-4 gap-8 text-white px-5">
             <div>
                 <h3 class="text-xl font-bold">Our Locations</h3>
                 <a href="#" class="block mt-2">Saudi Arabia</a>

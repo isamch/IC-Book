@@ -36,7 +36,7 @@
                     </button>
                     <!-- Dropdown Menu -->
                     <div class="absolute right-0 mt-2 bg-white shadow-md rounded-md w-48 hidden group-hover:block">
-                        <a href="{{ route('profile') }}" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Profile</a>
+                        <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Profile</a>
 
                         @if (auth()->user()->role == 'admin')
                             <a href="{{ route('admin.dashboard') }}"
@@ -49,7 +49,7 @@
                                 class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Buyer Dashboard</a>
                         @endif
 
-                        <form action="{{ route('logout') }}" method="POST" class="block">
+                        <form action="#" method="POST" class="block">
                             @csrf
                             <button type="submit"
                                 class="w-full text-left px-4 py-2 text-red-600 hover:bg-gray-100">Logout</button>
@@ -58,10 +58,12 @@
                 </div>
             @else
                 <!-- Show only on Login & Register Pages -->
-                <a href="{{ route('login.form') }}" class="px-4 py-1 border rounded-lg {{ request()->is('login') ? 'bg-green-500 text-white' : 'text-gray-800' }}">
+                <a href="{{ route('login.form') }}"
+                    class="px-4 py-1 border rounded-lg {{ request()->is('login') ? 'bg-green-500 text-white' : 'text-gray-800' }}">
                     Login
                 </a>
-                <a href="{{ route('register.form') }}" class="px-4 py-1 border rounded-lg {{ request()->is('register') ? 'bg-green-500 text-white' : 'text-gray-800' }}">
+                <a href="{{ route('register.form') }}"
+                    class="px-4 py-1 border rounded-lg {{ request()->is('register') ? 'bg-green-500 text-white' : 'text-gray-800' }}">
                     Register
                 </a>
             @endauth
@@ -79,3 +81,4 @@
         </div>
     </nav>
 </header>
+

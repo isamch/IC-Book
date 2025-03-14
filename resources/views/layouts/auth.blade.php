@@ -21,6 +21,7 @@
 <body class="bg-gray-100 font-sans">
     <!-- Include Navigation Component -->
     @include('components.navbar')
+    @include('components.alerts')
 
     <!-- Main Content -->
     <main>

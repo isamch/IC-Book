@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\Auth\VerificationController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -28,8 +30,23 @@ Route::post('register', [AuthController::class, 'register'])->name('register');
 Route::get('login', [AuthController::class, 'showloginForm'])->name('login.form');
 Route::post('login', [AuthController::class, 'login'])->name('login');
 
-Route::get('homes', function () {
-    return view('layouts.main');
+Route::post('logout', [AuthController::class, 'logout'])->name('logout');
+
+
+// email verification :
+Route::prefix('email')->group(function () {
+    Route::get('verify/{id}/{hash}', [VerificationController::class, 'verify'])->name('verification.verify');
+    Route::post('resend', [VerificationController::class, 'send'])->name('verification.send');
 });
 
+Route::get('email/message', [VerificationController::class, 'ShowMessage'])->name('verification.notice');
 
+
+Route::get('home', function () {
+    return view('pages.home');
+})->name('home');
+
+
+Route::get('user', function () {
+    dd(Auth::user());
+});

@@ -21,6 +21,7 @@
 <body class="bg-gray-100 font-sans">
     <!-- Include Navigation Component -->
     @include('components.navbar')
+    @include('components.alerts')
 
     <!-- Main Content -->
     <main>
@@ -32,9 +33,6 @@
 
     <!-- Swiper JS -->
     <script src="https://unpkg.com/swiper@7/swiper-bundle.min.js"></script>
-
-    <!-- Custom JS -->
-    <script src="js/script.js"></script>
 </body>
 
 </html>

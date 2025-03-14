@@ -5,6 +5,8 @@ namespace App\Services;
 use App\Repositories\BuyerRepository;
 use App\Repositories\SellerRepository;
 use App\Repositories\UserRepository;
+use Exception;
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
@@ -72,14 +74,16 @@ class AuthService
     public function login(array $credentials)
     {
 
-        if (Auth::attempt($credentials)) {
-            request()->session()->regenerate();
-            return Auth::user();
+        if (!Auth::attempt($credentials)) {
+            throw new AuthenticationException('The provided email or password is incorrect. Please try again.');
         }
 
-        throw ValidationException::withMessages([
-            'login' => 'The provided email or password is incorrect. Please try again.',
-        ]);
+        if (!Auth::user()->email_verified_at) {
+            throw new Exception('Please verify your email address to continue.');
+        }
+
+        request()->session()->regenerate();
+        return Auth::user();
     }
 
 
