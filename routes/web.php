@@ -60,3 +60,9 @@ Route::get('email', function () {
     return view('auth.verify-email');
 
 });
+
+
+
+Route::get('books', function () {
+    return view('pages.products.index');
+})->name('home');

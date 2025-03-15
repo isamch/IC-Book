@@ -65,9 +65,9 @@
     <nav class="bg-green-500 py-2">
         <div class="container mx-auto flex justify-center space-x-6">
             <a href="/home" class="text-white hover:text-gray-200">Home</a>
-            <a href="#featured" class="text-white hover:text-gray-200">Books</a>
+            <a href="/books" class="text-white hover:text-gray-200">Books</a>
             <a href="#arrivals" class="text-white hover:text-gray-200">posts</a>
-            <a href="#reviews" class="text-white hover:text-gray-200">Reviews</a>
+            <a href="#reviews" class="text-white hover:text-gray-200">Marketplace</a>
             <a href="#blogs" class="text-white hover:text-gray-200">Blogs</a>
         </div>
     </nav>
