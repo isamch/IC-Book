@@ -66,3 +66,15 @@ Route::get('email', function () {
 Route::get('books', function () {
     return view('pages.products.index');
 })->name('home');
+
+
+
+Route::get('single/books', function () {
+    return view('pages.products.single');
+})->name('home');
+
+
+
+Route::get('checkout', function () {
+    return view('pages.products.checkout');
+})->name('home');
