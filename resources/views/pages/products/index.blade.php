@@ -1,12 +1,12 @@
 @extends('layouts.main')
 
-@section('title', 'Home')
+@section('title', 'Books')
 
 @section('content')
     <section class="bg-gray-100 py-10 px-4">
         <div class="max-w-7xl mx-auto">
             <h2 class="text-4xl font-extrabold text-center text-gray-800 mb-16 relative">
-                <a href="#products" class="relative z-10 cursor-pointer">Our Products</a>
+                <a href="#products" class="relative z-10 cursor-pointer">Books</a>
                 <span
                     class="absolute left-1/2 transform -translate-x-1/2 -bottom-4 w-24 h-1.5 bg-green-500 rounded-full"></span>
                 <span

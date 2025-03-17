@@ -78,3 +78,9 @@ Route::get('single/books', function () {
 Route::get('checkout', function () {
     return view('pages.products.checkout');
 })->name('home');
+
+
+
+Route::get('marketplace', function () {
+    return view('pages.marketplace');
+})->name('home');
