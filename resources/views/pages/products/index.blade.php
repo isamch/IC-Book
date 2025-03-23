@@ -16,7 +16,8 @@
 
             <div class="flex flex-col lg:flex-row gap-8">
                 <!-- Sidebar Filter -->
-                <div class="w-full lg:w-1/4 bg-white rounded-xl shadow-lg p-6" style="height: 800px; overflow-y: auto; scrollbar-width: thin; scrollbar-color: #48bb78 #f7fafc;">
+                <div class="w-full lg:w-1/4 bg-white rounded-xl shadow-lg p-6"
+                    style="height: 800px; overflow-y: auto; scrollbar-width: thin; scrollbar-color: #48bb78 #f7fafc;">
                     <!-- Search Bar -->
                     <div class="mb-6">
                         <input type="text" placeholder="Search products..."
@@ -33,8 +34,8 @@
                         <!-- Category Filter -->
                         <div>
                             <h4 class="text-lg font-medium text-gray-800 mb-3">Categories</h4>
-                            <ul
-                                class="space-y-2 max-h-48 overflow-y-auto" style="scrollbar-width: thin; scrollbar-color: #48bb78 #f7fafc;">
+                            <ul class="space-y-2 max-h-48 overflow-y-auto"
+                                style="scrollbar-width: thin; scrollbar-color: #48bb78 #f7fafc;">
                                 @for ($i = 1; $i <= 15; $i++)
                                     <li>
                                         <label class="flex items-center space-x-2">
@@ -50,8 +51,8 @@
                         <!-- Price Filter -->
                         <div>
                             <h4 class="text-lg font-medium text-gray-800 mb-3">Price Range</h4>
-                            <ul
-                                class="space-y-2 max-h-48 overflow-y-auto" style="scrollbar-width: thin; scrollbar-color: #48bb78 #f7fafc;">
+                            <ul class="space-y-2 max-h-48 overflow-y-auto"
+                                style="scrollbar-width: thin; scrollbar-color: #48bb78 #f7fafc;">
                                 <li>
                                     <label class="flex items-center space-x-2">
                                         <input type="checkbox"
@@ -142,7 +143,8 @@
                 </div>
 
                 <!-- Product Grid -->
-                <div class="w-full lg:w-3/4 bg-white rounded-xl shadow-lg p-6" style="height: 800px; overflow-y: auto; scrollbar-width: thin; scrollbar-color: #48bb78 #f7fafc;">
+                <div class="w-full lg:w-3/4 bg-white rounded-xl shadow-lg p-6"
+                    style="height: 800px; overflow-y: auto; scrollbar-width: thin; scrollbar-color: #48bb78 #f7fafc;">
                     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
                         @for ($i = 1; $i <= 12; $i++)
                             <div
@@ -171,9 +173,11 @@
                                             class="text-gray-900 hover:text-green-500 cursor-pointer">Product Title
                                             {{ $i }}</a>
                                     </h4>
-                                    <p class="text-gray-600 text-sm mb-4 line-clamp-3">
-                                        {{ Str::limit(Str::random(50) . $i, 50, '...') }}
+
+                                    <p class="text-gray-600 text-sm mb-4 line-clamp-3 overflow-hidden">
+                                        {{ Str::limit("Lorem ipsum dolor sit amet consectetur adipisicing elit" . $i, 50, '...') }}
                                     </p>
+
                                     <div class="flex items-center justify-between">
                                         <div class="flex items-center space-x-1">
                                             @for ($j = 1; $j <= 5; $j++)

@@ -18,11 +18,6 @@
                 <!-- Sidebar Filter -->
                 <div class="w-full lg:w-1/4 bg-white rounded-xl shadow-lg p-6"
                     style="height: 800px; overflow-y: auto; scrollbar-width: thin; scrollbar-color: #48bb78 #f7fafc;">
-                    <!-- Search Bar -->
-                    <div class="mb-6">
-                        <input type="text" placeholder="Search products..."
-                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500">
-                    </div>
 
                     <!-- Apply Filter Button -->
                     <button
@@ -30,19 +25,80 @@
                         Apply Filter
                     </button>
 
+                    <!-- Search Bar -->
+                    <div class="mb-6">
+                        <input type="text" placeholder="Search products..."
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500">
+                    </div>
+
+
                     <div class="space-y-6">
+                        <style>
+                            #dropdownResults option {
+                            background-color: white; /* Background color */
+                            color: #1a202c; /* Text color (gray-800) */
+                            padding: 8px 12px; /* Spacing inside options */
+                            font-size: 1rem; /* Text size */
+                            }
+
+                            #dropdownResults option:hover {
+                            background-color: #48bb78; /* Hover background color (green-600) */
+                            color: white; /* Hover text color */
+                            }
+
+                            #dropdownResults option:checked {
+                            background-color: #38a169; /* Selected option background color (green-700) */
+                            color: white; /* Selected option text color */
+                            }
+                            #dropdownResults::-webkit-scrollbar {
+                                width: 8px;
+                            }
+
+                            #dropdownResults::-webkit-scrollbar-track {
+                                background: #f7fafc;
+                                border-radius: 4px;
+                            }
+
+                            #dropdownResults::-webkit-scrollbar-thumb {
+                                background: #48bb78;
+                                border-radius: 4px;
+                            }
+
+                            #dropdownResults::-webkit-scrollbar-thumb:hover {
+                                background: #38a169;
+                            }
+
+                            #dropdownResults {
+                                scrollbar-width: thin;
+                                scrollbar-color: #48bb78 #f7fafc;
+                            }
+                        </style>
+
                         <div class="relative w-full max-w-md mx-auto">
-                            <!-- حقل البحث -->
-                            <input type="text" id="searchInput" placeholder="Find a place..."
-                                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500" />
-
-                            <!-- القائمة المنسدلة للنتائج -->
-                            <div id="dropdownResults"
-                                class="absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded-lg shadow-lg hidden">
-                                <!-- النتائج ستظهر هنا -->
-                            </div>
+                            <!-- Dropdown -->
+                            <select id="dropdownResults"
+                                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 text-gray-800 bg-white transition-colors duration-200">
+                                <!-- Manually added options -->
+                                <option value="Casablanca">Casablanca</option>
+                                <option value="Marrakesh">Marrakesh</option>
+                                <option value="Rabat">Rabat</option>
+                                <option value="Fes">Fes</option>
+                                <option value="Tangier">Tangier</option>
+                                <option value="Agadir">Agadir</option>
+                                <option value="Meknes">Meknes</option>
+                                <option value="Tetouan">Tetouan</option>
+                                <option value="Oujda">Oujda</option>
+                                <option value="Sale">Sale</option>
+                                <option value="Kenitra">Kenitra</option>
+                                <option value="Safi">Safi</option>
+                                <option value="El Jadida">El Jadida</option>
+                                <option value="Nador">Nador</option>
+                                <option value="Dakhla">Dakhla</option>
+                                <option value="Asilah">Asilah</option>
+                                <option value="Ifrane">Ifrane</option>
+                                <option value="Beni Mellal">Beni Mellal</option>
+                            </select>
                         </div>
-
 
                         <!-- Category Filter -->
                         <div>
@@ -167,8 +223,8 @@
                                             class="text-gray-900 hover:text-green-500 cursor-pointer">Product Title
                                             {{ $i }}</a>
                                     </h4>
-                                    <p class="text-gray-600 text-sm mb-4 line-clamp-3">
-                                        {{ Str::limit(Str::random(50) . $i, 50, '...') }}
+                                    <p class="text-gray-600 text-sm mb-4 line-clamp-3 overflow-hidden">
+                                        {{ Str::limit('Lorem ipsum dolor sit amet consectetur adipisicing elit' . $i, 50, '...') }}
                                     </p>
                                     <div class="flex items-center justify-between">
                                         <div class="flex items-center space-x-1">
@@ -212,57 +268,28 @@
     </section>
 
 
-    {{-- js for search about country --}}
+    {{-- js for search about city --}}
 
     <script>
         // قائمة الدول (يمكن استبدالها بقائمة من قاعدة بيانات أو API)
 
-        const countries = [
-            "Saudi Arabia", "United Arab Emirates", "Egypt", "Kuwait", "Oman",
-            "Qatar", "Bahrain", "Iraq", "Jordan", "Yemen", "Lebanon", "Syria",
-            "Palestine", "Sudan", "Libya", "Morocco", "Tunisia", "Algeria",
-            "Mauritania", "Somalia", "Djibouti", "Comoros"
+        const cities = [
+            "Casablanca", "Marrakesh", "Rabat", "Fes", "Tangier", "Agadir",
+            "Meknes", "Tetouan", "Oujda", "Sale", "Kenitra", "Safi",
+            "El Jadida", "Nador", "Dakhla", "Asilah", "Ifrane", "Beni Mellal"
         ];
 
-        // العناصر المهمة
-        const searchInput = document.getElementById('searchInput');
-        const dropdownResults = document.getElementById('dropdownResults');
 
-        // وظيفة البحث وعرض النتائج
-        searchInput.addEventListener('input', function() {
-            const searchTerm = searchInput.value.toLowerCase();
-            dropdownResults.innerHTML = ''; // مسح النتائج القديمة
 
-            if (searchTerm) {
-                const filteredCountries = countries.filter(country =>
-                    country.toLowerCase().includes(searchTerm)
-                );
 
-                if (filteredCountries.length > 0) {
-                    filteredCountries.forEach(country => {
-                        const resultItem = document.createElement('div');
-                        resultItem.textContent = country;
-                        resultItem.classList.add('px-4', 'py-2', 'cursor-pointer', 'hover:bg-gray-100');
-                        resultItem.addEventListener('click', function() {
-                            searchInput.value = country; // وضع النتيجة في حقل البحث
-                            dropdownResults.classList.add('hidden'); // إخفاء القائمة
-                        });
-                        dropdownResults.appendChild(resultItem);
-                    });
-                    dropdownResults.classList.remove('hidden'); // عرض القائمة
-                } else {
-                    dropdownResults.classList.add('hidden'); // إخفاء القائمة إذا لم توجد نتائج
-                }
-            } else {
-                dropdownResults.classList.add('hidden'); // إخفاء القائمة إذا كان حقل البحث فارغًا
-            }
-        });
 
-        // إخفاء القائمة عند النقر خارجها
-        document.addEventListener('click', function(event) {
-            if (!event.target.matches('#searchInput')) {
-                dropdownResults.classList.add('hidden');
-            }
-        });
+
+
+        // // إخفاء القائمة عند النقر خارجها
+        // document.addEventListener('click', function(event) {
+        //     if (!event.target.matches('#searchInput')) {
+        //         dropdownResults.classList.add('hidden');
+        //     }
+        // });
     </script>
 @endsection
