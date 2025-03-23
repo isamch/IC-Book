@@ -33,74 +33,38 @@
 
 
                     <div class="space-y-6">
-                        <style>
-                            #dropdownResults option {
-                            background-color: white; /* Background color */
-                            color: #1a202c; /* Text color (gray-800) */
-                            padding: 8px 12px; /* Spacing inside options */
-                            font-size: 1rem; /* Text size */
-                            }
 
-                            #dropdownResults option:hover {
-                            background-color: #48bb78; /* Hover background color (green-600) */
-                            color: white; /* Hover text color */
-                            }
-
-                            #dropdownResults option:checked {
-                            background-color: #38a169; /* Selected option background color (green-700) */
-                            color: white; /* Selected option text color */
-                            }
-                            #dropdownResults::-webkit-scrollbar {
-                                width: 8px;
-                            }
-
-                            #dropdownResults::-webkit-scrollbar-track {
-                                background: #f7fafc;
-                                border-radius: 4px;
-                            }
-
-                            #dropdownResults::-webkit-scrollbar-thumb {
-                                background: #48bb78;
-                                border-radius: 4px;
-                            }
-
-                            #dropdownResults::-webkit-scrollbar-thumb:hover {
-                                background: #38a169;
-                            }
-
-                            #dropdownResults {
-                                scrollbar-width: thin;
-                                scrollbar-color: #48bb78 #f7fafc;
-                            }
-                        </style>
 
                         <div class="relative w-full max-w-md mx-auto">
-                            <!-- Dropdown -->
+                            <h4 class="text-lg font-medium text-gray-800 mb-3">Places</h4>
+                            <input type="text" id="searchCities" placeholder="ابحث عن مدينة..."
+                                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 text-gray-800 bg-white mb-4">
+
+                            <!-- القائمة المنسدلة التي تحتوي على المدن -->
                             <select id="dropdownResults"
-                                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 text-gray-800 bg-white transition-colors duration-200">
-                                <!-- Manually added options -->
-                                <option value="Casablanca">Casablanca</option>
-                                <option value="Marrakesh">Marrakesh</option>
-                                <option value="Rabat">Rabat</option>
-                                <option value="Fes">Fes</option>
-                                <option value="Tangier">Tangier</option>
-                                <option value="Agadir">Agadir</option>
-                                <option value="Meknes">Meknes</option>
-                                <option value="Tetouan">Tetouan</option>
-                                <option value="Oujda">Oujda</option>
-                                <option value="Sale">Sale</option>
-                                <option value="Kenitra">Kenitra</option>
-                                <option value="Safi">Safi</option>
-                                <option value="El Jadida">El Jadida</option>
-                                <option value="Nador">Nador</option>
-                                <option value="Dakhla">Dakhla</option>
-                                <option value="Asilah">Asilah</option>
-                                <option value="Ifrane">Ifrane</option>
-                                <option value="Beni Mellal">Beni Mellal</option>
+                                class="w-full px-4 py-2 border border-green-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 text-gray-800 bg-white transition-colors duration-300 ease-in-out"
+                                size="5">
+                                <option value="All" class="text-gray-800 hover:bg-green-100 py-1">All</option>
+                                <option value="Casablanca" class="text-gray-800 hover:bg-green-100 py-1">Casablanca</option>
+                                <option value="Marrakesh" class="text-gray-800 hover:bg-green-100 py-1">Marrakesh</option>
+                                <option value="Rabat" class="text-gray-800 hover:bg-green-100 py-1">Rabat</option>
+                                <option value="Fes" class="text-gray-800 hover:bg-green-100 py-1">Fes</option>
+                                <option value="Tangier" class="text-gray-800 hover:bg-green-100 py-1">Tangier</option>
+                                <option value="Safi" class="text-gray-800 hover:bg-green-100 py-1">Safi</option>
+                                <option value="El Jadida" class="text-gray-800 hover:bg-green-100 py-1">El Jadida</option>
+                                <option value="Nador" class="text-gray-800 hover:bg-green-100 py-1">Nador</option>
+                                <option value="Dakhla" class="text-gray-800 hover:bg-green-100 py-1">Dakhla</option>
+                                <option value="Asilah" class="text-gray-800 hover:bg-green-100 py-1">Asilah</option>
+                                <option value="Ifrane" class="text-gray-800 hover:bg-green-100 py-1">Ifrane</option>
+                                <option value="Beni Mellal" class="text-gray-800 hover:bg-green-100 py-1">Beni Mellal
+                                </option>
                             </select>
                         </div>
 
-                        <!-- Category Filter -->
+
+
+
+                        {{-- <!-- Category Filter --> --}}
                         <div>
                             <h4 class="text-lg font-medium text-gray-800 mb-3">Categories</h4>
                             <ul class="space-y-2 max-h-48 overflow-y-auto"
@@ -227,27 +191,8 @@
                                         {{ Str::limit('Lorem ipsum dolor sit amet consectetur adipisicing elit' . $i, 50, '...') }}
                                     </p>
                                     <div class="flex items-center justify-between">
-                                        <div class="flex items-center space-x-1">
-                                            @for ($j = 1; $j <= 5; $j++)
-                                                @if ($j <= rand(3, 5))
-                                                    <svg class="w-4 h-4 text-yellow-400" fill="currentColor"
-                                                        viewBox="0 0 20 20">
-                                                        <path
-                                                            d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.953a1 1 0 00.95.69h4.162c.969 0 1.371 1.24.588 1.81l-3.366 2.445a1 1 0 00-.364 1.118l1.286 3.953c.3.921-.755 1.688-1.54 1.118l-3.366-2.445a1 1 0 00-1.176 0l-3.366 2.445c-.784.57-1.838-.197-1.54-1.118l1.286-3.953a1 1 0 00-.364-1.118L2.41 9.38c-.783-.57-.38-1.81.588-1.81h4.162a1 1 0 00.95-.69l1.286-3.953z">
-                                                        </path>
-                                                    </svg>
-                                                @else
-                                                    <svg class="w-4 h-4 text-gray-300" fill="currentColor"
-                                                        viewBox="0 0 20 20">
-                                                        <path
-                                                            d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.953a1 1 0 00.95.69h4.162c.969 0 1.371 1.24.588 1.81l-3.366 2.445a1 1 0 00-.364 1.118l1.286 3.953c.3.921-.755 1.688-1.54 1.118l-3.366-2.445a1 1 0 00-1.176 0l-3.366 2.445c-.784.57-1.838-.197-1.54-1.118l1.286-3.953a1 1 0 00-.364-1.118L2.41 9.38c-.783-.57-.38-1.81.588-1.81h4.162a1 1 0 00.95-.69l1.286-3.953z">
-                                                        </path>
-                                                    </svg>
-                                                @endif
-                                            @endfor
-                                            <span
-                                                class="text-gray-500 text-xs ml-1">{{ rand(3, 5) }}.{{ rand(0, 9) }}</span>
-                                        </div>
+                                        {{-- <span class="text-gray-700 text-sm font-medium">{{ $cityName }}</span> --}}
+                                        <span class="text-gray-700 text-sm font-medium">Rabat</span>
                                         <span class="text-gray-700 text-sm font-medium">${{ rand(10, 50) }}.99</span>
                                     </div>
                                 </div>
@@ -269,27 +214,32 @@
 
 
     {{-- js for search about city --}}
-
     <script>
-        // قائمة الدول (يمكن استبدالها بقائمة من قاعدة بيانات أو API)
+        // دالة لتصفية المدن بناءً على النص المدخل في خانة البحث
+        function filterCities() {
+            const searchInput = document.getElementById('searchCities');
+            const dropdown = document.getElementById('dropdownResults');
+            const options = dropdown.getElementsByTagName('option');
 
-        const cities = [
-            "Casablanca", "Marrakesh", "Rabat", "Fes", "Tangier", "Agadir",
-            "Meknes", "Tetouan", "Oujda", "Sale", "Kenitra", "Safi",
-            "El Jadida", "Nador", "Dakhla", "Asilah", "Ifrane", "Beni Mellal"
-        ];
+            // النص المدخل في خانة البحث
+            const searchQuery = searchInput.value.toLowerCase();
 
+            // تصفية الخيارات بناءً على النص المدخل
+            Array.from(options).forEach(option => {
+                const cityName = option.textContent.toLowerCase();
 
+                if (cityName.includes(searchQuery)) {
+                    // عرض المدينة إذا كانت تتطابق مع النص المدخل
+                    option.style.display = 'block';
+                } else {
+                    // إخفاء المدينة إذا لم تتطابق
+                    option.style.display = 'none';
+                }
+            });
+        }
 
-
-
-
-
-        // // إخفاء القائمة عند النقر خارجها
-        // document.addEventListener('click', function(event) {
-        //     if (!event.target.matches('#searchInput')) {
-        //         dropdownResults.classList.add('hidden');
-        //     }
-        // });
+        // إضافة مستمع للحدث عند الكتابة في خانة البحث
+        document.getElementById('searchCities').addEventListener('input', filterCities);
     </script>
+
 @endsection

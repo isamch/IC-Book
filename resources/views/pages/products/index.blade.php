@@ -18,17 +18,20 @@
                 <!-- Sidebar Filter -->
                 <div class="w-full lg:w-1/4 bg-white rounded-xl shadow-lg p-6"
                     style="height: 800px; overflow-y: auto; scrollbar-width: thin; scrollbar-color: #48bb78 #f7fafc;">
-                    <!-- Search Bar -->
-                    <div class="mb-6">
-                        <input type="text" placeholder="Search products..."
-                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500">
-                    </div>
 
                     <!-- Apply Filter Button -->
                     <button
                         class="w-full bg-green-600 text-white py-2 px-4 rounded-lg mb-6 hover:bg-green-700 transition-colors duration-200">
                         Apply Filter
                     </button>
+
+                    <!-- Search Bar -->
+                    <div class="mb-6">
+                        <input type="text" placeholder="Search products..."
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500">
+                    </div>
+
+
 
                     <div class="space-y-6">
                         <!-- Category Filter -->

@@ -82,5 +82,31 @@ Route::get('checkout', function () {
 
 
 Route::get('marketplace', function () {
-    return view('pages.marketplace');
+    return view('pages.marketplace.index');
 })->name('home');
+
+
+Route::get('marketplace/single', function () {
+    return view('pages.marketplace.single');
+})->name('home');
+
+
+
+Route::get('messages', function () {
+    return view('pages.messages');
+})->name('home');
+
+
+
+Route::get('profile', function () {
+    return view('pages.profile');
+})->name('home');
+
+
+Route::get('postes', function () {
+    return view('pages.posts');
+})->name('home');
+
+
+
+
