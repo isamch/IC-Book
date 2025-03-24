@@ -120,7 +120,7 @@ Route::get('admin/dashboard', function () {
 
 Route::get('/admin/users', function () {
 
-    $users = User::paginate(2);
+    $users = User::paginate(5);
 
     return view('admin.users.index', compact('users'));
     // return view('admin.users.index');

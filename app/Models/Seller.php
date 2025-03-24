@@ -24,5 +24,4 @@ class Seller extends Model
     {
         return $this->hasMany(Book::class);
     }
-
 }

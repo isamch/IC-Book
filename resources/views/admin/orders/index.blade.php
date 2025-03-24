@@ -13,29 +13,25 @@
             </div>
 
             <nav class="space-y-2">
-                <a href="#" class="flex items-center gap-3 p-3 rounded-lg hover:bg-green-700">
+                <a href="/admin/dashboard" class="flex items-center gap-3 p-3 rounded-lg hover:bg-green-700">
                     <i class="fas fa-tachometer-alt"></i>
                     <span>Dashboard</span>
                 </a>
-                <a href="#" class="flex items-center gap-3 p-3 rounded-lg hover:bg-green-700">
+                <a href="/admin/users" class="flex items-center gap-3 p-3 rounded-lg hover:bg-green-700">
                     <i class="fas fa-users"></i>
                     <span>Users</span>
                 </a>
-                <a href="#" class="flex items-center gap-3 p-3 rounded-lg hover:bg-green-700">
+                <a href="/admin/marketplace" class="flex items-center gap-3 p-3 rounded-lg hover:bg-green-700">
                     <i class="fas fa-book"></i>
                     <span>Physical Books</span>
                 </a>
-                <a href="#" class="flex items-center gap-3 p-3 rounded-lg hover:bg-green-700">
+                <a href="/admin/book" class="flex items-center gap-3 p-3 rounded-lg hover:bg-green-700">
                     <i class="fas fa-file-pdf"></i>
                     <span>Digital Books</span>
                 </a>
-                <a href="#" class="flex items-center gap-3 p-3 rounded-lg bg-green-700">
+                <a href="/admin/orders" class="flex items-center gap-3 p-3 rounded-lg bg-green-700">
                     <i class="fas fa-shopping-cart"></i>
                     <span>Orders</span>
-                </a>
-                <a href="#" class="flex items-center gap-3 p-3 rounded-lg hover:bg-green-700">
-                    <i class="fas fa-cog"></i>
-                    <span>Settings</span>
                 </a>
             </nav>
         </div>

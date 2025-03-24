@@ -1,3 +1,5 @@
+{{-- {{ dd($users[1]) }} --}}
+
 @extends('layouts.admin')
 
 @section('title', 'Users')
@@ -13,29 +15,25 @@
             </div>
 
             <nav class="space-y-2">
-                <a href="#" class="flex items-center gap-3 p-3 rounded-lg hover:bg-green-700">
+                <a href="/admin/dashboard" class="flex items-center gap-3 p-3 rounded-lg hover:bg-green-700">
                     <i class="fas fa-tachometer-alt"></i>
                     <span>Dashboard</span>
                 </a>
-                <a href="#" class="flex items-center gap-3 p-3 rounded-lg bg-green-700">
+                <a href="/admin/users" class="flex items-center gap-3 p-3 rounded-lg bg-green-700">
                     <i class="fas fa-users"></i>
                     <span>Users</span>
                 </a>
-                <a href="#" class="flex items-center gap-3 p-3 rounded-lg hover:bg-green-700">
+                <a href="/admin/marketplace" class="flex items-center gap-3 p-3 rounded-lg hover:bg-green-700">
                     <i class="fas fa-book"></i>
                     <span>Physical Books</span>
                 </a>
-                <a href="#" class="flex items-center gap-3 p-3 rounded-lg hover:bg-green-700">
+                <a href="/admin/book" class="flex items-center gap-3 p-3 rounded-lg hover:bg-green-700">
                     <i class="fas fa-file-pdf"></i>
                     <span>Digital Books</span>
                 </a>
-                <a href="#" class="flex items-center gap-3 p-3 rounded-lg hover:bg-green-700">
+                <a href="/admin/orders" class="flex items-center gap-3 p-3 rounded-lg hover:bg-green-700">
                     <i class="fas fa-shopping-cart"></i>
                     <span>Orders</span>
-                </a>
-                <a href="#" class="flex items-center gap-3 p-3 rounded-lg hover:bg-green-700">
-                    <i class="fas fa-cog"></i>
-                    <span>Settings</span>
                 </a>
             </nav>
         </div>
@@ -121,7 +119,6 @@
             <div class="bg-white rounded-xl shadow-lg p-6">
                 <div class="flex justify-between items-center mb-6">
                     <h3 class="text-lg font-semibold text-green-800">Users Management</h3>
-                    <button class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700">Add New User</button>
                 </div>
 
                 <div class="overflow-x-auto">
@@ -129,51 +126,65 @@
                         <thead>
                             <tr class="text-left border-b">
                                 <th class="pb-3">User ID</th>
-                                <th class="pb-3">Name</th>
+                                <th class="pb-3">Full Name</th>
+                                <th class="pb-3">age</th>
                                 <th class="pb-3">Email</th>
+                                <th class="pb-3">Email Verified</th>
                                 <th class="pb-3">Role</th>
                                 <th class="pb-3">Joined</th>
                                 <th class="pb-3">Actions</th>
                             </tr>
                         </thead>
                         <tbody class="divide-y">
-                            @foreach($users as $user)
-                            <tr>
-                                <td class="py-4">#{{ $user->id }}</td>
-                                <td class="py-4 flex items-center gap-2">
-                                    <img src="{{ $user->avatar_url ?? 'https://i.pravatar.cc/30?img='.$loop->index }}"
-                                         alt="User" class="w-6 h-6 rounded-full">
-                                    {{ $user->name }}
-                                </td>
-                                <td class="py-4">{{ $user->email }}</td>
-                                <td class="py-4">
-                                    <span class="px-2 py-1 {{ $user->role === 'admin' ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800' }} rounded-full text-xs">
-                                        {{ ucfirst($user->role) }}
-                                    </span>
-                                </td>
-                                <td class="py-4">{{ $user->created_at->format('d M Y') }}</td>
-                                <td class="py-4 flex gap-2">
-                                    <button class="text-blue-600 hover:text-blue-800">
-                                        <i class="fas fa-edit"></i>
-                                    </button>
-                                    <button class="text-red-600 hover:text-red-800">
-                                        <i class="fas fa-trash"></i>
-                                    </button>
-                                </td>
-                            </tr>
+                            @foreach ($users as $user)
+                                <tr>
+                                    <td class="py-4">#{{ $user->id }}</td>
+                                    <td class="py-4 flex items-center gap-2">
+                                        <img src="{{ asset('storage/' . $user->photo) }}" alt="User"
+                                            class="w-6 h-6 rounded-full">
+                                        {{ $user->first_name }} {{ $user->last_name }}
+                                    </td>
+                                    <td class="py-4">{{ $user->age }}</td>
+                                    <td class="py-4">{{ $user->email }}</td>
+
+                                    <td class="py-4">
+                                        @if ($user->email_verified_at)
+                                            <span class="px-2 py-1 bg-green-100 text-green-800 rounded-full text-xs">
+                                                {{ $user->email_verified_at->format('d M Y') }}
+                                            </span>
+                                        @else
+                                            <span class="px-2 py-1 bg-red-100 text-green-800 rounded-full text-xs">
+                                                none
+                                            </span>
+                                        @endif
+
+                                    </td>
+
+                                    <td class="py-4">
+                                        <span class="px-2 py-1 bg-green-100 text-green-800 rounded-full text-xs">
+                                            {{ ucfirst($user->roles[0]->name) }}
+                                        </span>
+                                    </td>
+                                    <td class="py-4">{{ $user->created_at->format('d M Y') }}</td>
+
+                                    <td class="py-4 flex gap-2">
+                                        <a href="#" class="text-green-600 hover:text-green-800">
+                                            <i class="fas text-2xl {{ $user->status ? 'fa-toggle-on' : 'fa-toggle-off' }}"></i>
+                                        </a>
+                                    </td>
+                                </tr>
                             @endforeach
                         </tbody>
                     </table>
                 </div>
 
 
-                <!-- الترقيم -->
-
+                {{-- pagination --}}
                 <div class="mt-4">
                     {{ $users->links() }}
                 </div>
 
-{{--
+                {{--
                 <div class="overflow-x-auto">
                     <table class="min-w-full">
                         <thead>
@@ -188,7 +199,7 @@
                         </thead>
 
                         <tbody class="divide-y">
-                            @for($i = 1; $i < 10; $i++)
+                            @for ($i = 1; $i < 10; $i++)
                                 <tr>
                                     <td class="py-4">#-{{ $i }}</td>
                                     <td class="py-4 flex items-center gap-2">
