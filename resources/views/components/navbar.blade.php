@@ -7,7 +7,6 @@
         </a>
 
         @auth
-            <!-- Search Bar -->
             <form class="flex items-center">
                 <input type="search" placeholder="Search here..."
                     class="px-4 py-2 border rounded-l-lg focus:outline-none focus:ring-2 focus:ring-green-500">
@@ -17,7 +16,6 @@
             </form>
         @endauth
 
-        <!-- Right Section: Authentication & Icons -->
         <div class="flex items-center space-x-4">
 
             @auth
@@ -48,7 +46,6 @@
 
                 </div>
             @else
-                <!-- Show only on Login & Register Pages -->
                 <a href="{{ route('login.form') }}"
                     class="px-4 py-1 border rounded-lg {{ request()->is('login') ? 'bg-green-500 text-white' : 'text-gray-800' }}">
                     Login
@@ -61,7 +58,6 @@
         </div>
     </div>
 
-    <!-- Navigation Menu -->
     <nav class="bg-green-500 py-2">
         <div class="container mx-auto flex justify-center space-x-6">
             <a href="/home" class="text-white hover:text-gray-200">Home</a>

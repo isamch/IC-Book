@@ -122,26 +122,7 @@
                             </ul>
                         </div>
 
-                        <!-- Availability Filter -->
-                        <div>
-                            <h4 class="text-lg font-medium text-gray-800 mb-3">Availability</h4>
-                            <ul class="space-y-2">
-                                <li>
-                                    <label class="flex items-center space-x-2">
-                                        <input type="checkbox"
-                                            class="form-checkbox h-4 w-4 text-green-600 rounded focus:ring-green-500">
-                                        <span class="text-gray-600">In Stock</span>
-                                    </label>
-                                </li>
-                                <li>
-                                    <label class="flex items-center space-x-2">
-                                        <input type="checkbox"
-                                            class="form-checkbox h-4 w-4 text-green-600 rounded focus:ring-green-500">
-                                        <span class="text-gray-600">Out of Stock</span>
-                                    </label>
-                                </li>
-                            </ul>
-                        </div>
+
                     </div>
                 </div>
 

@@ -7,11 +7,9 @@
     <div class="min-h-screen flex items-center justify-center">
         <div class="bg-white p-8 rounded-lg shadow-lg max-w-md w-full text-center" style="height: auto;">
 
-            {{-- need to verify email --}}
 
             @if (session('verify_email_needed') === 'warning')
                 <div class="flex items-start p-6 bg-yellow-50 border-l-4 border-yellow-400 rounded-lg shadow-sm">
-                    <!-- Warning Icon -->
                     <div class="flex-shrink-0">
                         <svg class="h-6 w-6 text-yellow-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
                             fill="currentColor">
@@ -21,18 +19,14 @@
                         </svg>
                     </div>
 
-                    <!-- Content -->
                     <div class="ml-3">
-                        <!-- Title -->
                         <h3 class="text-lg font-semibold text-yellow-800">Email Verification Required</h3>
 
-                        <!-- Message -->
                         <p class="mt-2 text-sm text-yellow-700 leading-relaxed">
                             It looks like your email address is not verified yet. Please check your inbox for the
                             verification link.
                         </p>
 
-                        <!-- Resend Verification Form -->
                         <form method="POST" action="{{ route('verification.send') }}">
                             @csrf
                             <button type="submit"

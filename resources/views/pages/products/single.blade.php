@@ -31,16 +31,12 @@
                     </div>
                 </div>
 
-                <!-- Book Info -->
                 <div class="flex-1" style="height: fit-content">
-                    <!-- Title -->
                     <h1 class="text-3xl font-extrabold text-gray-800 mb-4">Book Title</h1>
-                    <!-- Rating -->
                     <div class="flex items-center space-x-2 mb-6">
                         <div class="flex items-center">
                             @for ($i = 1; $i <= 5; $i++)
                                 @if ($i <= 4)
-                                    <!-- Assuming 4 stars -->
                                     <svg class="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
                                         <path
                                             d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.953a1 1 0 00.95.69h4.162c.969 0 1.371 1.24.588 1.81l-3.366 2.445a1 1 0 00-.364 1.118l1.286 3.953c.3.921-.755 1.688-1.54 1.118l-3.366-2.445a1 1 0 00-1.176 0l-3.366 2.445c-.784.57-1.838-.197-1.54-1.118l1.286-3.953a1 1 0 00-.364-1.118L2.41 9.38c-.783-.57-.38-1.81.588-1.81h4.162a1 1 0 00.95-.69l1.286-3.953z">
@@ -57,13 +53,11 @@
                         </div>
                         <span class="text-gray-500 text-sm">(4.5)</span>
                     </div>
-                    <!-- Description -->
                     <p class="text-gray-600 mb-6">
                         This is a detailed description of the book. It provides an overview of the content, the author's
                         perspective, and why it's a must-read. The description is engaging and informative, encouraging
                         potential readers to dive into the book.
                     </p>
-                    <!-- Price and Buy Button -->
                     <div class="flex items-center justify-between mb-8">
                         <span class="text-2xl font-bold text-gray-800">$29.99</span>
                         <button
@@ -84,17 +78,13 @@
                 <h2 class="text-2xl font-bold text-gray-800 mb-6" style="text-align: center">Reviews</h2>
                 <div class="w-full h-px bg-gradient-to-r from-transparent via-gray-300 to-transparent my-5"></div>
 
-                <!-- Add Rating Form -->
                 <div class="mt-4">
                     <h3 class="text-base font-bold text-gray-700 mb-4">Add Your Rating</h3>
                     <div class="flex items-start space-x-4">
-                        <!-- User Image -->
                         <div class="w-10 h-10 bg-gray-300 rounded-full flex items-center justify-center">
                             <span class="text-gray-600 font-semibold">U</span>
                         </div>
-                        <!-- Rating and Comment Section -->
                         <div class="flex-1 flex flex-col gap-4">
-                            <!-- Star Rating -->
                             <div class="flex items-center space-x-2">
                                 <span class="text-gray-600">Your Rating:</span>
                                 <div class="flex space-x-1" id="starRating">
@@ -111,11 +101,9 @@
                                     @endfor
                                 </div>
                             </div>
-                            <!-- Text Field -->
                             <textarea id="comment" name="comment" rows="2"
                                 class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 shadow-sm resize-none"
                                 placeholder="Write your review..."></textarea>
-                            <!-- Submit Button -->
                             <button type="submit"
                                 class="whitespace-nowrap w-full md:w-auto bg-green-600 text-white py-2 px-6 rounded-full text-sm font-semibold hover:bg-green-700 transition-colors duration-200 shadow-md">
                                 Submit Review
@@ -130,27 +118,23 @@
                 <div class="space-y-6 mt-4">
                     <h3 class="text-base font-bold text-gray-700 mb-4">Customer Reviews</h3>
 
-                    <!-- Scrollable Area -->
                     <div class="max-h-96 overflow-y-auto scrollbar-thin scrollbar-thumb-green-500 scrollbar-track-gray-100"
                         style="overflow-y: auto; scrollbar-width: thin; scrollbar-color: #48bb78 #f7fafc;">
                         @for ($i = 1; $i <= 10; $i++)
                             <div class="border-b border-gray-200 pb-6">
                                 <div class="flex items-start space-x-4">
-                                    <!-- صورة المستخدم -->
                                     <div class="w-10 h-10 bg-gray-300 rounded-full flex items-center justify-center">
                                         <span class="text-gray-600 font-semibold">U{{ $i }}</span>
                                     </div>
-                                    <!-- معلومات التعليق -->
                                     <div class="flex-1">
                                         <div class="flex items-center justify-between">
                                             <h4 class="text-lg font-semibold text-gray-800">User {{ $i }}</h4>
                                             <span class="text-sm text-gray-500">2 days ago</span>
                                         </div>
 
-                                        <!-- تقييم النجوم -->
                                         <div class="flex items-center space-x-1 mt-2">
                                             @php
-                                                $rating = rand(3, 5); // تقييم عشوائي بين 3 و5
+                                                $rating = rand(3, 5);
                                             @endphp
                                             @for ($j = 1; $j <= 5; $j++)
                                                 @if ($j <= $rating)
@@ -176,7 +160,6 @@
                                                 display: none;
                                             }
                                         </style>
-                                        <!-- نص التعليق -->
                                         <details class="mt-2">
                                             <summary class="list-none cursor-pointer text-gray-600 hover:text-green-600">
                                                 {{ Str::words('This is a review from User ' . $i . '. They found the book very informative and engaging. Highly recommended!', 10, '...') }}
@@ -211,14 +194,13 @@
     </section>
 
     <script>
-        // تغيير الصورة الكبيرة عند النقر على الصور الصغيرة
         document.addEventListener('DOMContentLoaded', function() {
-            const largeImage = document.querySelector('.large-image'); // الصورة الكبيرة
-            const thumbnails = document.querySelectorAll('.thumbnail'); // الصور الصغيرة
+            const largeImage = document.querySelector('.large-image');
+            const thumbnails = document.querySelectorAll('.thumbnail');
 
             thumbnails.forEach(thumbnail => {
                 thumbnail.addEventListener('click', function() {
-                    largeImage.src = this.src; // تغيير الصورة الكبيرة
+                    largeImage.src = this.src;
                 });
             });
         });
@@ -229,34 +211,31 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const stars = document.querySelectorAll('.star'); // جميع النجوم
-            const starRatingContainer = document.getElementById('starRating'); // حاوية النجوم
+            const stars = document.querySelectorAll('.star');
+            const starRatingContainer = document.getElementById('starRating');
 
-            let selectedRating = 0; // قيمة التقييم المختارة
+            let selectedRating = 0;
 
-            // إضافة حدث النقر لكل نجم
             stars.forEach(star => {
                 star.addEventListener('click', function() {
                     const rating = parseInt(this.getAttribute(
-                        'data-rating')); // الحصول على قيمة التقييم
+                        'data-rating'));
 
-                    // تحديث قيمة التقييم المختارة
                     selectedRating = rating;
 
-                    // تحديث لون النجوم
                     stars.forEach((s, index) => {
                         if (index < rating) {
                             s.querySelector('svg').classList.add(
-                                'text-yellow-400'); // نجم ممتلئ
+                                'text-yellow-400');
                             s.querySelector('svg').classList.remove('text-gray-300');
                         } else {
                             s.querySelector('svg').classList.remove(
-                                'text-yellow-400'); // نجم فارغ
+                                'text-yellow-400');
                             s.querySelector('svg').classList.add('text-gray-300');
                         }
                     });
 
-                    console.log('Selected Rating:', selectedRating); // عرض قيمة التقييم في الكونسول
+                    console.log('Selected Rating:', selectedRating);
                 });
             });
 

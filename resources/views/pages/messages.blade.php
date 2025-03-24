@@ -5,37 +5,28 @@
 @section('content')
     <div class="min-h-screen bg-gray-100 py-6 px-4">
         <div class="max-w-7xl mx-auto">
-            <!-- العنوان -->
             <h1 class="text-2xl font-bold text-gray-800 mb-6">Messages</h1>
 
-            <!-- الشبكة الرئيسية -->
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                <!-- قائمة المراسلات -->
                 <div class="bg-white rounded-xl shadow-lg p-4 flex flex-col">
 
                     <h2 class="text-lg font-semibold text-gray-700 mb-4">Conversations</h2>
 
-                    <!-- عنصر محادثة -->
                     <div class="overflow-y-auto space-y-3" style="max-height: calc(100vh - 250px); overflow-y: auto; scrollbar-width: thin; scrollbar-color: #48bb78 #f7fafc;">
 
                         @for ($i = 1; $i <= 5; $i++)
-                            <!-- محادثة -->
                             <div class="flex items-center gap-3 p-3 hover:bg-gray-200 rounded-lg cursor-pointer transition-colors duration-200 conversation-item {{ $i == 4 ? 'bg-yellow-100' : '' }}">
 
-                                <!-- صورة المستخدم -->
                                 <img src="{{ asset('storage/images/profile/default/default-profile.png') }}" alt="User Image"
                                     class="w-10 h-10 rounded-full object-cover border-2 border-gray-200">
 
-                                <!-- تفاصيل المحادثة -->
                                 <div class="flex-1">
                                     <p class="text-base font-semibold text-gray-800">John Doe</p>
                                     <p class="text-xs text-gray-500">Hello, I'm interested in your book!</p>
                                 </div>
 
-                                <!-- حالة المستخدم -->
                                 <span class="w-3 h-3 rounded-full bg-green-500"></span> <!-- Green for online, change to bg-gray-500 for offline -->
 
-                                <!-- الوقت -->
                                 <span class="text-xs text-gray-400">2h ago</span>
                             </div>
                         @endfor
@@ -105,10 +96,8 @@
             conversations.forEach(conversation => {
                 conversation.addEventListener("click", function () {
 
-                    // إزالة التفعيل من جميع المحادثات
                     conversations.forEach(conv => conv.classList.remove("bg-gray-300"));
 
-                    // تفعيل المحادثة المحددة
                     this.classList.add("bg-gray-300");
                 });
             });

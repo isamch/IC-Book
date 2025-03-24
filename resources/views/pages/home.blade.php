@@ -9,7 +9,6 @@
         <div
             class="row flex flex-col md:flex-row items-center gap-32 py-10 px-16 max-w-7xl mx-auto space-y-16 md:space-y-0 md:space-x-32">
 
-            <!-- Left Content (Text and Button) -->
             <div class="content flex-1 max-w-md order-2 md:order-1 text-center md:text-left">
                 <h3 class="text-5xl font-semibold text-black mb-8">The best books ever</h3>
                 <p class="text-xl text-gray-600 mb-8 leading-relaxed">Are you an avid reader or simply looking for literary
@@ -19,7 +18,6 @@
                     class="btn bg-green-500 text-white py-4 px-10 rounded-lg text-2xl font-semibold hover:bg-green-600 transition">Download</a>
             </div>
 
-            <!-- Right Content (Book Image and Stand) -->
             <div class="swiper books-slider flex-1 max-w-md text-center relative order-1 md:order-2">
                 <a href="#featured" class="swiper-slide inline-block">
                     <img src="{{ asset('storage/images/books/default/book-1.png') }}" class="h-72 mx-auto shadow-xl"

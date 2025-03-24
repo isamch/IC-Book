@@ -15,17 +15,14 @@
             <div class="w-full h-px bg-gradient-to-r from-transparent via-gray-300 to-transparent my-12"></div>
 
             <div class="flex flex-col lg:flex-row gap-8">
-                <!-- Sidebar Filter -->
                 <div class="w-full lg:w-1/4 bg-white rounded-xl shadow-lg p-6"
                     style="height: 800px; overflow-y: auto; scrollbar-width: thin; scrollbar-color: #48bb78 #f7fafc;">
 
-                    <!-- Apply Filter Button -->
                     <button
                         class="w-full bg-green-600 text-white py-2 px-4 rounded-lg mb-6 hover:bg-green-700 transition-colors duration-200">
                         Apply Filter
                     </button>
 
-                    <!-- Search Bar -->
                     <div class="mb-6">
                         <input type="text" placeholder="Search products..."
                             class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500">
@@ -40,7 +37,6 @@
                             <input type="text" id="searchCities" placeholder="ابحث عن مدينة..."
                                 class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 text-gray-800 bg-white mb-4">
 
-                            <!-- القائمة المنسدلة التي تحتوي على المدن -->
                             <select id="dropdownResults"
                                 class="w-full px-4 py-2 border border-green-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 text-gray-800 bg-white transition-colors duration-300 ease-in-out"
                                 size="5">
@@ -64,7 +60,6 @@
 
 
 
-                        {{-- <!-- Category Filter --> --}}
                         <div>
                             <h4 class="text-lg font-medium text-gray-800 mb-3">Categories</h4>
                             <ul class="space-y-2 max-h-48 overflow-y-auto"
@@ -81,7 +76,6 @@
                             </ul>
                         </div>
 
-                        <!-- Price Filter -->
                         <div>
                             <h4 class="text-lg font-medium text-gray-800 mb-3">Price Range</h4>
                             <ul class="space-y-2 max-h-48 overflow-y-auto"
@@ -117,7 +111,6 @@
                             </ul>
                         </div>
 
-                        <!-- Rating Filter -->
                         <div>
                             <h4 class="text-lg font-medium text-gray-800 mb-3">Rating</h4>
                             <ul class="space-y-2">
@@ -156,7 +149,6 @@
                     </div>
                 </div>
 
-                <!-- Product Grid -->
                 <div class="w-full lg:w-3/4 bg-white rounded-xl shadow-lg p-6"
                     style="height: 800px; overflow-y: auto; scrollbar-width: thin; scrollbar-color: #48bb78 #f7fafc;">
                     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
@@ -200,7 +192,6 @@
                         @endfor
                     </div>
 
-                    <!-- Show More Button -->
                     <div class="text-center pt-8">
                         <a href="/more-products"
                             class="inline-flex items-center bg-transparent text-gray-600 border border-gray-600 py-2 px-6 rounded-full text-sm font-medium hover:bg-gray-100 hover:text-gray-700 transition-colors duration-200">
@@ -215,30 +206,24 @@
 
     {{-- js for search about city --}}
     <script>
-        // دالة لتصفية المدن بناءً على النص المدخل في خانة البحث
         function filterCities() {
             const searchInput = document.getElementById('searchCities');
             const dropdown = document.getElementById('dropdownResults');
             const options = dropdown.getElementsByTagName('option');
 
-            // النص المدخل في خانة البحث
             const searchQuery = searchInput.value.toLowerCase();
 
-            // تصفية الخيارات بناءً على النص المدخل
             Array.from(options).forEach(option => {
                 const cityName = option.textContent.toLowerCase();
 
                 if (cityName.includes(searchQuery)) {
-                    // عرض المدينة إذا كانت تتطابق مع النص المدخل
                     option.style.display = 'block';
                 } else {
-                    // إخفاء المدينة إذا لم تتطابق
                     option.style.display = 'none';
                 }
             });
         }
 
-        // إضافة مستمع للحدث عند الكتابة في خانة البحث
         document.getElementById('searchCities').addEventListener('input', filterCities);
     </script>
 

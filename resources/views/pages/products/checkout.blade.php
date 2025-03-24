@@ -5,16 +5,13 @@
 @section('content')
     <section class="bg-gray-100 py-10 px-4">
         <div class="max-w-4xl mx-auto">
-            <!-- Checkout Header -->
             <div class="text-center mb-8">
                 <h2 class="text-3xl font-extrabold text-gray-800">Complete Your Purchase</h2>
                 <p class="text-gray-600 mt-2">Please fill in your details to complete the payment.</p>
             </div>
 
-            <!-- Checkout Form -->
             <div class="bg-white rounded-xl shadow-lg p-8">
                 <form>
-                    <!-- Personal Information -->
                     <div class="mb-8">
                         <h3 class="text-xl font-bold text-gray-800 mb-4">Personal Information</h3>
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
@@ -39,7 +36,6 @@
                         </div>
                     </div>
 
-                    <!-- Payment Information -->
                     <div class="mb-8">
                         <h3 class="text-xl font-bold text-gray-800 mb-4">Payment Information</h3>
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
@@ -64,7 +60,6 @@
                         </div>
                     </div>
 
-                    <!-- Order Summary -->
                     <div class="mb-8">
                         <h3 class="text-xl font-bold text-gray-800 mb-4">Order Summary</h3>
                         <div class="bg-gray-50 p-6 rounded-lg">
@@ -85,7 +80,6 @@
                         </div>
                     </div>
 
-                    <!-- Submit Button -->
                     <div class="text-center">
                         <button type="submit"
                             class="bg-green-600 text-white py-2 px-6 rounded-full text-sm font-semibold hover:bg-green-700 transition-colors duration-200">
