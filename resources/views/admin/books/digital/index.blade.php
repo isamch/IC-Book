@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Home')
+@section('title', 'Books')
 
 @section('content')
 
@@ -9,11 +9,11 @@
         <div class="w-64 bg-green-800 text-white p-4">
             <div class="flex items-center gap-3 mb-8">
                 <i class="fas fa-book-open text-2xl"></i>
-                <h1 class="text-xl font-bold">BookHub Admin</h1>
+                <h1 class="text-xl font-bold">IC Book</h1>
             </div>
 
             <nav class="space-y-2">
-                <a href="#" class="flex items-center gap-3 p-3 rounded-lg bg-green-700">
+                <a href="#" class="flex items-center gap-3 p-3 rounded-lg hover:bg-green-700">
                     <i class="fas fa-tachometer-alt"></i>
                     <span>Dashboard</span>
                 </a>
@@ -25,7 +25,7 @@
                     <i class="fas fa-book"></i>
                     <span>Physical Books</span>
                 </a>
-                <a href="#" class="flex items-center gap-3 p-3 rounded-lg hover:bg-green-700">
+                <a href="#" class="flex items-center gap-3 p-3 rounded-lg bg-green-700">
                     <i class="fas fa-file-pdf"></i>
                     <span>Digital Books</span>
                 </a>
@@ -115,6 +115,63 @@
             </div>
 
             {{-- other content here --}}
+
+
+            <!-- Users Management -->
+            <div class="bg-white rounded-xl shadow-lg p-6">
+                <div class="flex justify-between items-center mb-6">
+                    <h3 class="text-lg font-semibold text-green-800">Users Management</h3>
+                    <button class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700">Add New User</button>
+                </div>
+
+                <div class="overflow-x-auto">
+                    <table class="min-w-full">
+                        <thead>
+                            <tr class="text-left border-b">
+                                <th class="pb-3">User ID</th>
+                                <th class="pb-3">Name</th>
+                                <th class="pb-3">Email</th>
+                                <th class="pb-3">Role</th>
+                                <th class="pb-3">Joined</th>
+                                <th class="pb-3">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y">
+                            <tr>
+                                <td class="py-4">#USR-4587</td>
+                                <td class="py-4 flex items-center gap-2">
+                                    <img src="https://i.pravatar.cc/30?img=1" alt="User" class="w-6 h-6 rounded-full">
+                                    John Doe
+                                </td>
+                                <td class="py-4">john@example.com</td>
+                                <td class="py-4"><span
+                                        class="px-2 py-1 bg-gray-100 text-gray-800 rounded-full text-xs">User</span></td>
+                                <td class="py-4">15 Jan 2023</td>
+                                <td class="py-4 flex gap-2">
+                                    <button class="text-blue-600 hover:text-blue-800"><i class="fas fa-edit"></i></button>
+                                    <button class="text-red-600 hover:text-red-800"><i class="fas fa-trash"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="py-4">#USR-4586</td>
+                                <td class="py-4 flex items-center gap-2">
+                                    <img src="https://i.pravatar.cc/30?img=2" alt="User" class="w-6 h-6 rounded-full">
+                                    Jane Smith
+                                </td>
+                                <td class="py-4">jane@example.com</td>
+                                <td class="py-4"><span
+                                        class="px-2 py-1 bg-green-100 text-green-800 rounded-full text-xs">Admin</span>
+                                </td>
+                                <td class="py-4">10 Dec 2022</td>
+                                <td class="py-4 flex gap-2">
+                                    <button class="text-blue-600 hover:text-blue-800"><i class="fas fa-edit"></i></button>
+                                    <button class="text-red-600 hover:text-red-800"><i class="fas fa-trash"></i></button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
 
 
 

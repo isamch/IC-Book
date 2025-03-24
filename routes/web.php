@@ -4,6 +4,8 @@ use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Auth\VerificationController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Models\User;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -110,3 +112,30 @@ Route::get('posts', function () {
 
 
 
+Route::get('admin/dashboard', function () {
+    return view('admin.dashboard');
+})->name('home');
+
+
+
+Route::get('/admin/users', function () {
+
+    $users = User::paginate(2);
+
+    return view('admin.users.index', compact('users'));
+    // return view('admin.users.index');
+})->name('home');
+
+
+Route::get('/admin/book', function () {
+    return view('admin.books.digital.index');
+})->name('home');
+
+Route::get('/admin/marketplace', function () {
+    return view('admin.books.physical.index');
+})->name('home');
+
+
+Route::get('/admin/orders', function () {
+    return view('admin.order.index');
+})->name('home');

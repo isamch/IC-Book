@@ -34,7 +34,7 @@
 
                         <div class="relative w-full max-w-md mx-auto">
                             <h4 class="text-lg font-medium text-gray-800 mb-3">Places</h4>
-                            <input type="text" id="searchCities" placeholder="ابحث عن مدينة..."
+                            <input type="text" id="searchCities" placeholder="search about city ..."
                                 class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 text-gray-800 bg-white mb-4">
 
                             <select id="dropdownResults"
