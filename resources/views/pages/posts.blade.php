@@ -135,13 +135,12 @@
                                 <div class="mt-4 flex items-center gap-2">
                                     <input type="text" placeholder="Add a comment..."
                                         class="flex-1 p-2 border border-gray-300 rounded-lg focus:outline-none focus:border-green-500">
-                                    <button
-                                        class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors duration-200 flex items-center gap-2">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                                            <path d="M2.003 5.884l8-3.2a1 1 0 01.994 0l8 3.2A1 1 0 0119 6.8v6.4a1 1 0 01-.003.116l-8 3.2a1 1 0 01-.994 0l-8-3.2A1 1 0 011 13.2V6.8a1 1 0 011.003-.916zM11 12V8H9v4h2zm0 2H9v2h2v-2z" />
-                                        </svg>
-                                        Post Comment
-                                    </button>
+                                        <button class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors duration-200 flex items-center gap-2">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 transform rotate-180" viewBox="0 0 24 24" fill="currentColor">
+                                                <path d="M2 12l18-8-5 8 5 8-18-8z"/>
+                                            </svg>
+                                        </button>
+
                                 </div>
                             </div>
                         </div>

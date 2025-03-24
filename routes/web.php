@@ -92,7 +92,7 @@ Route::get('marketplace/single', function () {
 
 
 
-Route::get('messages', function () {
+Route::get('/chat', function () {
     return view('pages.messages');
 })->name('home');
 
@@ -103,7 +103,7 @@ Route::get('profile', function () {
 })->name('home');
 
 
-Route::get('postes', function () {
+Route::get('posts', function () {
     return view('pages.posts');
 })->name('home');
 
