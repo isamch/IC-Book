@@ -3,6 +3,7 @@
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Auth\VerificationController;
 use App\Models\Book;
+use App\Models\ElectronicBook;
 use App\Models\PhysicalBook;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -131,22 +132,23 @@ Route::get('/admin/users', function () {
 
 Route::get('/admin/marketplace', function () {
 
-    // $phyisicalBooks = PhysicalBook::paginate(5);
+    $physicalBooks = PhysicalBook::paginate(2);
 
-    $physicalBooks = PhysicalBook::all();
+    // $physicalBooks = PhysicalBook::all();
 
     return view('admin.books.physical.index', compact('physicalBooks'));
 
 })->name('home');
 
 
-Route::get('/books/{id}', function($id) {
+Route::get('admin/marketplace/{id}', function($id) {
 
     $physicalBook = PhysicalBook::findOrFail($id);
 
     return response()->json([
         // $physicalBooks[1]->book->images[0]->image
 
+        'cover' => $physicalBook->book->images->first()->image,
         'title' => $physicalBook->book->title,
         'author' => $physicalBook->book->author,
         'description' => $physicalBook->book->description,
@@ -155,6 +157,7 @@ Route::get('/books/{id}', function($id) {
         'seller' => [
             'first_name' => $physicalBook->book->seller->user->first_name,
             'last_name' => $physicalBook->book->seller->user->last_name,
+            'email' => $physicalBook->book->seller->user->email,
             'image' => $physicalBook->book->seller->user->photo
         ]
 
@@ -164,9 +167,40 @@ Route::get('/books/{id}', function($id) {
 
 
 Route::get('/admin/book', function () {
-    return view('admin.books.digital.index');
+
+    $electronicBooks = ElectronicBook::paginate(2);
+
+    // $electronicBooks = ElectronicBook::all();
+
+    return view('admin.books.digital.index', compact('electronicBooks'));
+
 })->name('home');
 
+
+Route::get('admin/books/{id}', function($id) {
+
+    $electronicBook = ElectronicBook::findOrFail($id);
+
+    return response()->json([
+        // $electronicBook[1]->book->images[0]->image
+
+        'cover' => $electronicBook->book->images->first()->image,
+        'title' => $electronicBook->book->title,
+        'author' => $electronicBook->book->author,
+        'description' => $electronicBook->book->description,
+        'rating' => $electronicBook->reviews->avg('rating'),
+
+
+        'price' => $electronicBook->book->price,
+        'seller' => [
+            'first_name' => $electronicBook->book->seller->user->first_name,
+            'last_name' => $electronicBook->book->seller->user->last_name,
+            'email' => $electronicBook->book->seller->user->email,
+            'image' => $electronicBook->book->seller->user->photo
+        ]
+
+    ]);
+});
 
 
 

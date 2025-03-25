@@ -45,19 +45,30 @@
                                 </div>
                             </div>
 
-                            <div>
-                                <p class="text-sm font-medium text-gray-500">Location</p>
-                                <p id="bookLocation" class="mt-1 text-sm text-gray-900"></p>
-                            </div>
 
                             <div>
                                 <p class="text-sm font-medium text-gray-500">Description</p>
                                 <p id="bookDescription" class="mt-1 text-sm text-gray-900"></p>
                             </div>
 
+                            <div>
+                                <p class="text-sm font-medium text-gray-500">Rating</p>
+                                <div class="flex justify-center items-center mt-1">
+                                    <div id="ratingStars" class="flex justify-center">
+
+                                        {{-- yellow --}}
+                                        {{-- <i class="fas fa-star text-yellow-400 w-5 h-5"></i> --}}
+
+                                        {{-- graye --}}
+                                        {{-- <i class="fas fa-star text-gray-400 w-5 h-5"></i> --}}
+
+                                    </div>
+                                </div>
+                            </div>
+
                             <div class="border-t border-gray-200 pt-4">
                                 <p class="text-sm font-medium text-gray-500">Seller</p>
-                                <div class="mt-2 flex items-center">
+                                <div class="mt-2 flex  items-center">
                                     <img id="sellerImage" src="" alt="Seller"
                                         class="w-10 h-10 rounded-full border-2 border-green-200">
                                     <div class="ml-3">

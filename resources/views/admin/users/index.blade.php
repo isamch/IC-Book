@@ -141,8 +141,10 @@
                                     <td class="py-4">#{{ $user->id }}</td>
                                     <td class="py-4 flex items-center gap-2">
                                         <img src="{{ asset('storage/' . $user->photo) }}" alt="User"
-                                            class="w-6 h-6 rounded-full">
-                                        {{ $user->first_name }} {{ $user->last_name }}
+                                        class="w-6 h-6 rounded-full">
+                                        <a href="#">
+                                            {{ $user->first_name }} {{ $user->last_name }}
+                                        </a>
                                     </td>
                                     <td class="py-4">{{ $user->age }}</td>
                                     <td class="py-4">{{ $user->email }}</td>

@@ -6,6 +6,8 @@
 
 @section('content')
 
+
+
     <div class="flex h-screen">
         <!-- Sidebar -->
         <div class="w-64 bg-green-800 text-white p-4">
@@ -130,13 +132,27 @@
                     <table class="min-w-full divide-y divide-gray-200">
                         <thead class="bg-gray-50">
                             <tr>
-                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Book ID</th>
-                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Title</th>
-                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Author</th>
-                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Price</th>
-                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Location</th>
-                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Seller</th>
-                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                                <th scope="col"
+                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Book ID</th>
+                                <th scope="col"
+                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Title</th>
+                                <th scope="col"
+                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Author</th>
+                                <th scope="col"
+                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Price</th>
+                                <th scope="col"
+                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Location</th>
+                                <th scope="col"
+                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Seller</th>
+                                <th scope="col"
+                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Actions</th>
                             </tr>
                         </thead>
                         <tbody class="bg-white divide-y divide-gray-200">
@@ -148,21 +164,26 @@
                             'seller_id', --}}
 
                             @foreach ($physicalBooks as $physicalBook)
-
                                 <tr class="hover:bg-gray-50 transition-colors duration-150">
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{{ $physicalBook->id }}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                                        {{ $physicalBook->id }}</td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                         {{ Str::words($physicalBook->book->title, 3, '...') }}
                                     </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ $physicalBook->book->author }}</td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">$ {{ $physicalBook->book->price }}</td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ $physicalBook->location }}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                        {{ $physicalBook->book->author }}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">$
+                                        {{ $physicalBook->book->price }}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                        {{ $physicalBook->location }}</td>
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         <div class="flex items-center">
 
                                             <div class="flex-shrink-0 h-10 w-10">
 
-                                                <img class="h-10 w-10 rounded-full" src="{{ asset('storage/' . $physicalBook->book->seller->user->photo ) }}" alt="Seller">
+                                                <img class="h-10 w-10 rounded-full"
+                                                    src="{{ asset('storage/' . $physicalBook->book->seller->user->photo) }}"
+                                                    alt="Seller">
                                             </div>
 
                                             {{-- "id" => 3
@@ -181,12 +202,13 @@
                                             "status" => true --}}
 
                                             <div class="ml-4">
-                                                <a href="#" class="text-sm font-medium text-gray-900 hover:underline">
+                                                <a href="#"
+                                                    class="text-sm font-medium text-gray-900 hover:underline">
                                                     {{ $physicalBook->book->seller->user->first_name }}
                                                     {{ $physicalBook->book->seller->user->last_name }}
 
                                                 </a>
-                                                <div class="text-sm text-gray-500">
+                                                <div class="text-xs text-gray-500">
                                                     {{ $physicalBook->book->seller->user->email }}
                                                 </div>
                                             </div>
@@ -196,13 +218,11 @@
                                     <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                                         <div class="flex space-x-4">
 
-                                            <button onclick="showBookDetails({{ $physicalBook->id }})" class="text-green-600 hover:text-indigo-900">
+                                            <button onclick="showBookDetails({{ $physicalBook->id }})"
+                                                class="text-green-600 hover:text-indigo-900">
                                                 <i class="fas fa-eye mr-1"></i>
                                             </button>
 
-                                            <button class="text-yellow-600 hover:text-yellow-900">
-                                                <i class="fas fa-edit mr-1"></i>
-                                            </button>
                                             <button class="text-red-600 hover:text-red-900">
                                                 <i class="fas fa-trash mr-1"></i>
                                             </button>
@@ -213,7 +233,13 @@
 
                         </tbody>
                     </table>
+
                 </div>
+                {{-- pagination --}}
+                <div class="mt-4">
+                    {{ $physicalBooks->links() }}
+                </div>
+
             </div>
 
 
@@ -224,38 +250,63 @@
         </div>
     </div>
 
+    {{-- fetch error --}}
+    <div id="error-alert"
+        class="hidden fixed top-4 right-4 bg-red-100 border border-red-400 text-red-700 px-6 py-4 rounded-lg shadow-xl transition-opacity duration-500 ease-in-out z-50 max-w-sm w-full flex items-center space-x-4">
+        <div class="flex-grow">
+            <span class="font-semibold">Error:</span>
+            <ul id="errorMessage">
 
+            </ul>
+        </div>
+        <button class="text-red-700 focus:outline-none" onclick="closeAlert('error-alert')">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+        </button>
+    </div>
 
     @include('admin.books.physical.components.view-modal')
 
 
     <script>
+        // detch view for each book:
         function showBookDetails(bookId) {
-        fetch(`/books/${bookId}`)
-            .then(response => response.json())
-            .then(physicalBook => {
-
-                console.log(physicalBook);
-
-                document.getElementById('bookTitle').textContent = physicalBook.title;
-                document.getElementById('bookAuthor').textContent = physicalBook.author;
-                document.getElementById('bookPrice').textContent = `$${physicalBook.price}`;
-                document.getElementById('bookLocation').textContent = physicalBook.location;
-                document.getElementById('bookDescription').textContent = physicalBook.description;
-                document.getElementById('sellerImage').src = physicalBook.seller.image;
-                document.getElementById('sellerName').textContent = physicalBook.seller.first_name;
+            fetch(`/admin/marketplace/${bookId}`)
+                .then(response => response.json())
+                .then(physicalBook => {
 
 
-                document.getElementById('bookModal').classList.remove('hidden');
+                    document.getElementById('bookCover').src = `/storage/${physicalBook.cover}`;
 
-            })
-            .catch(error => {
-                console.error('Error:', error);
-            });
+                    document.getElementById('bookTitle').textContent = physicalBook.title;
+                    document.getElementById('bookAuthor').textContent = physicalBook.author;
+                    document.getElementById('bookPrice').textContent = `$${physicalBook.price}`;
+                    document.getElementById('bookLocation').textContent = physicalBook.location;
+                    document.getElementById('bookDescription').textContent = physicalBook.description;
+
+                    document.getElementById('sellerName').textContent = physicalBook.seller.first_name + ' ' +
+                        physicalBook.seller.last_name;
+
+                    document.getElementById('sellerEmail').textContent = physicalBook.seller.email;
+
+                    document.getElementById('sellerImage').src = `/storage/${physicalBook.seller.image}`;
+
+                    document.getElementById('bookModal').classList.remove('hidden');
+
+                })
+                .catch(error => {
+                    document.getElementById('errorMessage').textContent = "something wrong";
+                    document.getElementById('error-alert').classList.remove('hidden');
+
+                });
         }
 
 
-
+        function closeModal() {
+            document.getElementById('bookModal').classList.add('hidden');
+        }
     </script>
 
 
