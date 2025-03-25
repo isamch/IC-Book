@@ -72,22 +72,36 @@
 
                             <!-- Image Upload Section (4 Images) -->
                             <div class="col-span-1">
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Book Images (4
+                                    required)*</label>
                                 <div class="grid grid-cols-2 gap-4">
+                                    @for ($i = 1; $i <= 4; $i++)
+                                        @php
+                                            $image = $physicalBook->book->images[$i - 1] ?? null;
+                                            $imageUrl = $image
+                                                ? asset('storage/' . $image->image)
+                                                : asset('storage/images/books/default/cover/upload-image.avif');
+                                        @endphp
 
-                                    <!-- Image Preview & Upload Inputs -->
+                                        <div class="relative group" id="imageContainer{{ $i }}">
+                                            <img id="preview{{ $i }}" src="{{ $imageUrl }}"
+                                                class="w-full h-32 object-cover rounded-lg shadow-md border-2 {{ $image ? 'border-solid border-green-400' : 'border-dashed border-gray-300' }} group-hover:border-green-500 transition-colors duration-200">
 
-                                    @foreach ($physicalBook->book->images as $index => $image)
-                                        <div class="relative" id="imageContainer{{ $index + 1 }}">
-                                            <img id="preview{{ $index + 1 }}"
-                                                src="{{ asset('storage/' . $image->image) }}"
-                                                class="w-32 h-32 object-cover rounded-lg shadow-md border border-gray-200">
-                                            <input type="file" id="upload{{ $index + 1 }}"
+                                            <input type="file" id="upload{{ $i }}" name="images[]"
                                                 class="absolute inset-0 opacity-0 cursor-pointer" accept="image/*"
-                                                value="{{ asset('storage/' . $image->image) }}">
-                                        </div>
-                                    @endforeach
+                                                @if (!$image) required @endif>
 
+                                        </div>
+                                    @endfor
                                 </div>
+
+
+                                @error('images')
+                                    <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
+                                @enderror
+                                @error('images.*')
+                                    <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
+                                @enderror
                             </div>
 
                             <!-- Book details form -->
@@ -95,9 +109,12 @@
                                 <!-- Title -->
                                 <div>
                                     <label for="bookTitle" class="block text-sm font-medium text-gray-700">Title*</label>
-                                    <input type="text" id="bookTitle" name="title" required
-                                        class="mt-1 block w-full border-b border-gray-300 focus:border-green-500 focus:ring-green-500 outline-none sm:text-sm"
-                                        value="{{ $physicalBook->book->title }}">
+                                    <input type="text" id="bookTitle" name="title"
+                                        value="{{ old('title', $physicalBook->book->title) }}" required
+                                        class="mt-1 block w-full border-b border-gray-300 focus:border-green-500 focus:ring-0 outline-none sm:text-sm @error('title') border-red-500 @enderror">
+                                    @error('title')
+                                        <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
+                                    @enderror
                                 </div>
 
                                 <!-- Author and Price -->
@@ -105,9 +122,12 @@
                                     <div>
                                         <label for="bookAuthor"
                                             class="block text-sm font-medium text-gray-700">Author*</label>
-                                        <input type="text" id="bookAuthor" name="author" required
-                                            class="mt-1 block w-full border-b border-gray-300 focus:border-green-500 focus:ring-green-500 outline-none sm:text-sm"
-                                            value="{{ $physicalBook->book->author }}">
+                                        <input type="text" id="bookAuthor" name="author"
+                                            value="{{ old('author', $physicalBook->book->author) }}" required
+                                            class="mt-1 block w-full border-b border-gray-300 focus:border-green-500 focus:ring-0 outline-none sm:text-sm @error('author') border-red-500 @enderror">
+                                        @error('author')
+                                            <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
+                                        @enderror
                                     </div>
                                     <div>
                                         <label for="bookPrice"
@@ -115,23 +135,27 @@
                                         <div class="relative">
                                             <span
                                                 class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-500">$</span>
-                                            <input type="number" id="bookPrice" name="price" step="0.01"
+                                            <input type="number" id="bookPrice" name="price"
+                                                value="{{ old('price', $physicalBook->book->price) }}" step="0.01"
                                                 min="0" required
-                                                class="mt-1 block w-full pl-7 border-b border-gray-300 focus:border-green-500 focus:ring-green-500 outline-none sm:text-sm"
-                                                value="{{ $physicalBook->book->price }}">
+                                                class="mt-1 block w-full pl-7 border-b border-gray-300 focus:border-green-500 focus:ring-0 outline-none sm:text-sm @error('price') border-red-500 @enderror">
                                         </div>
+                                        @error('price')
+                                            <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
+                                        @enderror
                                     </div>
                                 </div>
-
 
                                 <!-- Location -->
                                 <div>
                                     <label for="LocationBook"
                                         class="block text-sm font-medium text-gray-700">Location*</label>
-                                    <input type="text" id="LocationBook" name="LocationBook" required
-                                        class="mt-1 block w-full border-b border-gray-300 focus:border-green-500 focus:ring-green-500 outline-none sm:text-sm"
-                                        value="{{ $physicalBook->location }}"
-                                        >
+                                    <input type="text" id="LocationBook" name="location" value="{{ old('location',$physicalBook->location) }}"
+                                        required
+                                        class="mt-1 block w-full border-b border-gray-300 focus:border-green-500 focus:ring-green-500 outline-none sm:text-sm @error('location') border-red-500 @enderror">
+                                    @error('location')
+                                        <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
+                                    @enderror
                                 </div>
 
 
@@ -140,7 +164,10 @@
                                     <label for="bookDescription"
                                         class="block text-sm font-medium text-gray-700">Description*</label>
                                     <textarea id="bookDescription" name="description" rows="3" required
-                                        class="mt-1 block w-full border-b border-gray-300 focus:border-green-500 focus:ring-green-500 outline-none sm:text-sm">{{ $physicalBook->book->description }}</textarea>
+                                        class="mt-1 block w-full border-b border-gray-300 focus:border-green-500 focus:ring-0 outline-none sm:text-sm @error('description') border-red-500 @enderror">{{ old('description', $physicalBook->book->description) }}</textarea>
+                                    @error('description')
+                                        <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
+                                    @enderror
                                 </div>
 
 
@@ -182,8 +209,6 @@
                 previewImage("upload2", "preview2");
                 previewImage("upload3", "preview3");
                 previewImage("upload4", "preview4");
-
-
             </script>
 
 

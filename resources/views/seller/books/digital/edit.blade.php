@@ -64,30 +64,46 @@
                 <div class="bg-white rounded-xl shadow-lg overflow-hidden">
                     <!-- Form header -->
                     <div class="bg-green-800 px-6 py-4">
-                        <h3 class="text-lg font-semibold text-white">Add Book Information</h3>
+                        <h3 class="text-lg font-semibold text-white">Edit Book Information</h3>
                     </div>
 
-                    <form class="p-6" id="editBookForm">
+                    <form class="p-6" id="editBookForm" method="POST" action="#" enctype="multipart/form-data">
+                        @csrf
+                        @method('PUT')
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
 
                             <!-- Image Upload Section (4 Images) -->
                             <div class="col-span-1">
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Book Images (4
+                                    required)*</label>
                                 <div class="grid grid-cols-2 gap-4">
+                                    @for ($i = 1; $i <= 4; $i++)
+                                        @php
+                                            $image = $electronicBook->book->images[$i - 1] ?? null;
+                                            $imageUrl = $image
+                                                ? asset('storage/' . $image->image)
+                                                : asset('storage/images/books/default/cover/upload-image.avif');
+                                        @endphp
 
-                                    <!-- Image Preview & Upload Inputs -->
+                                        <div class="relative group" id="imageContainer{{ $i }}">
+                                            <img id="preview{{ $i }}" src="{{ $imageUrl }}"
+                                                class="w-full h-32 object-cover rounded-lg shadow-md border-2 {{ $image ? 'border-solid border-green-400' : 'border-dashed border-gray-300' }} group-hover:border-green-500 transition-colors duration-200">
 
-                                    @foreach ($electronicBook->book->images as $index => $image)
-                                        <div class="relative" id="imageContainer{{ $index + 1 }}">
-                                            <img id="preview{{ $index + 1 }}"
-                                                src="{{ asset('storage/' . $image->image) }}"
-                                                class="w-32 h-32 object-cover rounded-lg shadow-md border border-gray-200">
-                                            <input type="file" id="upload{{ $index + 1 }}"
+                                            <input type="file" id="upload{{ $i }}" name="images[]"
                                                 class="absolute inset-0 opacity-0 cursor-pointer" accept="image/*"
-                                                value="{{ asset('storage/' . $image->image) }}">
-                                        </div>
-                                    @endforeach
+                                                @if(!$image) required @endif>
 
+                                        </div>
+                                    @endfor
                                 </div>
+
+
+                                @error('images')
+                                    <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
+                                @enderror
+                                @error('images.*')
+                                    <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
+                                @enderror
                             </div>
 
                             <!-- Book details form -->
@@ -95,9 +111,12 @@
                                 <!-- Title -->
                                 <div>
                                     <label for="bookTitle" class="block text-sm font-medium text-gray-700">Title*</label>
-                                    <input type="text" id="bookTitle" name="title" required
-                                        class="mt-1 block w-full border-b border-gray-300 focus:border-green-500 focus:ring-green-500 outline-none sm:text-sm"
-                                        value="{{ $electronicBook->book->title }}">
+                                    <input type="text" id="bookTitle" name="title"
+                                        value="{{ old('title', $electronicBook->book->title) }}" required
+                                        class="mt-1 block w-full border-b border-gray-300 focus:border-green-500 focus:ring-0 outline-none sm:text-sm @error('title') border-red-500 @enderror">
+                                    @error('title')
+                                        <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
+                                    @enderror
                                 </div>
 
                                 <!-- Author and Price -->
@@ -105,9 +124,12 @@
                                     <div>
                                         <label for="bookAuthor"
                                             class="block text-sm font-medium text-gray-700">Author*</label>
-                                        <input type="text" id="bookAuthor" name="author" required
-                                            class="mt-1 block w-full border-b border-gray-300 focus:border-green-500 focus:ring-green-500 outline-none sm:text-sm"
-                                            value="{{ $electronicBook->book->author }}">
+                                        <input type="text" id="bookAuthor" name="author"
+                                            value="{{ old('author', $electronicBook->book->author) }}" required
+                                            class="mt-1 block w-full border-b border-gray-300 focus:border-green-500 focus:ring-0 outline-none sm:text-sm @error('author') border-red-500 @enderror">
+                                        @error('author')
+                                            <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
+                                        @enderror
                                     </div>
                                     <div>
                                         <label for="bookPrice"
@@ -115,11 +137,14 @@
                                         <div class="relative">
                                             <span
                                                 class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-500">$</span>
-                                            <input type="number" id="bookPrice" name="price" step="0.01"
+                                            <input type="number" id="bookPrice" name="price"
+                                                value="{{ old('price', $electronicBook->book->price) }}" step="0.01"
                                                 min="0" required
-                                                class="mt-1 block w-full pl-7 border-b border-gray-300 focus:border-green-500 focus:ring-green-500 outline-none sm:text-sm"
-                                                value="{{ $electronicBook->book->price }}">
+                                                class="mt-1 block w-full pl-7 border-b border-gray-300 focus:border-green-500 focus:ring-0 outline-none sm:text-sm @error('price') border-red-500 @enderror">
                                         </div>
+                                        @error('price')
+                                            <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
+                                        @enderror
                                     </div>
                                 </div>
 
@@ -128,27 +153,35 @@
                                     <label for="bookDescription"
                                         class="block text-sm font-medium text-gray-700">Description*</label>
                                     <textarea id="bookDescription" name="description" rows="3" required
-                                        class="mt-1 block w-full border-b border-gray-300 focus:border-green-500 focus:ring-green-500 outline-none sm:text-sm">{{ $electronicBook->book->description }}</textarea>
+                                        class="mt-1 block w-full border-b border-gray-300 focus:border-green-500 focus:ring-0 outline-none sm:text-sm @error('description') border-red-500 @enderror">{{ old('description', $electronicBook->book->description) }}</textarea>
+                                    @error('description')
+                                        <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
+                                    @enderror
                                 </div>
 
-                                <!-- Upload File -->
+                                <!-- File Upload -->
                                 <div>
                                     <label for="bookFile" class="block text-sm font-medium text-gray-700">Upload
                                         File*</label>
                                     <div
-                                        class="relative border border-gray-300 rounded-lg p-2 flex items-center cursor-pointer">
-                                        <i class="fas fa-upload text-gray-500 mr-2"></i>
-                                        <span id="fileLabel" class="text-gray-500 text-sm">
-                                            {{ $electronicBook->file ?? 'No file chosen' }}
+                                        class="relative border border-gray-300 rounded-lg p-2 flex items-center cursor-pointer hover:border-green-500 transition-colors duration-200 @error('book_file') border-red-500 @enderror">
+                                        <svg class="h-5 w-5 text-gray-500 mr-2" fill="none" viewBox="0 0 24 24"
+                                            stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                                        </svg>
+                                        <span id="fileLabel" class="text-gray-500 text-sm truncate">
+                                            {{ $electronicBook->file ? basename($electronicBook->file) : 'No file chosen' }}
                                         </span>
                                         <input type="file" id="bookFile" name="book_file" accept=".pdf,.doc,.docx"
-                                            class="absolute inset-0 opacity-0 cursor-pointer">
+                                            class="absolute inset-0 opacity-0 cursor-pointer"
+                                            onchange="document.getElementById('fileLabel').textContent = this.files[0]?.name || '{{ $electronicBook->file ? basename($electronicBook->file) : 'No file chosen' }}'">
                                     </div>
-                                    <p class="mt-1 text-xs text-gray-500">Formats: .pdf, .doc, .docx</p>
+                                    @error('book_file')
+                                        <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
+                                    @enderror
+                                    <p class="mt-1 text-xs text-gray-500">Supported formats: PDF, DOC, DOCX (Max 10MB)</p>
                                 </div>
-
-
-
                             </div>
                         </div>
 
@@ -160,10 +193,13 @@
                             </button>
                             <button type="submit"
                                 class="px-6 py-2 bg-green-600 rounded-lg text-base font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
-                                Store Book
+                                Update Book
                             </button>
                         </div>
                     </form>
+
+
+
                 </div>
             </div>
 
