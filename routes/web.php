@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Auth\VerificationController;
+use App\Models\Book;
+use App\Models\PhysicalBook;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Models\User;
@@ -127,13 +129,45 @@ Route::get('/admin/users', function () {
 })->name('home');
 
 
+Route::get('/admin/marketplace', function () {
+
+    // $phyisicalBooks = PhysicalBook::paginate(5);
+
+    $physicalBooks = PhysicalBook::all();
+
+    return view('admin.books.physical.index', compact('physicalBooks'));
+
+})->name('home');
+
+
+Route::get('/books/{id}', function($id) {
+
+    $physicalBook = PhysicalBook::findOrFail($id);
+
+    return response()->json([
+        // $physicalBooks[1]->book->images[0]->image
+
+        'title' => $physicalBook->book->title,
+        'author' => $physicalBook->book->author,
+        'description' => $physicalBook->book->description,
+        'price' => $physicalBook->book->price,
+        'location' => $physicalBook->location,
+        'seller' => [
+            'first_name' => $physicalBook->book->seller->user->first_name,
+            'last_name' => $physicalBook->book->seller->user->last_name,
+            'image' => $physicalBook->book->seller->user->photo
+        ]
+
+    ]);
+});
+
+
+
 Route::get('/admin/book', function () {
     return view('admin.books.digital.index');
 })->name('home');
 
-Route::get('/admin/marketplace', function () {
-    return view('admin.books.physical.index');
-})->name('home');
+
 
 
 Route::get('/admin/orders', function () {
