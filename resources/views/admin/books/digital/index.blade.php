@@ -1,4 +1,4 @@
-{{-- {{ dd( $electronicBooks[1]->reviews->count()  ) }} --}}
+{{-- {{ dd( $electronicBooks  ) }} --}}
 {{-- {{ dd( $electronicBooks[0]->reviews->avg('rating') ) }} --}}
 
 
@@ -32,7 +32,7 @@
                     <i class="fas fa-book"></i>
                     <span>Physical Books</span>
                 </a>
-                <a href="/admin/book" class="flex items-center gap-3 p-3 rounded-lg bg-green-700">
+                <a href="/admin/books" class="flex items-center gap-3 p-3 rounded-lg bg-green-700">
                     <i class="fas fa-file-pdf"></i>
                     <span>Digital Books</span>
                 </a>
@@ -218,10 +218,10 @@
                                     <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                                         <div class="flex space-x-4">
 
-                                            <button onclick="showBookDetails({{ $electronicBook->id }})"
+                                            <a href="/admin/books/{{ $electronicBook->id }}"
                                                 class="text-green-600 hover:text-indigo-900">
                                                 <i class="fas fa-eye mr-1"></i>
-                                            </button>
+                                            </a>
 
                                             <button class="text-red-600 hover:text-red-900">
                                                 <i class="fas fa-trash mr-1"></i>
@@ -251,77 +251,6 @@
         </div>
     </div>
 
-    {{-- fetch error --}}
-    <div id="error-alert"
-        class="hidden fixed top-4 right-4 bg-red-100 border border-red-400 text-red-700 px-6 py-4 rounded-lg shadow-xl transition-opacity duration-500 ease-in-out z-50 max-w-sm w-full flex items-center space-x-4">
-        <div class="flex-grow">
-            <span class="font-semibold">Error:</span>
-            <ul id="errorMessage">
-
-            </ul>
-        </div>
-        <button class="text-red-700 focus:outline-none" onclick="closeAlert('error-alert')">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
-                stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-            </svg>
-        </button>
-    </div>
-
-    @include('admin.books.digital.components.view-modal')
-
-
-    <script>
-
-        // detch view for each book:
-        function showBookDetails(bookId) {
-            fetch(`/admin/books/${bookId}`)
-                .then(response => response.json())
-                .then(electronicBook => {
-
-
-                    document.getElementById('bookCover').src = `/storage/${electronicBook.cover}`;
-
-                    document.getElementById('bookTitle').textContent = electronicBook.title;
-                    document.getElementById('bookAuthor').textContent = electronicBook.author;
-                    document.getElementById('bookPrice').textContent = `$${electronicBook.price}`;
-                    document.getElementById('bookDescription').textContent = electronicBook.description;
-
-
-                    for (let i = 0; i < 5; i++) {
-                        if (i < electronicBook.rating) {
-                            document.getElementById('ratingStars').innerHTML += '<i class="fas fa-star text-yellow-400"></i>';
-
-                        } else {
-                            document.getElementById('ratingStars').innerHTML += '<i class="fas fa-star text-gray-400"></i>';
-                        }
-                    }
-
-                    document.getElementById('sellerName').textContent = electronicBook.seller.first_name + ' ' +
-                        electronicBook.seller.last_name;
-
-                    document.getElementById('sellerEmail').textContent = electronicBook.seller.email;
-
-                    document.getElementById('sellerImage').src = `/storage/${electronicBook.seller.image}`;
-
-                    document.getElementById('bookModal').classList.remove('hidden');
-
-                })
-                .catch(error => {
-                    document.getElementById('errorMessage').textContent = "something wrong";
-                    document.getElementById('error-alert').classList.remove('hidden');
-
-                });
-        }
-
-
-        function closeModal() {
-            document.getElementById('bookModal').classList.add('hidden');
-        }
-
-
-
-    </script>
 
 
 @endsection

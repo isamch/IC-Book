@@ -141,32 +141,17 @@ Route::get('/admin/marketplace', function () {
 })->name('home');
 
 
-Route::get('admin/marketplace/{id}', function($id) {
+Route::get('/admin/marketplace/{id}', function ($id) {
 
     $physicalBook = PhysicalBook::findOrFail($id);
 
-    return response()->json([
-        // $physicalBooks[1]->book->images[0]->image
+    return view('admin.books.physical.view', compact('physicalBook'));
 
-        'cover' => $physicalBook->book->images->first()->image,
-        'title' => $physicalBook->book->title,
-        'author' => $physicalBook->book->author,
-        'description' => $physicalBook->book->description,
-        'price' => $physicalBook->book->price,
-        'location' => $physicalBook->location,
-        'seller' => [
-            'first_name' => $physicalBook->book->seller->user->first_name,
-            'last_name' => $physicalBook->book->seller->user->last_name,
-            'email' => $physicalBook->book->seller->user->email,
-            'image' => $physicalBook->book->seller->user->photo
-        ]
-
-    ]);
-});
+})->name('home');
 
 
 
-Route::get('/admin/book', function () {
+Route::get('/admin/books', function () {
 
     $electronicBooks = ElectronicBook::paginate(2);
 
@@ -177,33 +162,124 @@ Route::get('/admin/book', function () {
 })->name('home');
 
 
-Route::get('admin/books/{id}', function($id) {
+Route::get('/admin/books/{id}', function ($id) {
 
     $electronicBook = ElectronicBook::findOrFail($id);
 
-    return response()->json([
-        // $electronicBook[1]->book->images[0]->image
+    return view('admin.books.digital.view', compact('electronicBook'));
 
-        'cover' => $electronicBook->book->images->first()->image,
-        'title' => $electronicBook->book->title,
-        'author' => $electronicBook->book->author,
-        'description' => $electronicBook->book->description,
-        'rating' => $electronicBook->reviews->avg('rating'),
+})->name('home');
 
 
-        'price' => $electronicBook->book->price,
-        'seller' => [
-            'first_name' => $electronicBook->book->seller->user->first_name,
-            'last_name' => $electronicBook->book->seller->user->last_name,
-            'email' => $electronicBook->book->seller->user->email,
-            'image' => $electronicBook->book->seller->user->photo
-        ]
-
-    ]);
-});
 
 
 
 Route::get('/admin/orders', function () {
     return view('admin.order.index');
 })->name('home');
+
+
+
+
+
+
+Route::get('/seller/books', function () {
+
+
+    $electronicBooks = ElectronicBook::paginate(2);
+
+    // $electronicBooks = ElectronicBook::all();
+
+    return view('seller.books.digital.index', compact('electronicBooks'));
+
+})->name('home');
+
+
+
+
+
+Route::get('/seller/books/create', function () {
+
+
+    return view('seller.books.digital.create');
+
+});
+
+
+Route::get('/seller/books/{id}', function ($id) {
+
+    $electronicBook = ElectronicBook::findOrFail($id);
+
+    return view('seller.books.digital.view', compact('electronicBook'));
+
+})->name('home');
+
+
+
+
+Route::get('/seller/marketplace', function () {
+
+    $physicalBooks = PhysicalBook::paginate(2);
+
+
+    return view('seller.books.physical.index', compact('physicalBooks'));
+
+})->name('home');
+
+
+Route::get('/seller/marketplace/create', function () {
+
+
+    return view('seller.books.physical.create');
+
+});
+
+Route::get('/seller/marketplace/{id}', function ($id) {
+
+    $physicalBook = PhysicalBook::findOrFail($id);
+
+    return view('seller.books.physical.view', compact('physicalBook'));
+
+})->name('home');
+
+
+
+
+// edit update show form
+Route::get('/seller/books/{id}/edit', function ($id) {
+
+    $electronicBook = ElectronicBook::findOrFail($id);
+
+    return view('seller.books.digital.edit', compact('electronicBook'));
+
+});
+
+
+
+
+
+
+// edit update show form
+Route::get('/seller/marketplace/{id}/edit', function ($id) {
+
+    $physicalBook = PhysicalBook::findOrFail($id);
+
+    return view('seller.books.physical.edit', compact('physicalBook'));
+
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
