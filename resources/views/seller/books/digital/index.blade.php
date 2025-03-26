@@ -120,7 +120,8 @@
 
                 <div class="flex justify-between items-center mb-6">
                     <h3 class="text-lg font-semibold text-green-800">Books Management</h3>
-                    <a href="{{ route('seller.books.create') }}" class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700">Add New Book</a>
+                    <a href="{{ route('seller.books.create') }}"
+                        class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700">Add New Book</a>
                 </div>
 
 
@@ -170,13 +171,20 @@
                                                 <i class="fas fa-eye mr-1"></i>
                                             </a>
 
-                                            <a href="{{ route('seller.books.edit', $electronicBook->id) }}" class="text-green-600 hover:text-indigo-900">
+                                            <a href="{{ route('seller.books.edit', $electronicBook->id) }}"
+                                                class="text-green-600 hover:text-indigo-900">
                                                 <i class="fas fa-edit mr-1"></i>
                                             </a>
 
-                                            <button class="text-red-600 hover:text-red-900">
-                                                <i class="fas fa-trash mr-1"></i>
-                                            </button>
+                                            <form action="{{ route('seller.books.destroy', $electronicBook->id) }}"
+                                                method="POST"
+                                                onsubmit="return confirm('Are you sure you want to delete this book?');">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="text-red-600 hover:text-red-900">
+                                                    <i class="fas fa-trash mr-1"></i>
+                                                </button>
+                                            </form>
                                         </div>
                                     </td>
                                 </tr>

@@ -7,6 +7,7 @@ use App\Models\Book;
 use App\Models\ElectronicBook;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class DigitalBookController extends Controller
 {
@@ -41,7 +42,6 @@ class DigitalBookController extends Controller
             'description' => 'required|string|min:10|max:1000',
             'book_file' => 'required|file|mimes:pdf,doc,docx|max:10240',
         ]);
-
 
 
         $book = Book::create([
@@ -94,7 +94,6 @@ class DigitalBookController extends Controller
         $electronicBook = ElectronicBook::findOrFail($id);
 
         return view('seller.books.digital.edit', compact('electronicBook'));
-
     }
 
     /**
@@ -115,7 +114,6 @@ class DigitalBookController extends Controller
         ]);
 
 
-
         $electronicBook = ElectronicBook::findOrFail($id);
 
 
@@ -126,35 +124,35 @@ class DigitalBookController extends Controller
             'description' => $request->description,
         ]);
 
+
         if ($request->hasFile('images')) {
 
             foreach ($request->file('images') as $index => $image) {
 
-                $path = $image->store('images/books/digitale', 'public');
+                if ($index < 4 && $electronicBook->book->images->count() <= 4) {
+                    $path = $image->store('images/books/digitale', 'public');
 
-                if (isset($electronicBook->book->images[$index])) {
-                    $electronicBook->book->images[$index]->update(['image' => $path]);
-                } else {
-                    $electronicBook->book->images()->create(['image' => $path]);
+                    if (isset($electronicBook->book->images[$index])) {
+                        $electronicBook->book->images[$index]->update(['image' => $path]);
+                    } else {
+                        $electronicBook->book->images()->create(['image' => $path]);
+                    }
                 }
             }
-
         }
 
 
         if ($request->hasFile('book_file')) {
 
-            $filePath = $request->file('book_file')->store('files/books/pdf', 'public');
-            $electronicBook->file = $filePath;
+            // dd($request->file('book_file'));
 
+            $filePath = $request->file('book_file')->storeAs('files/books/pdf', uniqid() . '__' . $request->file('book_file')->getClientOriginalName(), 'public');
+
+            $electronicBook->update(['file' => $filePath]);
         }
 
 
-
-
-
         return redirect()->route('seller.books.show', $id)->with('success', 'Book updated successfully!');
-
     }
 
     /**
@@ -162,6 +160,15 @@ class DigitalBookController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $electronicBook = ElectronicBook::findOrFail($id);
+
+        if (Storage::disk('public')->exists($electronicBook->file)) {
+            Storage::disk('public')->delete($electronicBook->file);
+        }
+
+        $electronicBook->delete();
+        $electronicBook->book->delete();
+
+        return redirect()->route('seller.books.index')->with('success', 'Book deleted successfully!');
     }
 }

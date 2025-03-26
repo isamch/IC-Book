@@ -21,13 +21,13 @@
                     <i class="fas fa-tachometer-alt"></i>
                     <span>Dashboard</span>
                 </a>
+                <a href="{{ route('seller.books.index') }}" class="flex items-center gap-3 p-3 rounded-lg bg-green-700">
+                    <i class="fas fa-file-pdf"></i>
+                    <span>Digital Books</span>
+                </a>
                 <a href="/seller/marketplace" class="flex items-center gap-3 p-3 rounded-lg hover:bg-green-700">
                     <i class="fas fa-book"></i>
                     <span>Physical Books</span>
-                </a>
-                <a href="/seller/books" class="flex items-center gap-3 p-3 rounded-lg bg-green-700">
-                    <i class="fas fa-file-pdf"></i>
-                    <span>Digital Books</span>
                 </a>
                 <a href="/seller/orders" class="flex items-center gap-3 p-3 rounded-lg hover:bg-green-700">
                     <i class="fas fa-shopping-cart"></i>
@@ -174,6 +174,7 @@
                                         <span id="fileLabel" class="text-gray-500 text-sm truncate">
                                             {{ $electronicBook->file ? basename($electronicBook->file) : 'No file chosen' }}
                                         </span>
+
                                         <input type="file" id="bookFile" name="book_file" accept=".pdf,.doc,.docx"
                                             class="absolute inset-0 opacity-0 cursor-pointer"
                                             onchange="document.getElementById('fileLabel').textContent = this.files[0]?.name || '{{ $electronicBook->file ? basename($electronicBook->file) : 'No file chosen' }}'">

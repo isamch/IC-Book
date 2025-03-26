@@ -27,7 +27,6 @@
                     <i class="fas fa-book"></i>
                     <span>Physical Books</span>
                 </a>
-
                 <a href="/seller/orders" class="flex items-center gap-3 p-3 rounded-lg hover:bg-green-700">
                     <i class="fas fa-shopping-cart"></i>
                     <span>Orders</span>
