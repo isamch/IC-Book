@@ -143,9 +143,6 @@ class DigitalBookController extends Controller
 
 
         if ($request->hasFile('book_file')) {
-
-            // dd($request->file('book_file'));
-
             $filePath = $request->file('book_file')->storeAs('files/books/pdf', uniqid() . '__' . $request->file('book_file')->getClientOriginalName(), 'public');
 
             $electronicBook->update(['file' => $filePath]);

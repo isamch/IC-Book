@@ -28,7 +28,7 @@
                     <i class="fas fa-file-pdf"></i>
                     <span>Digital Books</span>
                 </a>
-                <a href="/seller/marketplace" class="flex items-center gap-3 p-3 rounded-lg hover:bg-green-700">
+                <a href="{{ route('seller.marketplace.books.index') }}" class="flex items-center gap-3 p-3 rounded-lg hover:bg-green-700">
                     <i class="fas fa-book"></i>
                     <span>Physical Books</span>
                 </a>

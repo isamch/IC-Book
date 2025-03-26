@@ -1,3 +1,5 @@
+{{-- {{ dd($physicalBook->book) }} --}}
+
 @extends('layouts.seller')
 
 @section('title', 'Book')
@@ -19,13 +21,13 @@
                     <i class="fas fa-tachometer-alt"></i>
                     <span>Dashboard</span>
                 </a>
-                <a href="/seller/marketplace" class="flex items-center gap-3 p-3 rounded-lg bg-green-700">
-                    <i class="fas fa-book"></i>
-                    <span>Physical Books</span>
-                </a>
-                <a href="/seller/books" class="flex items-center gap-3 p-3 rounded-lg hover:bg-green-700">
+                <a href="{{ route('seller.books.index') }}" class="flex items-center gap-3 p-3 rounded-lg hover:bg-green-700">
                     <i class="fas fa-file-pdf"></i>
                     <span>Digital Books</span>
+                </a>
+                <a href="{{ route('seller.marketplace.books.index') }}" class="flex items-center gap-3 p-3 rounded-lg bg-green-700">
+                    <i class="fas fa-book"></i>
+                    <span>Physical Books</span>
                 </a>
                 <a href="/seller/orders" class="flex items-center gap-3 p-3 rounded-lg hover:bg-green-700">
                     <i class="fas fa-shopping-cart"></i>
@@ -68,31 +70,26 @@
 
                     <!-- Page content -->
                     <div class="p-6">
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-center">
                             <!-- Book cover -->
                             <div class="col-span-1 flex justify-center">
                                 <img id="bookCover"
-                                    src="{{ asset('storage/' . $physicalBook->book->images->first()->image) }}"
+                                    src="{{ asset('storage/' . optional($physicalBook->book->images->first())->image) }}"
                                     alt="Book cover" class="w-full max-w-xs h-auto object-cover rounded-lg shadow-md">
                             </div>
 
                             <!-- Book details -->
                             <div class="col-span-1 md:col-span-2">
                                 <div class="space-y-6">
-                                    <div>
-                                        <p class="text-sm font-medium text-gray-500">Title</p>
-                                        <p id="bookAuthor" class="mt-1 text-lg text-gray-900">
-                                            {{ $physicalBook->book->title }}
-                                        </p>
-                                    </div>
                                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
 
                                         <div>
-                                            <p class="text-sm font-medium text-gray-500">Author</p>
+                                            <p class="text-sm font-medium text-gray-500">Title</p>
                                             <p id="bookAuthor" class="mt-1 text-lg text-gray-900">
-                                                {{ $physicalBook->book->author }}
+                                                {{ $physicalBook->book->title }}
                                             </p>
                                         </div>
+
                                         <div>
                                             <p class="text-sm font-medium text-gray-500">Price</p>
                                             <p id="bookPrice" class="mt-1 text-lg font-semibold text-gray-900">
@@ -101,12 +98,23 @@
                                         </div>
                                     </div>
 
-                                    <div>
-                                        <p class="text-sm font-medium text-gray-500">Location</p>
-                                        <p id="bookDescription" class="mt-2 text-gray-900">
-                                            {{ $physicalBook->location }}
-                                        </p>
+                                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+
+                                        <div>
+                                            <p class="text-sm font-medium text-gray-500">Author</p>
+                                            <p id="bookAuthor" class="mt-1 text-lg text-gray-900">
+                                                {{ $physicalBook->book->author }}
+                                            </p>
+                                        </div>
+
+                                        <div>
+                                            <p class="text-sm font-medium text-gray-500">Location</p>
+                                            <p id="bookDescription" class="mt-2 text-gray-900">
+                                                {{ $physicalBook->location }}
+                                            </p>
+                                        </div>
                                     </div>
+
 
                                     <div>
                                         <p class="text-sm font-medium text-gray-500">Description</p>
@@ -116,6 +124,24 @@
                                     </div>
 
 
+                                    <div class="border-t border-gray-200 pt-6">
+                                        <p class="text-sm font-medium text-gray-500">Seller Information</p>
+                                        <a href="#" class="mt-4 flex items-center">
+                                            <img id="sellerImage"
+                                                src="{{ asset('storage/' . $physicalBook->book->seller->user->photo) }}"
+                                                alt="Seller" class="w-12 h-12 rounded-full border-2 border-green-200">
+                                            <div class="ml-4">
+                                                <p id="sellerName" class="text-lg font-medium text-gray-900">
+                                                    {{ $physicalBook->book->seller->user->first_name }}
+                                                    {{ $physicalBook->book->seller->user->last_name }}
+                                                </p>
+                                                <p id="sellerEmail" class="text-sm text-gray-500">
+                                                    {{ $physicalBook->book->seller->user->email }}
+                                                </p>
+                                            </div>
+                                        </a>
+                                    </div>
+
 
                                 </div>
                             </div>
@@ -124,14 +150,15 @@
 
                     <!-- Page footer (optional action buttons) -->
                     <div class="bg-gray-50 px-6 py-4 border-t border-gray-200 flex justify-end space-x-4">
-                        <a href="/seller/marketplace"
+                        <a href="{{ route('seller.marketplace.books.index') }}"
                             class="px-6 py-2 border border-gray-300 rounded-lg text-base font-medium text-gray-700 hover:bg-gray-100 focus:outline-none">
                             Back to List
                         </a>
-                        <a href="#" type="button" id="contactSellerBtn"
+                        <a href="{{ route('seller.marketplace.books.edit', $physicalBook->id) }}"
+                        type="button" id="contactSellerBtn"
                             class="px-6 py-2 bg-green-600 rounded-lg text-base font-medium text-white hover:bg-green-700 focus:outline-none">
                             Edit Book
-                        </a>
+                        <a/>
                     </div>
                 </div>
 

@@ -19,13 +19,13 @@
                     <i class="fas fa-tachometer-alt"></i>
                     <span>Dashboard</span>
                 </a>
-                <a href="/seller/marketplace" class="flex items-center gap-3 p-3 rounded-lg bg-green-700">
-                    <i class="fas fa-book"></i>
-                    <span>Physical Books</span>
-                </a>
-                <a href="/seller/books" class="flex items-center gap-3 p-3 rounded-lg hover:bg-green-700">
+                <a href="{{ route('seller.books.index') }}" class="flex items-center gap-3 p-3 rounded-lg hover:bg-green-700">
                     <i class="fas fa-file-pdf"></i>
                     <span>Digital Books</span>
+                </a>
+                <a href="{{ route('seller.marketplace.books.index') }}" class="flex items-center gap-3 p-3 rounded-lg bg-green-700">
+                    <i class="fas fa-book"></i>
+                    <span>Physical Books</span>
                 </a>
                 <a href="/seller/orders" class="flex items-center gap-3 p-3 rounded-lg hover:bg-green-700">
                     <i class="fas fa-shopping-cart"></i>
@@ -65,7 +65,7 @@
                         <h3 class="text-lg font-semibold text-white">Add Book Information</h3>
                     </div>
 
-                    <form class="p-6"  method="POST" action="#" enctype="multipart/form-data">
+                    <form class="p-6"  method="POST" method="POST" action="{{ route('seller.marketplace.books.store') }}" enctype="multipart/form-data">
                         @csrf
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
 
@@ -78,6 +78,7 @@
                                                 src="{{ asset('storage/images/books/default/cover/upload-image.avif') }}"
                                                 class="w-32 h-32 object-cover rounded-lg shadow-md border border-gray-200">
                                             <input type="file" id="upload{{ $i }}" name="images[]"
+                                                required
                                                 class="absolute inset-0 opacity-0 cursor-pointer" accept="image/*"
                                                 onchange="previewImage(this, 'preview{{ $i }}')">
                                         </div>
@@ -158,10 +159,12 @@
 
                         <!-- Form footer -->
                         <div class="mt-8 pt-6 border-t border-gray-200 flex justify-end space-x-4">
-                            <button type="button" onclick="window.history.back()"
+                            <a href="{{ route('seller.marketplace.books.index') }}"
+                                type="button"
                                 class="px-6 py-2 border border-gray-300 rounded-lg text-base font-medium text-gray-700 hover:bg-gray-100 focus:outline-none">
                                 Cancel
-                            </button>
+                            </a>
+
                             <button type="submit"
                                 class="px-6 py-2 bg-green-600 rounded-lg text-base font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
                                 Store Book

@@ -24,13 +24,13 @@
                     <i class="fas fa-tachometer-alt"></i>
                     <span>Dashboard</span>
                 </a>
-                <a href="/seller/marketplace" class="flex items-center gap-3 p-3 rounded-lg bg-green-700">
-                    <i class="fas fa-book"></i>
-                    <span>Physical Books</span>
-                </a>
-                <a href="/seller/books" class="flex items-center gap-3 p-3 rounded-lg hover:bg-green-700">
+                <a href="{{ route('seller.books.index') }}" class="flex items-center gap-3 p-3 rounded-lg hover:bg-green-700">
                     <i class="fas fa-file-pdf"></i>
                     <span>Digital Books</span>
+                </a>
+                <a href="{{ route('seller.marketplace.books.index') }}" class="flex items-center gap-3 p-3 rounded-lg bg-green-700">
+                    <i class="fas fa-book"></i>
+                    <span>Physical Books</span>
                 </a>
                 <a href="/seller/orders" class="flex items-center gap-3 p-3 rounded-lg hover:bg-green-700">
                     <i class="fas fa-shopping-cart"></i>
@@ -51,7 +51,7 @@
                     </div>
                     <div class="flex items-center gap-2">
                         <img src="https://i.pravatar.cc/40" alt="Admin" class="w-8 h-8 rounded-full">
-                        <span class="font-medium">Admin</span>
+                        <span class="font-medium">Seller</span>
                     </div>
                 </div>
             </div>
@@ -120,7 +120,7 @@
 
                 <div class="flex justify-between items-center mb-6">
                     <h3 class="text-lg font-semibold text-green-800">Marketplace Books Management</h3>
-                    <a href="/seller/marketplace/create" class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700">Add New Book to Marketplace</a>
+                    <a href="{{ route('seller.marketplace.books.create') }}" class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700">Add New Book</a>
                 </div>
 
 
@@ -150,33 +150,39 @@
                         <tbody class="bg-white divide-y divide-gray-200">
 
 
-                            @foreach ($physicalBooks as $electronicBook)
+                            @foreach ($physicalBooks as $physicalBook)
                                 <tr class="hover:bg-gray-50 transition-colors duration-150">
                                     <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                                        {{ $electronicBook->id }}</td>
+                                        {{ $physicalBook->id }}</td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                        {{ Str::words($electronicBook->book->title, 3, '...') }}
+                                        {{ Str::words($physicalBook->book->title, 3, '...') }}
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                        {{ $electronicBook->book->author }}</td>
+                                        {{ $physicalBook->book->author }}</td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">$
-                                        {{ $electronicBook->book->price }}</td>
+                                        {{ $physicalBook->book->price }}</td>
 
                                     <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                                         <div class="flex space-x-4">
 
-                                            <a href="/seller/marketplace/{{ $electronicBook->id }}"
+                                            <a href="{{ route('seller.marketplace.books.show', $physicalBook->id) }}"
                                                 class="text-green-600 hover:text-indigo-900">
                                                 <i class="fas fa-eye mr-1"></i>
                                             </a>
 
-                                            <button class="text-green-600 hover:text-indigo-900">
+                                            <a href="{{ route('seller.marketplace.books.edit', $physicalBook->id) }}"
+                                                 class="text-green-600 hover:text-indigo-900">
                                                 <i class="fas fa-edit mr-1"></i>
-                                            </button>
+                                            </a>
 
-                                            <button class="text-red-600 hover:text-red-900">
-                                                <i class="fas fa-trash mr-1"></i>
-                                            </button>
+                                            <form action="{{ route('seller.marketplace.books.destroy', $physicalBook->id) }}" method="POST"
+                                                onsubmit="return confirm('Are you sure you want to delete this book?');">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="text-red-600 hover:text-red-900">
+                                                    <i class="fas fa-trash mr-1"></i>
+                                                </button>
+                                            </form>
                                         </div>
                                     </td>
                                 </tr>

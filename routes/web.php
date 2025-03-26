@@ -84,7 +84,7 @@ Route::prefix('seller')->as('seller.')->group(function () {
 
 
 
-    // Route::resource('marketplace/books', SellerMarketplaceBookController::class);
+    Route::resource('marketplace/books', SellerMarketplaceBookController::class)->names('marketplace.books');
 
 
 });

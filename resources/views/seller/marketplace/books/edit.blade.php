@@ -21,13 +21,13 @@
                     <i class="fas fa-tachometer-alt"></i>
                     <span>Dashboard</span>
                 </a>
-                <a href="/seller/marketplace" class="flex items-center gap-3 p-3 rounded-lg hover:bg-green-700">
-                    <i class="fas fa-book"></i>
-                    <span>Physical Books</span>
-                </a>
-                <a href="/seller/books" class="flex items-center gap-3 p-3 rounded-lg bg-green-700">
+                <a href="{{ route('seller.books.index') }}" class="flex items-center gap-3 p-3 rounded-lg hover:bg-green-700">
                     <i class="fas fa-file-pdf"></i>
                     <span>Digital Books</span>
+                </a>
+                <a href="{{ route('seller.marketplace.books.index') }}" class="flex items-center gap-3 p-3 rounded-lg bg-green-700">
+                    <i class="fas fa-book"></i>
+                    <span>Physical Books</span>
                 </a>
                 <a href="/seller/orders" class="flex items-center gap-3 p-3 rounded-lg hover:bg-green-700">
                     <i class="fas fa-shopping-cart"></i>
@@ -64,10 +64,13 @@
                 <div class="bg-white rounded-xl shadow-lg overflow-hidden">
                     <!-- Form header -->
                     <div class="bg-green-800 px-6 py-4">
-                        <h3 class="text-lg font-semibold text-white">Add Book Information</h3>
+                        <h3 class="text-lg font-semibold text-white">Update Book Information</h3>
                     </div>
 
-                    <form class="p-6" id="editBookForm">
+                    <form class="p-6" id="editBookForm" method="POST" action="{{ route('seller.marketplace.books.update', $physicalBook->id) }}" enctype="multipart/form-data">
+                        @csrf
+                        @method('PUT')
+
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
 
                             <!-- Image Upload Section (4 Images) -->
@@ -177,13 +180,14 @@
 
                         <!-- Form footer -->
                         <div class="mt-8 pt-6 border-t border-gray-200 flex justify-end space-x-4">
-                            <button type="button"
+                            <a href="{{ route('seller.marketplace.books.index') }}"
+                             type="button"
                                 class="px-6 py-2 border border-gray-300 rounded-lg text-base font-medium text-gray-700 hover:bg-gray-100 focus:outline-none">
                                 Cancel
-                            </button>
+                            </a>
                             <button type="submit"
                                 class="px-6 py-2 bg-green-600 rounded-lg text-base font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
-                                Store Book
+                                Update Book
                             </button>
                         </div>
                     </form>

@@ -28,7 +28,7 @@
                     <i class="fas fa-file-pdf"></i>
                     <span>Digital Books</span>
                 </a>
-                <a href="/seller/marketplace" class="flex items-center gap-3 p-3 rounded-lg hover:bg-green-700">
+                <a href="{{ route('seller.marketplace.books.index') }}" class="flex items-center gap-3 p-3 rounded-lg hover:bg-green-700">
                     <i class="fas fa-book"></i>
                     <span>Physical Books</span>
                 </a>
@@ -133,7 +133,7 @@
                                         <p class="text-sm font-medium text-gray-500">Seller Information</p>
                                         <a href="#" class="mt-4 flex items-center">
                                             <img id="sellerImage"
-                                                src="{{ asset('storage/' . $electronicBook->book->seller->user->photo) }}"
+                                                src="{{ asset('storage/' . optional($electronicBook->book->seller->user)->photo) }}"
                                                 alt="Seller" class="w-12 h-12 rounded-full border-2 border-green-200">
                                             <div class="ml-4">
                                                 <p id="sellerName" class="text-lg font-medium text-gray-900">

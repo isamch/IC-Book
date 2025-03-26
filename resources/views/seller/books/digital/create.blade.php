@@ -23,7 +23,7 @@
                     <i class="fas fa-file-pdf"></i>
                     <span>Digital Books</span>
                 </a>
-                <a href="/seller/marketplace" class="flex items-center gap-3 p-3 rounded-lg hover:bg-green-700">
+                <a href="{{ route('seller.marketplace.books.index') }}" class="flex items-center gap-3 p-3 rounded-lg hover:bg-green-700">
                     <i class="fas fa-book"></i>
                     <span>Physical Books</span>
                 </a>
@@ -170,10 +170,11 @@
 
                         <!-- Form footer -->
                         <div class="mt-8 pt-6 border-t border-gray-200 flex justify-end space-x-4">
-                            <button type="button" onclick="window.history.back()"
+                            <a href="{{ route('seller.books.index') }}"
+                                type="button"
                                 class="px-6 py-2 border border-gray-300 rounded-lg text-base font-medium text-gray-700 hover:bg-gray-100 focus:outline-none">
                                 Cancel
-                            </button>
+                            </a>
                             <button type="submit"
                                 class="px-6 py-2 bg-green-600 rounded-lg text-base font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
                                 Store Book
