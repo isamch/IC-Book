@@ -1,8 +1,3 @@
-{{-- {{ dd( $electronicBooks  ) }} --}}
-{{-- {{ dd( $electronicBooks[0]->reviews->avg('rating') ) }} --}}
-
-
-
 @extends('layouts.admin')
 
 @section('title', 'Book')
@@ -28,14 +23,18 @@
                     <i class="fas fa-users"></i>
                     <span>Users</span>
                 </a>
-                <a href="/admin/marketplace" class="flex items-center gap-3 p-3 rounded-lg hover:bg-green-700">
-                    <i class="fas fa-book"></i>
-                    <span>Physical Books</span>
-                </a>
-                <a href="/admin/books" class="flex items-center gap-3 p-3 rounded-lg bg-green-700">
+
+                <a href="{{ route('admin.books.index') }}" class="flex items-center gap-3 p-3 rounded-lg bg-green-700">
                     <i class="fas fa-file-pdf"></i>
                     <span>Digital Books</span>
                 </a>
+
+                <a href="{{ route('admin.marketplace.books.index') }}"
+                    class="flex items-center gap-3 p-3 rounded-lg hover:bg-green-700">
+                    <i class="fas fa-book"></i>
+                    <span>Physical Books</span>
+                </a>
+
                 <a href="/admin/orders" class="flex items-center gap-3 p-3 rounded-lg hover:bg-green-700">
                     <i class="fas fa-shopping-cart"></i>
                     <span>Orders</span>
@@ -125,10 +124,7 @@
 
                 <div class="flex justify-between items-center mb-6">
                     <h3 class="text-lg font-semibold text-green-800">Books Management</h3>
-                    {{-- <button class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700">Add New User</button> --}}
                 </div>
-
-
 
 
                 <div class="overflow-x-auto bg-white rounded-lg shadow">
@@ -153,16 +149,13 @@
                                     Seller</th>
                                 <th scope="col"
                                     class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    Actions</th>
+                                    View</th>
+                                <th scope="col"
+                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Active/Inactive</th>
                             </tr>
                         </thead>
                         <tbody class="bg-white divide-y divide-gray-200">
-
-                            {{-- 'title',
-                            'author',
-                            'description',
-                            'price',
-                            'seller_id', --}}
 
                             @foreach ($electronicBooks as $electronicBook)
                                 <tr class="hover:bg-gray-50 transition-colors duration-150">
@@ -182,24 +175,9 @@
                                             <div class="flex-shrink-0 h-10 w-10">
 
                                                 <img class="h-10 w-10 rounded-full"
-                                                    src="{{ asset('storage/' . $electronicBook->book->seller->user->photo) }}"
+                                                    src="{{ asset('storage/' . optional($electronicBook->book->seller->user)->photo) }}"
                                                     alt="Seller">
                                             </div>
-
-                                            {{-- "id" => 3
-                                            "first_name" => "Shayne"
-                                            "last_name" => "Feil"
-                                            "email" => "ezra.maggio@example.com"
-                                            "email_verified_at" => null
-                                            "password" => "$2y$10$pSS1Pc88/AfgShrXoLyfzOQiQhpNaWkaPStn4gPdELIMC2PNCTM9C"
-                                            "age" => 61
-                                            "remember_token" => null
-                                            "created_at" => "2025-03-24 17:24:58"
-                                            "updated_at" => "2025-03-24 17:24:58"
-                                            "birthdate" => "1964-03-24"
-                                            "photo" => "images/profile/default/default-profile.png"
-                                            "verification_token" => null
-                                            "status" => true --}}
 
                                             <div class="ml-4">
                                                 <a href="#"
@@ -215,19 +193,24 @@
                                         </div>
 
                                     </td>
+
                                     <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                        <div class="flex space-x-4">
-
-                                            <a href="/admin/books/{{ $electronicBook->id }}"
-                                                class="text-green-600 hover:text-indigo-900">
-                                                <i class="fas fa-eye mr-1"></i>
-                                            </a>
-
-                                            <button class="text-red-600 hover:text-red-900">
-                                                <i class="fas fa-trash mr-1"></i>
-                                            </button>
-                                        </div>
+                                        <a href="{{ route('admin.books.show', $electronicBook->id) }}"
+                                            class="text-green-600 hover:text-indigo-900">
+                                            <i class="fas fa-eye mr-1"></i>
+                                        </a>
                                     </td>
+
+                                    <td class="px-8 py-4">
+                                        <form action="{{ route('admin.books.toggle-status', $electronicBook->id) }}" method="POST">
+                                            @csrf
+                                            @method('PATCH')
+                                            <button type="submit" class="text-green-600 hover:text-green-800">
+                                                <i class="fas text-2xl {{ $electronicBook->book->status ? 'fa-toggle-on' : 'fa-toggle-off' }}"></i>
+                                            </button>
+                                        </form>
+                                    </td>
+
                                 </tr>
                             @endforeach
 

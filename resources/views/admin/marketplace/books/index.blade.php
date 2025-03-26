@@ -25,14 +25,19 @@
                     <i class="fas fa-users"></i>
                     <span>Users</span>
                 </a>
-                <a href="/admin/marketplace" class="flex items-center gap-3 p-3 rounded-lg bg-green-700">
-                    <i class="fas fa-book"></i>
-                    <span>Physical Books</span>
-                </a>
-                <a href="/admin/books" class="flex items-center gap-3 p-3 rounded-lg hover:bg-green-700">
+
+                <a href="{{ route('admin.books.index') }}"
+                    class="flex items-center gap-3 p-3 rounded-lg hover:bg-green-700">
                     <i class="fas fa-file-pdf"></i>
                     <span>Digital Books</span>
                 </a>
+
+                <a href="{{ route('admin.marketplace.books.index') }}"
+                    class="flex items-center gap-3 p-3 rounded-lg bg-green-700">
+                    <i class="fas fa-book"></i>
+                    <span>Physical Books</span>
+                </a>
+
                 <a href="/admin/orders" class="flex items-center gap-3 p-3 rounded-lg hover:bg-green-700">
                     <i class="fas fa-shopping-cart"></i>
                     <span>Orders</span>
@@ -152,7 +157,10 @@
                                     Seller</th>
                                 <th scope="col"
                                     class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    Actions</th>
+                                    View</th>
+                                <th scope="col"
+                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Active/Inactive</th>
                             </tr>
                         </thead>
                         <tbody class="bg-white divide-y divide-gray-200">
@@ -215,19 +223,26 @@
                                         </div>
 
                                     </td>
+
                                     <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                        <div class="flex space-x-4">
-
-                                            <a href="/admin/marketplace/{{ $physicalBook->id }}"
-                                                class="text-green-600 hover:text-indigo-900">
-                                                <i class="fas fa-eye mr-1"></i>
-                                            </a>
-
-                                            <button class="text-red-600 hover:text-red-900">
-                                                <i class="fas fa-trash mr-1"></i>
-                                            </button>
-                                        </div>
+                                        <a href="{{ route('admin.marketplace.books.show', $physicalBook->id) }}"
+                                            class="text-green-600 hover:text-indigo-900">
+                                            <i class="fas fa-eye mr-1"></i>
+                                        </a>
                                     </td>
+
+                                    <td class="px-8 py-4">
+                                        <form action="{{ route('admin.marketplace.books.toggle-status', $physicalBook->id) }}"
+                                            method="POST">
+                                            @csrf
+                                            @method('PATCH')
+                                            <button type="submit" class="text-green-600 hover:text-green-800">
+                                                <i
+                                                    class="fas text-2xl {{ $physicalBook->book->status ? 'fa-toggle-on' : 'fa-toggle-off' }}"></i>
+                                            </button>
+                                        </form>
+                                    </td>
+
                                 </tr>
                             @endforeach
 

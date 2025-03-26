@@ -15,8 +15,8 @@ use App\Models\User;
 use App\Http\Controllers\Seller\DigitalBookController as SellerDigitalBookController;
 use App\Http\Controllers\Seller\MarketplaceBookController as SellerMarketplaceBookController;
 
-
-
+use App\Http\Controllers\Admin\DigitalBookController as AdminDigitalBookController;
+use App\Http\Controllers\Admin\MarketplaceBookController as AdminMarketplaceBookController;
 
 /*
 |--------------------------------------------------------------------------
@@ -63,24 +63,28 @@ Route::get('email/message', [VerificationController::class, 'ShowMessage'])->nam
 
 
 
-// seller -------------------- :
 
+// admin -------------------- :
+
+Route::prefix('admin')->as('admin.')->group(function () {
+
+    Route::resource('books', AdminDigitalBookController::class);
+    Route::patch('books/{id}/toggle-status', [AdminDigitalBookController::class, 'toggleStatus'])->name('books.toggle-status');
+
+
+    Route::resource('marketplace/books', AdminMarketplaceBookController::class)->names('marketplace.books');
+    Route::patch('books/{id}/toggle-status', [AdminMarketplaceBookController::class, 'toggleStatus'])->name('marketplace.books.toggle-status');
+
+
+});
+
+
+
+// seller -------------------- :
 
 Route::prefix('seller')->as('seller.')->group(function () {
 
     Route::resource('books', SellerDigitalBookController::class);
-
-    // Route::get('books/create', [SellerDigitalBookController::class, 'create'])->name('seller.books.create');
-
-    // Route::post('books', [SellerDigitalBookController::class, 'store'])->name('seller.books.store');
-
-    // Route::get('books/{book}', [SellerDigitalBookController::class, 'show'])->name('seller.books.show');
-
-    // Route::get('books/{book}/edit', [SellerDigitalBookController::class, 'edit'])->name('seller.books.edit');
-
-    // Route::put('books/{book}', [SellerDigitalBookController::class, 'update'])->name('seller.books.update');
-
-    // Route::delete('books/{book}', [SellerDigitalBookController::class, 'destroy'])->name('seller.books.destroy');
 
 
 
@@ -88,88 +92,6 @@ Route::prefix('seller')->as('seller.')->group(function () {
 
 
 });
-
-
-
-
-
-
-// Route::get('/seller/books/create', function () {
-
-
-//     return view('seller.books.digital.create');
-
-// });
-
-
-// Route::get('/seller/books/{id}', function ($id) {
-
-//     $electronicBook = ElectronicBook::findOrFail($id);
-
-//     return view('seller.books.digital.view', compact('electronicBook'));
-
-// })->name('home');
-
-
-
-
-// Route::get('/seller/marketplace', function () {
-
-//     $physicalBooks = PhysicalBook::paginate(2);
-
-
-//     return view('seller.books.physical.index', compact('physicalBooks'));
-
-// })->name('home');
-
-
-// Route::get('/seller/marketplace/create', function () {
-
-
-//     return view('seller.books.physical.create');
-
-// });
-
-// Route::get('/seller/marketplace/{id}', function ($id) {
-
-//     $physicalBook = PhysicalBook::findOrFail($id);
-
-//     return view('seller.books.physical.view', compact('physicalBook'));
-
-// })->name('home');
-
-
-
-
-// // edit update show form
-// Route::get('/seller/books/{id}/edit', function ($id) {
-
-//     $electronicBook = ElectronicBook::findOrFail($id);
-
-//     return view('seller.books.digital.edit', compact('electronicBook'));
-
-// });
-
-
-
-
-
-
-// // edit update show form
-// Route::get('/seller/marketplace/{id}/edit', function ($id) {
-
-//     $physicalBook = PhysicalBook::findOrFail($id);
-
-//     return view('seller.books.physical.edit', compact('physicalBook'));
-
-// });
-
-
-
-
-
-
-
 
 
 
@@ -263,6 +185,7 @@ Route::prefix('seller')->as('seller.')->group(function () {
 // Route::get('/admin/users', function () {
 
 //     $users = User::paginate(5);
+
 
 //     return view('admin.users.index', compact('users'));
 //     // return view('admin.users.index');
