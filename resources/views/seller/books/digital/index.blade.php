@@ -24,13 +24,13 @@
                     <i class="fas fa-tachometer-alt"></i>
                     <span>Dashboard</span>
                 </a>
+                <a href="{{ route('seller.books.index') }}" class="flex items-center gap-3 p-3 rounded-lg bg-green-700">
+                    <i class="fas fa-file-pdf"></i>
+                    <span>Digital Books</span>
+                </a>
                 <a href="/seller/marketplace" class="flex items-center gap-3 p-3 rounded-lg hover:bg-green-700">
                     <i class="fas fa-book"></i>
                     <span>Physical Books</span>
-                </a>
-                <a href="/seller/books" class="flex items-center gap-3 p-3 rounded-lg bg-green-700">
-                    <i class="fas fa-file-pdf"></i>
-                    <span>Digital Books</span>
                 </a>
                 <a href="/seller/orders" class="flex items-center gap-3 p-3 rounded-lg hover:bg-green-700">
                     <i class="fas fa-shopping-cart"></i>
@@ -120,7 +120,7 @@
 
                 <div class="flex justify-between items-center mb-6">
                     <h3 class="text-lg font-semibold text-green-800">Books Management</h3>
-                    <a href="/seller/books/create" class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700">Add New Book</a>
+                    <a href="{{ route('seller.books.create') }}" class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700">Add New Book</a>
                 </div>
 
 
@@ -140,7 +140,7 @@
                                     class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                     Author</th>
                                 <th scope="col"
-                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    class="px-6 py-3 text-left teJxt-xs font-medium text-gray-500 uppercase tracking-wider">
                                     Price</th>
                                 <th scope="col"
                                     class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -165,14 +165,14 @@
                                     <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                                         <div class="flex space-x-4">
 
-                                            <a href="/seller/books/{{ $electronicBook->id }}"
+                                            <a href="{{ route('seller.books.show', $electronicBook->id) }}"
                                                 class="text-green-600 hover:text-indigo-900">
                                                 <i class="fas fa-eye mr-1"></i>
                                             </a>
 
-                                            <button class="text-green-600 hover:text-indigo-900">
+                                            <a href="{{ route('seller.books.edit', $electronicBook->id) }}" class="text-green-600 hover:text-indigo-900">
                                                 <i class="fas fa-edit mr-1"></i>
-                                            </button>
+                                            </a>
 
                                             <button class="text-red-600 hover:text-red-900">
                                                 <i class="fas fa-trash mr-1"></i>

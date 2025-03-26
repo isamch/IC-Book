@@ -19,14 +19,15 @@
                     <i class="fas fa-tachometer-alt"></i>
                     <span>Dashboard</span>
                 </a>
+                <a href="{{ route('seller.books.index') }}" class="flex items-center gap-3 p-3 rounded-lg bg-green-700">
+                    <i class="fas fa-file-pdf"></i>
+                    <span>Digital Books</span>
+                </a>
                 <a href="/seller/marketplace" class="flex items-center gap-3 p-3 rounded-lg hover:bg-green-700">
                     <i class="fas fa-book"></i>
                     <span>Physical Books</span>
                 </a>
-                <a href="/seller/books" class="flex items-center gap-3 p-3 rounded-lg bg-green-700">
-                    <i class="fas fa-file-pdf"></i>
-                    <span>Digital Books</span>
-                </a>
+
                 <a href="/seller/orders" class="flex items-center gap-3 p-3 rounded-lg hover:bg-green-700">
                     <i class="fas fa-shopping-cart"></i>
                     <span>Orders</span>
@@ -65,7 +66,7 @@
                         <h3 class="text-lg font-semibold text-white">Add Book Information</h3>
                     </div>
 
-                    <form class="p-6" id="editBookForm" method="POST" action="#" enctype="multipart/form-data">
+                    <form class="p-6" id="editBookForm" method="POST" action="{{ route('seller.books.store') }}" enctype="multipart/form-data">
                         @csrf
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
 
@@ -106,19 +107,23 @@
                                 <!-- Author and Price -->
                                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                     <div>
-                                        <label for="bookAuthor" class="block text-sm font-medium text-gray-700">Author*</label>
-                                        <input type="text" id="bookAuthor" name="author" value="{{ old('author') }}" required
+                                        <label for="bookAuthor"
+                                            class="block text-sm font-medium text-gray-700">Author*</label>
+                                        <input type="text" id="bookAuthor" name="author" value="{{ old('author') }}"
+                                            required
                                             class="mt-1 block w-full border-b border-gray-300 focus:border-green-500 focus:ring-0 outline-none sm:text-sm @error('author') border-red-500 @enderror">
                                         @error('author')
                                             <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
                                         @enderror
                                     </div>
                                     <div>
-                                        <label for="bookPrice" class="block text-sm font-medium text-gray-700">Price*</label>
+                                        <label for="bookPrice"
+                                            class="block text-sm font-medium text-gray-700">Price*</label>
                                         <div class="relative">
-                                            <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-500">$</span>
-                                            <input type="number" id="bookPrice" name="price" value="{{ old('price') }}" step="0.01"
-                                                min="0" required
+                                            <span
+                                                class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-500">$</span>
+                                            <input type="number" id="bookPrice" name="price" value="{{ old('price') }}"
+                                                step="0.01" min="0" required
                                                 class="mt-1 block w-full pl-7 border-b border-gray-300 focus:border-green-500 focus:ring-0 outline-none sm:text-sm @error('price') border-red-500 @enderror">
                                         </div>
                                         @error('price')
@@ -129,7 +134,8 @@
 
                                 <!-- Description -->
                                 <div>
-                                    <label for="bookDescription" class="block text-sm font-medium text-gray-700">Description*</label>
+                                    <label for="bookDescription"
+                                        class="block text-sm font-medium text-gray-700">Description*</label>
                                     <textarea id="bookDescription" name="description" rows="3" required
                                         class="mt-1 block w-full border-b border-gray-300 focus:border-green-500 focus:ring-0 outline-none sm:text-sm @error('description') border-red-500 @enderror">{{ old('description') }}</textarea>
                                     @error('description')
@@ -139,10 +145,14 @@
 
                                 <!-- File Upload -->
                                 <div>
-                                    <label for="bookFile" class="block text-sm font-medium text-gray-700">Upload File*</label>
-                                    <div class="relative border border-gray-300 rounded-lg p-2 flex items-center cursor-pointer hover:border-green-500 transition-colors duration-200 @error('book_file') border-red-500 @enderror">
-                                        <svg class="h-5 w-5 text-gray-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                                    <label for="bookFile" class="block text-sm font-medium text-gray-700">Upload
+                                        File*</label>
+                                    <div
+                                        class="relative border border-gray-300 rounded-lg p-2 flex items-center cursor-pointer hover:border-green-500 transition-colors duration-200 @error('book_file') border-red-500 @enderror">
+                                        <svg class="h-5 w-5 text-gray-500 mr-2" fill="none" viewBox="0 0 24 24"
+                                            stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
                                         </svg>
                                         <span id="fileLabel" class="text-gray-500 text-sm truncate">
                                             {{ old('book_file') ? old('book_file') : 'No file chosen' }}

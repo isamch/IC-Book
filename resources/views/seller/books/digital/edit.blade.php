@@ -67,9 +67,10 @@
                         <h3 class="text-lg font-semibold text-white">Edit Book Information</h3>
                     </div>
 
-                    <form class="p-6" id="editBookForm" method="POST" action="#" enctype="multipart/form-data">
+                    <form class="p-6" id="editBookForm" method="POST" action="{{ route('seller.books.update', $electronicBook->id) }}" enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
+
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
 
                             <!-- Image Upload Section (4 Images) -->
@@ -91,7 +92,7 @@
 
                                             <input type="file" id="upload{{ $i }}" name="images[]"
                                                 class="absolute inset-0 opacity-0 cursor-pointer" accept="image/*"
-                                                @if(!$image) required @endif>
+                                                @if (!$image) required @endif>
 
                                         </div>
                                     @endfor
