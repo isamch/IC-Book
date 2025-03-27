@@ -2,7 +2,7 @@
 
 @extends('layouts.admin')
 
-@section('title', 'Marketplace')
+@section('title', 'Marketplace Books Details')
 
 @section('content')
 
@@ -191,7 +191,7 @@
 
 
                                             <div class="ml-4">
-                                                <a href="#"
+                                                <a href="{{ route('admin.users.show', $physicalBook->book->seller->user->id) }}"
                                                     class="text-sm font-medium text-gray-900 hover:underline">
                                                     {{ $physicalBook->book->seller->user->first_name }}
                                                     {{ $physicalBook->book->seller->user->last_name }}

@@ -12,7 +12,7 @@ use App\Models\User;
 
 // controllers :
 // admin:
-use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\Admin\DigitalBookController as AdminDigitalBookController;
 use App\Http\Controllers\Admin\MarketplaceBookController as AdminMarketplaceBookController;
 
@@ -48,7 +48,6 @@ Route::post('login', [AuthController::class, 'login'])->name('login');
 
 Route::post('logout', [AuthController::class, 'logout'])->name('logout');
 
-// Route::get('logout', [AuthController::class, 'logout'])->name('logout');
 
 
 
@@ -65,14 +64,13 @@ Route::get('email/message', [VerificationController::class, 'ShowMessage'])->nam
 
 
 
-
-
 // admin -------------------- :
 
 Route::prefix('admin')->as('admin.')->group(function () {
 
-    Route::get('users', [UserController::class, 'index'])->name('users.index');
-    Route::patch('users/{id}/toggle-status', [UserController::class, 'toggleStatus'])->name('users.toggle-status');
+    Route::get('users', [AdminUserController::class, 'index'])->name('users.index');
+    Route::get('users/{id}', [AdminUserController::class, 'show'])->name('users.show');
+    Route::patch('users/{id}/toggle-status', [AdminUserController::class, 'toggleStatus'])->name('users.toggle-status');
 
 
     Route::resource('books', AdminDigitalBookController::class);

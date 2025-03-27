@@ -5,7 +5,7 @@
 
 @extends('layouts.seller')
 
-@section('title', 'Book')
+@section('title', 'Book Details')
 
 @section('content')
 
@@ -24,19 +24,22 @@
                     <i class="fas fa-tachometer-alt"></i>
                     <span>Dashboard</span>
                 </a>
-                <a href="/admin/users" class="flex items-center gap-3 p-3 rounded-lg hover:bg-green-700">
+                <a href="{{ route('admin.users.index') }}" class="flex items-center gap-3 p-3 rounded-lg hover:bg-green-700">
                     <i class="fas fa-users"></i>
                     <span>Users</span>
                 </a>
+
                 <a href="{{ route('admin.books.index') }}" class="flex items-center gap-3 p-3 rounded-lg bg-green-700">
                     <i class="fas fa-file-pdf"></i>
                     <span>Digital Books</span>
                 </a>
+
                 <a href="{{ route('admin.marketplace.books.index') }}"
                     class="flex items-center gap-3 p-3 rounded-lg hover:bg-green-700">
                     <i class="fas fa-book"></i>
                     <span>Physical Books</span>
                 </a>
+
                 <a href="/admin/orders" class="flex items-center gap-3 p-3 rounded-lg hover:bg-green-700">
                     <i class="fas fa-shopping-cart"></i>
                     <span>Orders</span>
@@ -137,7 +140,7 @@
 
                                     <div class="border-t border-gray-200 pt-6">
                                         <p class="text-sm font-medium text-gray-500">Seller Information</p>
-                                        <a href="#" class="mt-4 flex items-center">
+                                        <a href="{{ route('admin.users.show', $electronicBook->book->seller->user->id) }}" class="mt-4 flex items-center">
                                             <img id="sellerImage"
                                                 src="{{ asset('storage/' . optional($electronicBook->book->seller->user)->photo) }}"
                                                 alt="Seller" class="w-12 h-12 rounded-full border-2 border-green-200">
@@ -157,23 +160,33 @@
                         </div>
                     </div>
 
-                    <div class="bg-gray-50 px-6 py-4 border-t border-gray-200 flex justify-end space-x-4">
+                    <div class="bg-gray-50 px-6 py-4 border-t border-gray-200 flex justify-between items-center">
                         <a href="{{ route('admin.books.index') }}"
                             class="px-6 py-2 border border-gray-300 rounded-lg text-base font-medium text-gray-700 hover:bg-gray-100 focus:outline-none flex items-center">
                             Back to List
                         </a>
 
-                        <form action="{{ route('admin.books.toggle-status', $electronicBook->id) }}" method="POST">
-                            @csrf
-                            @method('PATCH')
-                            <button type="submit"
-                                class="px-6 py-2 border border-gray-300 rounded-lg text-base font-medium text-green-600 hover:bg-green-100 focus:outline-none flex items-center">
-                                <i
-                                    class="fas text-2xl {{ $electronicBook->book->status ? 'fa-toggle-on' : 'fa-toggle-off' }} mr-2"></i>
+                        <div class="flex space-x-4">
+
+                            <a href="#"
+                                class="px-6 py-2 border border-gray-300 rounded-lg text-base font-medium text-blue-600 hover:bg-blue-100 focus:outline-none flex items-center">
+                                <i class="fas fa-envelope mr-2"></i>
+                                Send Message
+                            </a>
+
+                            <form action="{{ route('admin.books.toggle-status', $electronicBook->id) }}" method="POST">
+                                @csrf
+                                @method('PATCH')
+                                <button type="submit"
+                                    class="px-6 py-2 border border-gray-300 rounded-lg text-base font-medium text-green-600 hover:bg-green-100 focus:outline-none flex items-center">
+                                    <i
+                                        class="fas text-2xl {{ $electronicBook->book->status ? 'fa-toggle-on' : 'fa-toggle-off' }} mr-2"></i>
                                     Status
-                            </button>
-                        </form>
+                                </button>
+                            </form>
+                        </div>
                     </div>
+
                 </div>
 
 

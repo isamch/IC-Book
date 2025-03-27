@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Book')
+@section('title', 'Books')
 
 @section('content')
 
@@ -180,7 +180,7 @@
                                             </div>
 
                                             <div class="ml-4">
-                                                <a href="#"
+                                                <a href="{{ route('admin.users.show', $electronicBook->book->seller->user->id) }}"
                                                     class="text-sm font-medium text-gray-900 hover:underline">
                                                     {{ $electronicBook->book->seller->user->first_name }}
                                                     {{ $electronicBook->book->seller->user->last_name }}

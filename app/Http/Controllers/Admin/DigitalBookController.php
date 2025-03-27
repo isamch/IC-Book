@@ -15,7 +15,7 @@ class DigitalBookController extends Controller
      */
     public function index()
     {
-        $this->authorize('viewAny');
+        // $this->authorize('viewAny');
 
         $electronicBooks = ElectronicBook::paginate(3);
 
@@ -29,7 +29,8 @@ class DigitalBookController extends Controller
     public function show($id)
     {
         $electronicBook = ElectronicBook::findOrFail($id);
-        $this->authorize('view', $electronicBook->book);
+
+        // $this->authorize('view', $electronicBook->book);
 
         return view('admin.books.digital.view', compact('electronicBook'));
     }
@@ -42,7 +43,7 @@ class DigitalBookController extends Controller
     {
         $electronicBook = ElectronicBook::findOrFail($id);
 
-        $this->authorize('toggle');
+        // $this->authorize('toggle');
 
         $electronicBook->book->status = !$electronicBook->book->status;
 

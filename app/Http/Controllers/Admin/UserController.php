@@ -11,7 +11,7 @@ class UserController extends Controller
 
     public function index()
     {
-        $this->authorize('viewAny');
+        // $this->authorize('viewAny');
 
         $users = User::paginate(5);
 
@@ -19,6 +19,14 @@ class UserController extends Controller
     }
 
 
+    public function show($id)
+    {
+        // $this->authorize('view');
+
+        $user = User::findOrFail($id);
+
+        return view('admin.users.view', compact('user'));
+    }
 
     public function toggleStatus($id)
     {

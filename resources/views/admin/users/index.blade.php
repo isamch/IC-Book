@@ -160,7 +160,9 @@
                             @foreach ($users as $user)
                                 <tr class="hover:bg-gray-50 transition-colors duration-150">
                                     <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                                        #{{ $user->id }}</td>
+                                        #{{ $user->id }}
+                                    </td>
+
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         <div class="flex items-center">
                                             <div class="flex-shrink-0 h-10 w-10">
@@ -168,12 +170,13 @@
                                                     class="h-10 w-10 rounded-full">
                                             </div>
                                             <div class="ml-4">
-                                                <a href="#" class="text-sm font-medium text-gray-900 hover:underline">
+                                                <a href="{{ route('admin.users.show', $user->id) }}" class="text-sm font-medium text-gray-900 hover:underline">
                                                     {{ $user->first_name }} {{ $user->last_name }}
                                                 </a>
                                             </div>
                                         </div>
                                     </td>
+
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ $user->age }}</td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ $user->email }}</td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
@@ -190,14 +193,14 @@
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                         <span
                                             class="px-2 py-1 rounded-full text-xs
-                                @if ($user->roles[0]->name === 'admin') bg-green-100 text-green-800
-                                @elseif ($user->roles[0]->name === 'seller')
-                                    bg-blue-100 text-blue-800
-                                @elseif ($user->roles[0]->name === 'buyer')
-                                    bg-yellow-100 text-yellow-800
-                                @else
-                                    bg-gray-100 text-gray-800 @endif">
-                                            {{ ucfirst($user->roles[0]->name) }}
+                                            @if ($user->roles[0]->name === 'admin') bg-green-100 text-green-800
+                                            @elseif ($user->roles[0]->name === 'seller')
+                                                bg-blue-100 text-blue-800
+                                            @elseif ($user->roles[0]->name === 'buyer')
+                                                bg-yellow-100 text-yellow-800
+                                            @else
+                                                bg-gray-100 text-gray-800 @endif">
+                                                        {{ ucfirst($user->roles[0]->name) }}
                                         </span>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
