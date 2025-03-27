@@ -73,7 +73,7 @@ Route::prefix('admin')->as('admin.')->group(function () {
 
 
     Route::resource('marketplace/books', AdminMarketplaceBookController::class)->names('marketplace.books');
-    // Route::patch('marketplace/books/{id}/toggle-status', [AdminMarketplaceBookController::class, 'toggleStatus'])->name('marketplace.books.toggle-status');
+    Route::patch('marketplace/books/{id}/toggle-status', [AdminMarketplaceBookController::class, 'toggleStatus'])->name('marketplace.books.toggle-status');
 
 
 });

@@ -31,6 +31,7 @@ class DigitalBookController extends Controller
      */
     public function create()
     {
+        $this->authorize('create', Book::class);
         return view('seller.books.digital.create');
     }
 
@@ -39,6 +40,8 @@ class DigitalBookController extends Controller
      */
     public function store(Request $request)
     {
+
+        $this->authorize('create', Book::class);
         $request->validate([
             'images' => 'required|array|max:4',
             'images.*' => 'image|mimes:jpeg,png,jpg,svg,avif|max:2048',
@@ -89,16 +92,16 @@ class DigitalBookController extends Controller
     {
         $electronicBook = ElectronicBook::findOrFail($id);
 
-        // try {
+        try {
 
-        //     $this->authorize('view', $electronicBook->book);
-
-        // } catch (\Illuminate\Auth\Access\AuthorizationException $e) {
-        //     return redirect()->route('seller.books.index')->with('error', 'You are not authorized to view this book.');
-        // }
+            $this->authorize('view', $electronicBook->book);
+        } catch (\Illuminate\Auth\Access\AuthorizationException $e) {
+            return redirect()->route('seller.books.index')->withErrors(['You are not authorized to view this book.']);
+        }
 
         return view('seller.books.digital.view', compact('electronicBook'));
     }
+
 
     /**
      * Show the form for editing the specified resource.
@@ -106,6 +109,13 @@ class DigitalBookController extends Controller
     public function edit(string $id)
     {
         $electronicBook = ElectronicBook::findOrFail($id);
+
+        try {
+
+            $this->authorize('update', $electronicBook->book);
+        } catch (\Illuminate\Auth\Access\AuthorizationException $e) {
+            return redirect()->route('seller.books.index')->withErrors(['You are not authorized to edit this book.']);
+        }
 
         return view('seller.books.digital.edit', compact('electronicBook'));
     }
@@ -115,6 +125,7 @@ class DigitalBookController extends Controller
      */
     public function update(Request $request, string $id)
     {
+
 
 
         $request->validate([
@@ -130,6 +141,13 @@ class DigitalBookController extends Controller
 
         $electronicBook = ElectronicBook::findOrFail($id);
 
+        try {
+
+            $this->authorize('update', $electronicBook->book);
+
+        } catch (\Illuminate\Auth\Access\AuthorizationException $e) {
+            return redirect()->route('seller.books.index')->withErrors(['You are not authorized to update this book.']);
+        }
 
         $electronicBook->book->update([
             'title' => $request->title,
@@ -172,6 +190,9 @@ class DigitalBookController extends Controller
     public function destroy(string $id)
     {
         $electronicBook = ElectronicBook::findOrFail($id);
+
+        $this->authorize('delete', $electronicBook->book);
+
 
         if (Storage::disk('public')->exists($electronicBook->file)) {
             Storage::disk('public')->delete($electronicBook->file);

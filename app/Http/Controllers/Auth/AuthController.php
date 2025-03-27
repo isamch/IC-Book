@@ -69,6 +69,7 @@ class AuthController extends Controller
         } catch (\Illuminate\Auth\AuthenticationException $e) {
 
             return redirect()->back()->withInput()->withErrors(['login' => $e->getMessage()]);
+
         } catch (\Illuminate\Validation\ValidationException $e) {
 
             return redirect()->route('verification.notice')->with([

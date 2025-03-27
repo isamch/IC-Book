@@ -13,8 +13,7 @@ class BookPolicy
      */
     public function viewAny(User $user, Book $book): bool
     {
-
-        return false;
+        return $user->roles->pluck('name')->contains('admin');
     }
 
     /**
@@ -22,7 +21,7 @@ class BookPolicy
      */
     public function view(User $user, Book $book): bool
     {
-        return $user->seller->id === $book->seller_id;
+        return $user->seller->id === $book->seller_id && $user->roles->pluck('name')->contains('admin');
     }
 
     /**
@@ -30,7 +29,7 @@ class BookPolicy
      */
     public function create(User $user): bool
     {
-        return false;
+        return $user->roles->pluck('name')->contains('seller');
     }
 
     /**
@@ -38,7 +37,7 @@ class BookPolicy
      */
     public function update(User $user, Book $book): bool
     {
-        return false;
+        return $user->roles->pluck('name')->contains('seller') && $user->seller->id === $book->seller_id;
     }
 
     /**
@@ -46,22 +45,17 @@ class BookPolicy
      */
     public function delete(User $user, Book $book): bool
     {
-        return false;
+        return $user->roles->pluck('name')->contains('seller');
     }
 
-    /**
-     * Determine whether the user can restore the model.
-     */
-    public function restore(User $user, Book $book): bool
-    {
-        return false;
-    }
 
     /**
-     * Determine whether the user can permanently delete the model.
+     * Determine whether the user can toggle the model.
      */
-    public function forceDelete(User $user, Book $book): bool
+    public function toggle(User $user, Book $book): bool
     {
-        return false;
+        return $user->roles->pluck('name')->contains('admin');
     }
+
+
 }
