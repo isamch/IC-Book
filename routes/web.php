@@ -108,7 +108,10 @@ Route::prefix('seller')->as('seller.')->group(function () {
 // seller -------------------- :
 Route::name('seller.')->group(function () {
 
-    Route::get('profile', [BuyerProfileController::class, 'show'])->name('profile');
+    Route::get('profile/{id}', [BuyerProfileController::class, 'show'])->name('profile.show');
+    Route::get('profile/{id}/edit', [BuyerProfileController::class, 'edit'])->name('profile.edit');
+    Route::put('profile/{id}', [BuyerProfileController::class, 'update'])->name('profile.update');
+
 
     // Route::get('/home', [HomeController::class, 'index'])->name('home');
     // Route::get('/messages', [MessagesController::class, 'index'])->name('messages');

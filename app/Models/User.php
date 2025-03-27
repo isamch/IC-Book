@@ -28,7 +28,11 @@ class User extends Authenticatable
         'age',
         'verification_token',
         'birthdate',
-        'status'
+        'status',
+        'about_me',
+        'gender',
+        'address',
+        'phone',
     ];
 
     /**
