@@ -43,7 +43,7 @@ IC Book est une plateforme innovante permettant aux utilisateurs d'acheter, vend
 - 📂 Accès à l’historique des achats et publications.
 
 ### 💻 Interface Utilisateur Moderne et Responsive
-- ⚡ Expérience fluide avec AJAX et Livewire.
+- ⚡ Expérience fluide avec AJAX.
 - 📲 Compatibilité multi-appareils (PC, smartphones, tablettes).
 - ✅ Affichage interactif des erreurs et confirmations.
 
