@@ -17,9 +17,17 @@ use App\Http\Controllers\Admin\DigitalBookController as AdminDigitalBookControll
 use App\Http\Controllers\Admin\MarketplaceBookController as AdminMarketplaceBookController;
 
 
-// seller
+// seller :
 use App\Http\Controllers\Seller\DigitalBookController as SellerDigitalBookController;
 use App\Http\Controllers\Seller\MarketplaceBookController as SellerMarketplaceBookController;
+
+
+// buyer :
+use App\Http\Controllers\Buyer\ProfileController as BuyerProfileController;
+use App\Http\Controllers\Buyer\HomeController as BuyerHomeController;
+
+
+
 
 /*
 |--------------------------------------------------------------------------
@@ -31,10 +39,6 @@ use App\Http\Controllers\Seller\MarketplaceBookController as SellerMarketplaceBo
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-Route::get('/', function () {
-    return view('pages.home');
-});
 
 
 
@@ -92,12 +96,23 @@ Route::prefix('admin')->as('admin.')->group(function () {
 // seller -------------------- :
 
 Route::prefix('seller')->as('seller.')->group(function () {
-
     Route::resource('books', SellerDigitalBookController::class);
 
-
-
     Route::resource('marketplace/books', SellerMarketplaceBookController::class)->names('marketplace.books');
+
+
+});
+
+
+
+// seller -------------------- :
+Route::name('seller.')->group(function () {
+
+    Route::get('profile', [BuyerProfileController::class, 'show'])->name('profile');
+
+    // Route::get('/home', [HomeController::class, 'index'])->name('home');
+    // Route::get('/messages', [MessagesController::class, 'index'])->name('messages');
+    // Route::get('/posts', [PostsController::class, 'index'])->name('posts');
 
 
 });
