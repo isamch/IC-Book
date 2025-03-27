@@ -73,10 +73,13 @@ Route::prefix('admin')->as('admin.')->group(function () {
 
 
     Route::resource('marketplace/books', AdminMarketplaceBookController::class)->names('marketplace.books');
-    Route::patch('books/{id}/toggle-status', [AdminMarketplaceBookController::class, 'toggleStatus'])->name('marketplace.books.toggle-status');
+    // Route::patch('marketplace/books/{id}/toggle-status', [AdminMarketplaceBookController::class, 'toggleStatus'])->name('marketplace.books.toggle-status');
 
 
 });
+
+
+
 
 
 
@@ -113,9 +116,9 @@ Route::prefix('seller')->as('seller.')->group(function () {
 
 
 
-// Route::get('home', function () {
-//     return view('pages.home');
-// })->name('home');
+Route::get('home', function () {
+    return view('pages.home');
+})->name('home');
 
 
 // Route::get('user', function () {

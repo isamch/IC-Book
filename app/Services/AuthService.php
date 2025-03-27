@@ -79,7 +79,9 @@ class AuthService
         }
 
         if (!Auth::user()->email_verified_at) {
-            throw new Exception('Please verify your email address to continue.');
+            throw ValidationException::withMessages([
+            'email' => ['Please verify your email address to continue.'],
+            ]);
         }
 
         request()->session()->regenerate();

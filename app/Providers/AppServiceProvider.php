@@ -2,12 +2,21 @@
 
 namespace App\Providers;
 
+use App\Models\Book;
+use App\Policies\BookPolicy;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Pagination\Paginator;
 
 
 class AppServiceProvider extends ServiceProvider
 {
+
+
+    protected $policies = [
+        Book::class => BookPolicy::class,
+    ];
+
+
     /**
      * Register any application services.
      *
@@ -27,4 +36,6 @@ class AppServiceProvider extends ServiceProvider
     {
         Paginator::useTailwind();
     }
+
+
 }

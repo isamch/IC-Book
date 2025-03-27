@@ -44,7 +44,6 @@ class AuthController extends Controller
 
 
             return redirect()->route('login.form')->with('success', 'Account created successfully! Pleas Check Your email');
-
         } catch (\Exception $e) {
             return redirect()->back()->withInput()->withErrors([$e->getMessage()]);
         }
@@ -65,16 +64,22 @@ class AuthController extends Controller
         try {
             $user = $this->authService->login($credentials);
             $request->session()->regenerate();
+
             return redirect()->route('home')->with('success', 'Login Success!');
         } catch (\Illuminate\Auth\AuthenticationException $e) {
 
             return redirect()->back()->withInput()->withErrors(['login' => $e->getMessage()]);
-        } catch (\Exception $e) {
+        } catch (\Illuminate\Validation\ValidationException $e) {
 
-
-            return redirect()->route('verification.notice')->with(['verify_email_needed' => 'warning', 'action' => 'need-verify', 'message' => ' It seems that you have not verified your email address yet. Please check your inbox for the verification link.!']);
-
+            return redirect()->route('verification.notice')->with([
+                'message' => 'It seems that you have not verified your email address yet. Please check your inbox for the verification link!',
+            ]);
         }
+        //  catch (\Exception $e) {
+
+        //     return redirect()->back()->withInput()->withErrors(['login' => 'An unexpected error occurred. Please try again.']);
+
+        // }
     }
 
 

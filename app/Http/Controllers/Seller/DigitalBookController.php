@@ -16,7 +16,13 @@ class DigitalBookController extends Controller
      */
     public function index()
     {
-        $electronicBooks = ElectronicBook::paginate(3);
+
+
+        $electronicBooks = ElectronicBook::whereHas('book', function ($query) {
+            $query->where('seller_id', Auth::user()->seller->id);
+        })->paginate(3);
+
+
         return view('seller.books.digital.index', compact('electronicBooks'));
     }
 
@@ -82,6 +88,14 @@ class DigitalBookController extends Controller
     public function show($id)
     {
         $electronicBook = ElectronicBook::findOrFail($id);
+
+        // try {
+
+        //     $this->authorize('view', $electronicBook->book);
+
+        // } catch (\Illuminate\Auth\Access\AuthorizationException $e) {
+        //     return redirect()->route('seller.books.index')->with('error', 'You are not authorized to view this book.');
+        // }
 
         return view('seller.books.digital.view', compact('electronicBook'));
     }
