@@ -21,7 +21,7 @@ class BookPolicy
      */
     public function view(User $user, Book $book): bool
     {
-        return $user->seller->id === $book->seller_id && $user->roles->pluck('name')->contains('admin');
+        return $user->seller->id === $book->seller_id || $user->roles->pluck('name')->contains('admin');
     }
 
     /**

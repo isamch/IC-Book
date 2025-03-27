@@ -52,15 +52,17 @@
         <div class="flex-1 overflow-y-auto p-8">
             <!-- Header -->
             <div class="flex justify-between items-center mb-8">
-                <h2 class="text-2xl font-bold text-green-800">Seller Dashboard</h2>
+                <h2 class="text-2xl font-bold text-green-800">Admin Dashboard</h2>
                 <div class="flex items-center gap-4">
                     <div class="relative">
                         <i class="fas fa-bell text-gray-600 text-xl"></i>
                         <span class="absolute top-0 right-0 w-2 h-2 bg-red-500 rounded-full"></span>
                     </div>
                     <div class="flex items-center gap-2">
-                        <img src="https://i.pravatar.cc/40" alt="Admin" class="w-8 h-8 rounded-full">
-                        <span class="font-medium">Seller</span>
+                        <a href="{{ route('seller.profile.show', auth()->user()->id) }}" class="flex items-center gap-2">
+                            <img src="{{ asset('storage/' . optional(auth()->user())->photo) }}" alt="Admin" class="w-8 h-8 rounded-full">
+                            <span class="font-medium">{{ auth()->user()->first_name }}</span>
+                        </a>
                     </div>
                 </div>
             </div>

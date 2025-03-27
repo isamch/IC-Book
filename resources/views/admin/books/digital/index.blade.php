@@ -53,8 +53,10 @@
                         <span class="absolute top-0 right-0 w-2 h-2 bg-red-500 rounded-full"></span>
                     </div>
                     <div class="flex items-center gap-2">
-                        <img src="https://i.pravatar.cc/40" alt="Admin" class="w-8 h-8 rounded-full">
-                        <span class="font-medium">Admin</span>
+                        <a href="{{ route('seller.profile.show', auth()->user()->id) }}" class="flex items-center gap-2">
+                            <img src="{{ asset('storage/' . optional(auth()->user())->photo) }}" alt="Admin" class="w-8 h-8 rounded-full">
+                            <span class="font-medium">{{ auth()->user()->first_name }}</span>
+                        </a>
                     </div>
                 </div>
             </div>

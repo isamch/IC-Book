@@ -42,6 +42,7 @@ class DigitalBookController extends Controller
     {
 
         $this->authorize('create', Book::class);
+
         $request->validate([
             'images' => 'required|array|max:4',
             'images.*' => 'image|mimes:jpeg,png,jpg,svg,avif|max:2048',
@@ -96,7 +97,8 @@ class DigitalBookController extends Controller
 
             $this->authorize('view', $electronicBook->book);
         } catch (\Illuminate\Auth\Access\AuthorizationException $e) {
-            return redirect()->route('seller.books.index')->withErrors(['You are not authorized to view this book.']);
+
+            return redirect()->back()->withErrors(['You are not authorized to view this book.']);
         }
 
         return view('seller.books.digital.view', compact('electronicBook'));
@@ -114,7 +116,7 @@ class DigitalBookController extends Controller
 
             $this->authorize('update', $electronicBook->book);
         } catch (\Illuminate\Auth\Access\AuthorizationException $e) {
-            return redirect()->route('seller.books.index')->withErrors(['You are not authorized to edit this book.']);
+            return redirect()->back()->withErrors(['You are not authorized to edit this book.']);
         }
 
         return view('seller.books.digital.edit', compact('electronicBook'));
@@ -146,7 +148,7 @@ class DigitalBookController extends Controller
             $this->authorize('update', $electronicBook->book);
 
         } catch (\Illuminate\Auth\Access\AuthorizationException $e) {
-            return redirect()->route('seller.books.index')->withErrors(['You are not authorized to update this book.']);
+            return redirect()->back()->withErrors(['You are not authorized to update this book.']);
         }
 
         $electronicBook->book->update([

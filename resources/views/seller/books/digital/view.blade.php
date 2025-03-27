@@ -50,8 +50,10 @@
                         <span class="absolute top-0 right-0 w-2 h-2 bg-red-500 rounded-full"></span>
                     </div>
                     <div class="flex items-center gap-2">
-                        <img src="https://i.pravatar.cc/40" alt="Admin" class="w-8 h-8 rounded-full">
-                        <span class="font-medium">Seller</span>
+                        <a href="{{ route('seller.profile.show', auth()->user()->id) }}" class="flex items-center gap-2">
+                            <img src="{{ asset('storage/' . optional(auth()->user())->photo) }}" alt="Admin" class="w-8 h-8 rounded-full">
+                            <span class="font-medium">{{ auth()->user()->first_name }}</span>
+                        </a>
                     </div>
                 </div>
             </div>
@@ -131,7 +133,7 @@
 
                                     <div class="border-t border-gray-200 pt-6">
                                         <p class="text-sm font-medium text-gray-500">Seller Information</p>
-                                        <a href="#" class="mt-4 flex items-center">
+                                        <a href="{{ route('seller.profile.show', $electronicBook->book->seller->user->id) }}" class="mt-4 flex items-center">
                                             <img id="sellerImage"
                                                 src="{{ asset('storage/' . optional($electronicBook->book->seller->user)->photo) }}"
                                                 alt="Seller" class="w-12 h-12 rounded-full border-2 border-green-200">

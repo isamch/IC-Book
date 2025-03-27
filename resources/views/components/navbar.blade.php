@@ -29,10 +29,14 @@
                         {{-- @endif --}}
                     </a>
 
-                    <a href="#"
+                    <a href="{{ route('seller.profile.show', Auth::user()->id) }}"
                         class="text-gray-800 flex items-center justify-center w-12 h-12 rounded-full bg-green-100 hover:bg-green-200">
-                        <img src="{{ asset('storage/' . Auth::user()->photo) }}" alt="Profile Image"
-                            class="w-10 h-10 rounded-full border-2 border-green-500 object-cover">
+                        @if (Auth::user()->photo)
+                            <img src="{{ asset('storage/' . Auth::user()->photo) }}" alt="Profile Image"
+                                class="w-10 h-10 rounded-full border-2 border-green-500 object-cover">
+                        @else
+                            <i class="fas fa-user-circle text-2xl text-gray-500"></i>
+                        @endif
                     </a>
 
                     <form method="POST" action="{{ route('logout') }}"

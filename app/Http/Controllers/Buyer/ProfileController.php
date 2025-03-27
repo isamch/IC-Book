@@ -36,7 +36,7 @@ class ProfileController extends Controller
             'gender' => 'required|in:m,f',
             'about_me' => 'nullable|string|max:500',
             'email' => 'required|email|unique:users,email,' . $user->id,
-            'phone' => 'nullable|string|regex:/^[0-9+\-()\s]+$/|max:20',
+            'phone' => 'nullable|string|regex:/^[0-9+\-()\s]+$/|max:20|unique:users,phone,' . $user->id,
             'address' => 'nullable|string|max:255',
             'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
@@ -71,7 +71,7 @@ class ProfileController extends Controller
 
 
 
-        return redirect()->route('seller.profile.view', $id)->with('success', 'Profile updated successfully.');
+        return redirect()->route('seller.profile.show', $id)->with('success', 'Profile updated successfully.');
 
     }
 

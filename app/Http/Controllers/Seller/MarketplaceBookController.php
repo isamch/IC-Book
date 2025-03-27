@@ -92,7 +92,7 @@ class MarketplaceBookController extends Controller
 
             $this->authorize('view', $physicalBook->book);
         } catch (\Illuminate\Auth\Access\AuthorizationException $e) {
-            return redirect()->route('seller.books.index')->withErrors(['You are not authorized to view this book.']);
+            return redirect()->back()->withErrors(['You are not authorized to view this book.']);
         }
         return view('seller.marketplace.books.view', compact('physicalBook'));
     }
@@ -109,7 +109,7 @@ class MarketplaceBookController extends Controller
 
             $this->authorize('update', $physicalBook->book);
         } catch (\Illuminate\Auth\Access\AuthorizationException $e) {
-            return redirect()->route('seller.books.index')->withErrors(['You are not authorized to edit this book.']);
+            return redirect()->back()->withErrors(['You are not authorized to edit this book.']);
         }
 
         return view('seller.marketplace.books.edit', compact('physicalBook'));
@@ -133,7 +133,6 @@ class MarketplaceBookController extends Controller
         ]);
 
 
-        // dd($request);
 
         $physicalBook = PhysicalBook::findOrFail($id);
 
@@ -141,7 +140,7 @@ class MarketplaceBookController extends Controller
 
             $this->authorize('update', $physicalBook->book);
         } catch (\Illuminate\Auth\Access\AuthorizationException $e) {
-            return redirect()->route('seller.books.index')->withErrors(['You are not authorized to update this book.']);
+            return redirect()->back()->withErrors(['You are not authorized to update this book.']);
         }
 
         $physicalBook->book->update([

@@ -37,7 +37,7 @@
 
                     <div class="flex flex-col space-y-4 m-4">
                         @if (auth()->id() === $user->id)
-                            <a href="#"
+                            <a href="{{ route('seller.profile.edit', auth()->id()) }}"
                                 class="bg-green-800 text-white px-4 py-2 rounded-lg hover:bg-green-900 transition-colors duration-300">
                                 <i class="fas fa-edit mr-2"></i>
                                 Edit Profile

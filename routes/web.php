@@ -113,7 +113,9 @@ Route::name('seller.')->group(function () {
     Route::put('profile/{id}', [BuyerProfileController::class, 'update'])->name('profile.update');
 
 
-    // Route::get('/home', [HomeController::class, 'index'])->name('home');
+    Route::get('/home', [BuyerHomeController::class, 'index'])->name('home');
+
+
     // Route::get('/messages', [MessagesController::class, 'index'])->name('messages');
     // Route::get('/posts', [PostsController::class, 'index'])->name('posts');
 
