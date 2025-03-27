@@ -21,7 +21,7 @@
                     <i class="fas fa-tachometer-alt"></i>
                     <span>Dashboard</span>
                 </a>
-                <a href="/admin/users" class="flex items-center gap-3 p-3 rounded-lg hover:bg-green-700">
+                <a href="{{ route('admin.users.index') }}" class="flex items-center gap-3 p-3 rounded-lg hover:bg-green-700">
                     <i class="fas fa-users"></i>
                     <span>Users</span>
                 </a>
@@ -165,11 +165,6 @@
                         </thead>
                         <tbody class="bg-white divide-y divide-gray-200">
 
-                            {{-- 'title',
-                            'author',
-                            'description',
-                            'price',
-                            'seller_id', --}}
 
                             @foreach ($physicalBooks as $physicalBook)
                                 <tr class="hover:bg-gray-50 transition-colors duration-150">
@@ -194,20 +189,6 @@
                                                     alt="Seller">
                                             </div>
 
-                                            {{-- "id" => 3
-                                            "first_name" => "Shayne"
-                                            "last_name" => "Feil"
-                                            "email" => "ezra.maggio@example.com"
-                                            "email_verified_at" => null
-                                            "password" => "$2y$10$pSS1Pc88/AfgShrXoLyfzOQiQhpNaWkaPStn4gPdELIMC2PNCTM9C"
-                                            "age" => 61
-                                            "remember_token" => null
-                                            "created_at" => "2025-03-24 17:24:58"
-                                            "updated_at" => "2025-03-24 17:24:58"
-                                            "birthdate" => "1964-03-24"
-                                            "photo" => "images/profile/default/default-profile.png"
-                                            "verification_token" => null
-                                            "status" => true --}}
 
                                             <div class="ml-4">
                                                 <a href="#"

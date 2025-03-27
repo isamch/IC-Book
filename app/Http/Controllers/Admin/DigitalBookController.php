@@ -15,8 +15,9 @@ class DigitalBookController extends Controller
      */
     public function index()
     {
-        $electronicBooks = ElectronicBook::paginate(3);
         $this->authorize('viewAny');
+
+        $electronicBooks = ElectronicBook::paginate(3);
 
         return view('admin.books.digital.index', compact('electronicBooks'));
     }
@@ -41,14 +42,13 @@ class DigitalBookController extends Controller
     {
         $electronicBook = ElectronicBook::findOrFail($id);
 
-        $this->authorize('toggle', $electronicBook->book);
+        $this->authorize('toggle');
 
-        // dd($electronicBook);
         $electronicBook->book->status = !$electronicBook->book->status;
 
         $electronicBook->book->save();
 
-        return redirect()->back()->with('success', 'Book status updated successfully.');
+        return redirect()->back()->with('success', 'The status of the book "' . $electronicBook->book->title . '" by seller ' . $electronicBook->book->seller->name . ' has been updated successfully.');
     }
 
 

@@ -14,8 +14,9 @@ class MarketplaceBookController extends Controller
      */
     public function index()
     {
-        $physicalBooks = PhysicalBook::paginate(3);
         $this->authorize('viewAny');
+
+        $physicalBooks = PhysicalBook::paginate(3);
         return view('admin.marketplace.books.index', compact('physicalBooks'));
     }
 
@@ -40,7 +41,7 @@ class MarketplaceBookController extends Controller
     {
         $physicalBook = PhysicalBook::findOrFail($id);
 
-        $this->authorize('toggle', $physicalBook->book);
+        $this->authorize('toggle');
 
         $physicalBook->book->status = !$physicalBook->book->status;
 

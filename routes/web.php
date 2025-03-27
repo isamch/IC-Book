@@ -11,12 +11,15 @@ use App\Models\User;
 
 
 // controllers :
-
-use App\Http\Controllers\Seller\DigitalBookController as SellerDigitalBookController;
-use App\Http\Controllers\Seller\MarketplaceBookController as SellerMarketplaceBookController;
-
+// admin:
+use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\DigitalBookController as AdminDigitalBookController;
 use App\Http\Controllers\Admin\MarketplaceBookController as AdminMarketplaceBookController;
+
+
+// seller
+use App\Http\Controllers\Seller\DigitalBookController as SellerDigitalBookController;
+use App\Http\Controllers\Seller\MarketplaceBookController as SellerMarketplaceBookController;
 
 /*
 |--------------------------------------------------------------------------
@@ -68,12 +71,17 @@ Route::get('email/message', [VerificationController::class, 'ShowMessage'])->nam
 
 Route::prefix('admin')->as('admin.')->group(function () {
 
+    Route::get('users', [UserController::class, 'index'])->name('users.index');
+    Route::patch('users/{id}/toggle-status', [UserController::class, 'toggleStatus'])->name('users.toggle-status');
+
+
     Route::resource('books', AdminDigitalBookController::class);
     Route::patch('books/{id}/toggle-status', [AdminDigitalBookController::class, 'toggleStatus'])->name('books.toggle-status');
 
 
     Route::resource('marketplace/books', AdminMarketplaceBookController::class)->names('marketplace.books');
     Route::patch('marketplace/books/{id}/toggle-status', [AdminMarketplaceBookController::class, 'toggleStatus'])->name('marketplace.books.toggle-status');
+
 
 
 });

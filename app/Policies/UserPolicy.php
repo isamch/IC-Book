@@ -2,16 +2,15 @@
 
 namespace App\Policies;
 
-use App\Models\Book;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
 
-class BookPolicy
+class UserPolicy
 {
     /**
      * Determine whether the user can view any models.
      */
-    public function viewAny(User $user, Book $book): bool
+    public function viewAny(User $user): bool
     {
         return $user->roles->pluck('name')->contains('admin');
     }
@@ -19,9 +18,9 @@ class BookPolicy
     /**
      * Determine whether the user can view the model.
      */
-    public function view(User $user, Book $book): bool
+    public function view(User $user, User $model): bool
     {
-        return $user->seller->id === $book->seller_id && $user->roles->pluck('name')->contains('admin');
+        return false;
     }
 
     /**
@@ -29,25 +28,40 @@ class BookPolicy
      */
     public function create(User $user): bool
     {
-        return $user->roles->pluck('name')->contains('seller');
+        return false;
     }
 
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, Book $book): bool
+    public function update(User $user, User $model): bool
     {
-        return $user->roles->pluck('name')->contains('seller') && $user->seller->id === $book->seller_id;
+        return false;
     }
 
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, Book $book): bool
+    public function delete(User $user, User $model): bool
     {
-        return $user->roles->pluck('name')->contains('seller');
+        return false;
     }
 
+    /**
+     * Determine whether the user can restore the model.
+     */
+    public function restore(User $user, User $model): bool
+    {
+        return false;
+    }
+
+    /**
+     * Determine whether the user can permanently delete the model.
+     */
+    public function forceDelete(User $user, User $model): bool
+    {
+        return false;
+    }
 
     /**
      * Determine whether the user can toggle the model.
@@ -56,6 +70,4 @@ class BookPolicy
     {
         return $user->roles->pluck('name')->contains('admin');
     }
-
-
 }
