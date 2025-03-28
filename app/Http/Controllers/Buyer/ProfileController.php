@@ -11,6 +11,7 @@ class ProfileController extends Controller
 
     public function show($id)
     {
+
         $user = User::findOrFail($id);
         return view('buyer.profile.view', compact('user'));
     }
@@ -19,6 +20,15 @@ class ProfileController extends Controller
     public function edit($id)
     {
         $user = User::findOrFail($id);
+
+        try {
+
+            $this->authorize('update', $user);
+        } catch (\Illuminate\Auth\Access\AuthorizationException $e) {
+
+            return redirect()->back()->withErrors(['You are not authorized to edit this user.']);
+        }
+
         return view('buyer.profile.edit', compact('user'));
     }
 
@@ -28,6 +38,13 @@ class ProfileController extends Controller
 
         $user = User::findOrFail($id);
 
+        try {
+
+            $this->authorize('update', $user);
+        } catch (\Illuminate\Auth\Access\AuthorizationException $e) {
+
+            return redirect()->back()->withErrors(['You are not authorized to update this user.']);
+        }
 
 
         $request->validate([
