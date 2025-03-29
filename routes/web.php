@@ -113,7 +113,7 @@ Route::middleware(['auth', 'email.verified'])->name('seller.')->group(function (
     Route::put('profile/{id}', [BuyerProfileController::class, 'update'])->name('profile.update');
 
 
-    Route::get('/home', [BuyerHomeController::class, 'index'])->name('home');
+    Route::get('home', [BuyerHomeController::class, 'index'])->name('home');
 
 
     // Route::get('/messages', [MessagesController::class, 'index'])->name('messages');
@@ -142,9 +142,9 @@ Route::middleware(['auth', 'email.verified'])->name('seller.')->group(function (
 
 
 
-Route::get('home', function () {
-    return view('pages.home');
-})->name('home');
+// Route::get('home', function () {
+//     return view('pages.home');
+// })->name('home');
 
 
 // Route::get('user', function () {

@@ -1,3 +1,5 @@
+{{-- {{ dd( $elecBookOfTheMonth ) }} --}}
+
 @extends('layouts.main')
 
 @section('title', 'Home')
@@ -10,19 +12,28 @@
             class="row flex flex-col md:flex-row items-center gap-32 py-10 px-16 max-w-7xl mx-auto space-y-16 md:space-y-0 md:space-x-32">
 
             <div class="content flex-1 max-w-md order-2 md:order-1 text-center md:text-left">
-                <h3 class="text-5xl font-semibold text-black mb-8">The best books ever</h3>
-                <p class="text-xl text-gray-600 mb-8 leading-relaxed">Are you an avid reader or simply looking for literary
-                    gems that will leave you spellbound? Look no further! Our website is your ultimate destination for the
-                    best books ever written.</p>
-                <a href="#featured"
-                    class="btn bg-green-500 text-white py-4 px-10 rounded-lg text-2xl font-semibold hover:bg-green-600 transition">Download</a>
+                <h3 class="text-5xl font-semibold text-black mb-8">Book of the Month</h3>
+
+                <h4 class="text-2xl font-semibold text-gray-800 mb-4">{{ $elecBookOfTheMonth->book->title }}</h4>
+                <p class="text-xl text-gray-600 mb-8 leading-relaxed">{{ $elecBookOfTheMonth->book->description }}</p>
+
+                <a href="#"
+                    class="btn bg-green-500 text-white py-3 px-8 rounded-lg text-base font-semibold hover:bg-green-600 transition-all duration-200">
+                    Show Details
+                </a>
             </div>
 
             <div class="swiper books-slider flex-1 max-w-md text-center relative order-1 md:order-2">
-                <a href="#featured" class="swiper-slide inline-block">
-                    <img src="{{ asset('storage/images/books/default/book-1.png') }}" class="h-72 mx-auto shadow-xl"
-                        alt="Book" style="object-fit: contain; margin-top: 2rem;">
+                <a href="#" class="swiper-slide inline-block">
+
+                    <img src="{{ asset('storage/' . optional($elecBookOfTheMonth->book->images->first())->image) }}"
+                        class="h-72 mx-auto rounded-lg shadow-2xl shadow-gray-800/80 shadow-black/60"
+                        alt="Book of the Month"
+                        style="object-fit: contain; margin-top: 2rem; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.75), 0 15px 30px -10px rgba(0, 0, 0, 0.5);">
+
+
                 </a>
+
                 <img src="{{ asset('storage/images/books/default/stand.png') }}" class="stand mt-[-2rem] mx-auto"
                     alt="Books Stand">
             </div>
@@ -43,18 +54,19 @@
             </h2>
             <div class="w-full h-px bg-gradient-to-r from-transparent via-gray-300 to-transparent my-12"></div>
 
-            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
-                @for ($i = 1; $i <= 8; $i++)
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 justify-center items-center">
+
+                @foreach ($topElecBooks as $topElecBook)
                     <div
-                        class="bg-white rounded-xl shadow-lg overflow-hidden transform transition-transform hover:scale-102 duration-200">
+                        class="bg-white rounded-md shadow-md overflow-hidden transform transition-transform hover:scale-101 duration-200">
                         <div class="relative">
-                            <img src="{{ asset('storage/images/books/default/book-1.png') }}" alt="Book {{ $i }}"
-                                class="w-full h-72 object-cover object-center">
+                            <img src="{{ asset('storage/' . optional($topElecBook->book->images->first())->image) }}"
+                                alt="{{ $topElecBook->book->title }}" class="w-full h-60 object-cover object-center">
                             <div
-                                class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-0 hover:opacity-80 transition-opacity duration-300 flex items-end p-4">
-                                <a href="#buy"
-                                    class="inline-flex items-center bg-green-600 text-white py-2 px-6 rounded-full text-sm font-semibold hover:bg-green-800 transition-colors duration-100">
-                                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-80 flex items-end p-3">
+                                <a href="#"
+                                    class="inline-flex items-center bg-green-600 text-white py-1.5 px-4 rounded-full text-xs font-semibold hover:bg-green-800 transition-colors duration-100">
+                                    <svg class="w-3.5 h-3.5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                             d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z">
                                         </path>
@@ -64,41 +76,46 @@
                             </div>
                         </div>
 
-                        <div class="p-6">
-                            <h4 class="text-xl font-semibold text-gray-900 mb-2 truncate">
-                                <a href="#book{{ $i }}"
-                                    class="text-gray-900 hover:text-green-500 cursor-pointer">Book Title
-                                    {{ $i }}</a>
+                        <div class="p-4">
+                            <h4 class="text-lg font-semibold text-gray-900 mb-1 truncate">
+
+                                <a href="#" class="text-gray-900 hover:text-green-500 cursor-pointer">
+                                    {{ $topElecBook->book->title }}
+                                </a>
                             </h4>
-                            <p class="text-gray-600 text-sm mb-4 line-clamp-3">{{ Str::random(40) }}</p>
+
+                            <p class="text-gray-600 text-xs mb-3 line-clamp-2">
+                                {{ Str::limit($topElecBook->book->description, 50, '...') }}
+                            </p>
+
                             <div class="flex items-center justify-between">
                                 <div class="flex items-center space-x-1">
-                                    @for ($j = 1; $j <= 5; $j++)
-                                        @if ($j <= rand(3, 5))
-                                            <svg class="w-4 h-4 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
-                                                <path
-                                                    d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.953a1 1 0 00.95.69h4.162c.969 0 1.371 1.24.588 1.81l-3.366 2.445a1 1 0 00-.364 1.118l1.286 3.953c.3.921-.755 1.688-1.54 1.118l-3.366-2.445a1 1 0 00-1.176 0l-3.366 2.445c-.784.57-1.838-.197-1.54-1.118l1.286-3.953a1 1 0 00-.364-1.118L2.41 9.38c-.783-.57-.38-1.81.588-1.81h4.162a1 1 0 00.95-.69l1.286-3.953z">
-                                                </path>
-                                            </svg>
+
+
+                                    @for ($i = 0; $i < 5; $i++)
+                                        @if ($i < $topElecBook->reviews->avg('rating'))
+                                            <i class="fas fa-star text-yellow-400 text-xs"></i>
                                         @else
-                                            <svg class="w-4 h-4 text-gray-300" fill="currentColor" viewBox="0 0 20 20">
-                                                <path
-                                                    d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.953a1 1 0 00.95.69h4.162c.969 0 1.371 1.24.588 1.81l-3.366 2.445a1 1 0 00-.364 1.118l1.286 3.953c.3.921-.755 1.688-1.54 1.118l-3.366-2.445a1 1 0 00-1.176 0l-3.366 2.445c-.784.57-1.838-.197-1.54-1.118l1.286-3.953a1 1 0 00-.364-1.118L2.41 9.38c-.783-.57-.38-1.81.588-1.81h4.162a1 1 0 00.95-.69l1.286-3.953z">
-                                                </path>
-                                            </svg>
+                                            <i class="fas fa-star text-gray-300 text-xs"></i>
                                         @endif
                                     @endfor
-                                    <span class="text-gray-500 text-xs ml-1">{{ rand(3, 5) }}.{{ rand(0, 9) }}</span>
+
+                                    <span class="text-gray-500 text-xs ml-1">
+                                        {{ number_format($topElecBook->reviews->avg('rating'), 1) }}
+                                    </span>
                                 </div>
-                                <span class="text-gray-700 text-sm font-medium">${{ rand(10, 50) }}.99</span>
+                                <span class="text-gray-700 text-xs font-medium">
+                                    ${{ number_format($topElecBook->book->price, 2) }}
+                                </span>
                             </div>
                         </div>
                     </div>
-                @endfor
+                @endforeach
+
             </div>
             <!-- Show More Button -->
             <div class="text-center pt-8">
-                <a href="/more-books"
+                <a href=""
                     class="inline-flex items-center bg-transparent text-gray-600 border border-gray-600 py-2 px-6 rounded-full text-sm font-medium hover:bg-gray-100 hover:text-gray-700 transition-colors duration-200">
                     Show More Books
                 </a>
