@@ -23,10 +23,18 @@
                 Oops! The page you're looking for doesn't exist.
             </p>
 
-            <a href="/"
-                class="inline-flex items-center bg-green-600 text-white py-3 px-8 rounded-lg text-lg font-semibold hover:bg-green-700 transition-colors duration-200">
-                Go Back Home
-            </a>
+            <div class="flex space-x-4 justify-center">
+                <a href="{{ url('/home') }}"
+                    class="inline-flex items-center justify-center border border-green-600 text-green-600 py-3 px-8 rounded-lg text-lg font-semibold hover:bg-green-600 hover:text-white transition-colors duration-200 w-40"
+                    title="Go to Home Page">
+                    Home Page
+                </a>
+                <a href="{{ url()->previous() }}"
+                    class="inline-flex items-center justify-center bg-green-600 text-white py-3 px-8 rounded-lg text-lg font-semibold hover:bg-green-700 transition-colors duration-200 w-40">
+                    Go Back
+                </a>
+            </div>
+
         </div>
     </section>
 </body>

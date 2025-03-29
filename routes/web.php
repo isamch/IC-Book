@@ -70,7 +70,7 @@ Route::get('email/message', [VerificationController::class, 'ShowMessage'])->nam
 
 // admin -------------------- :
 
-Route::prefix('admin')->as('admin.')->group(function () {
+Route::middleware(['auth', 'email.verified'])->prefix('admin')->as('admin.')->group(function () {
 
     Route::get('users', [AdminUserController::class, 'index'])->name('users.index');
     Route::get('users/{id}', [AdminUserController::class, 'show'])->name('users.show');
@@ -95,7 +95,7 @@ Route::prefix('admin')->as('admin.')->group(function () {
 
 // seller -------------------- :
 
-Route::prefix('seller')->as('seller.')->group(function () {
+Route::middleware(['auth', 'email.verified'])->prefix('seller')->as('seller.')->group(function () {
     Route::resource('books', SellerDigitalBookController::class);
 
     Route::resource('marketplace/books', SellerMarketplaceBookController::class)->names('marketplace.books');
@@ -106,7 +106,7 @@ Route::prefix('seller')->as('seller.')->group(function () {
 
 
 // seller -------------------- :
-Route::name('seller.')->group(function () {
+Route::middleware(['auth', 'email.verified'])->name('seller.')->group(function () {
 
     Route::get('profile/{id}', [BuyerProfileController::class, 'show'])->name('profile.show');
     Route::get('profile/{id}/edit', [BuyerProfileController::class, 'edit'])->name('profile.edit');

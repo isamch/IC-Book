@@ -78,11 +78,11 @@ class AuthService
             throw new AuthenticationException('The provided email or password is incorrect. Please try again.');
         }
 
-        if (!Auth::user()->email_verified_at) {
-            throw ValidationException::withMessages([
-            'email' => ['Please verify your email address to continue.'],
-            ]);
-        }
+        // if (!Auth::user()->email_verified_at) {
+        //     throw ValidationException::withMessages([
+        //     'email' => ['Please verify your email address to continue.'],
+        //     ]);
+        // }
 
         request()->session()->regenerate();
         return Auth::user();

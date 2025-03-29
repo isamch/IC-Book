@@ -11,8 +11,13 @@ class ProfileController extends Controller
 
     public function show($id)
     {
+        $user = User::where('id', $id)->where('status', 1)->whereNotNull('email_verified_at')->first();
 
-        $user = User::findOrFail($id);
+        if (!$user) {
+            abort(404, 'Page not found');
+        }
+
+
         return view('buyer.profile.view', compact('user'));
     }
 
@@ -58,17 +63,23 @@ class ProfileController extends Controller
             'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
+        if ($request->email !== $user->email) {
+            $user->forceFill(['email_verified_at' => null])->save();
+
+        }
+
         $user->update(
             $request->only([
-                'first_name',
-                'last_name',
-                'gender',
-                'about_me',
-                'email',
-                'phone',
-                'address',
+            'first_name',
+            'last_name',
+            'gender',
+            'about_me',
+            'email',
+            'phone',
+            'address',
             ])
         );
+
 
         if ($request->hasFile('photo')) {
 
