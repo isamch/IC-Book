@@ -31,6 +31,7 @@ class DigitalBookController extends Controller
 
 
 
+
         // $electronicBooks = ElectronicBook::with(['book.images'])
         //     ->whereHas('book', function ($query) {
         //         $query->where('status', 1);
@@ -74,4 +75,8 @@ class DigitalBookController extends Controller
 
         return response(['html'=> $view])->header('Content-Type', 'text/html');
     }
+
+
+
+
 }

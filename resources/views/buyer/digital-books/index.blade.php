@@ -214,89 +214,60 @@
 
     <script>
         let offset = 5;
-        let containerBooks = document.getElementById('container-card');
+        const containerBooks = document.getElementById('container-card');
 
-        function loadMoreBooks() {
+        const loadMoreBooks = () => {
             fetch(`/books/load-more/${offset}`)
                 .then(response => response.json())
                 .then(data => {
-                    console.log(data);
-
-                    addloadingBooks(data);
-
-                    // document.getElementById('container-card').innerHTML += data.html;
+                    // console.log(data);
+                    updateBooks(data);
                     offset += 2;
-
                 })
                 .catch(error => {
-
-                    console.log('fetch load more error : ', error);
-                    Array.from(containerBooks.querySelectorAll('.spiner-load')).forEach(element => {
-                        element.remove();
-
-                    });
-
-                    containerBooks.innerHTML += `
-                            <div class="text-center py-12 text-red-500">
-                                <i class="h-16 w-16 mx-auto fas fa-exclamation-circle"></i>
-                                <h3 class="mt-4 text-lg font-medium">Error loading content</h3>
-                                <p class="mt-1 text-sm">Error loading content</p>
-                            </div>
-                        `;
+                    console.log('fetch load more error:', error);
+                    showError();
                 });
+        };
 
-        }
-
-
-        document.getElementById('load-more').addEventListener('click', () => {
-
-
-            for (let index = 0; index < 5; index++) {
-
+        const showLoadingSpinner = () => {
+            for (let i = 0; i < 5; i++) {
                 containerBooks.innerHTML += `
                     <div class="spiner-load flex justify-center items-center h-40">
                         <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-green-500"></div>
                     </div>
                 `;
             }
+        };
 
+        const showError = () => {
+            containerBooks.innerHTML += `
+                <div class="text-center py-12 text-red-500">
+                    <i class="h-16 w-16 mx-auto fas fa-exclamation-circle"></i>
+                    <h3 class="mt-4 text-lg font-medium">Error loading content</h3>
+                    <p class="mt-1 text-sm">Error loading content</p>
+                </div>
+            `;
+        };
+
+        const updateBooks = (data) => {
+            containerBooks.querySelectorAll('.spiner-load').forEach(e => e.remove());
+
+            if (data.html) {
+                containerBooks.innerHTML += data.html;
+            } else {
+                const loadMoreBtn = document.getElementById('load-more');
+                loadMoreBtn.disabled = true;
+                loadMoreBtn.textContent = "No additional items available";
+            }
+        };
+
+        document.getElementById('load-more').addEventListener('click', () => {
+            showLoadingSpinner();
             loadMoreBooks();
         });
-
-        function addloadingBooks(data) {
-
-            Array.from(containerBooks.querySelectorAll('.spiner-load')).forEach(element => {
-                element.remove();
-
-            });
-
-            // containerBooks.querySelector('#load-more').remove();
-
-
-            if (data.html.length > 0) {
-
-                containerBooks.innerHTML += data.html;
-
-            } else {
-
-                document.getElementById('load-more').disabled = true;
-                document.getElementById('load-more').textContent = "No additional items available";
-
-                // containerBooks.innerHTML += `
-            //     <div id="no-content" class="text-center py-12">
-            //         <i class="h-16 w-16 mx-auto text-gray-400 fas fa-sync-alt"></i>
-            //         <p class="mt-1 text-sm text-gray-500">No additional items available</p>
-            //         // <button onclick="window.location.reload()" class="mt-6 px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-800 rounded-md transition-colors">
-            //         //     Refresh
-            //         // </button>
-            //     </div>
-            // `;
-                // document.getElementById('load-more').disabled = true;
-            }
-
-
-        }
     </script>
+
 
 
 @endsection
