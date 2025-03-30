@@ -116,9 +116,13 @@ Route::middleware(['auth', 'email.verified'])->name('seller.')->group(function (
 
     Route::get('home', [BuyerHomeController::class, 'index'])->name('home');
 
-    Route::get('books', [BuyerDigitalBookController::class, 'index'])->name('books');
 
+    Route::get('books', [BuyerDigitalBookController::class, 'index'])->name('books');
     Route::get('books/load-more/{offset}', [BuyerDigitalBookController::class, 'loadMore'])->name('books.load-more');
+    Route::get('/books/filter', [BuyerDigitalBookController::class, 'applyFilter'])->name('books.applyFilter');
+
+
+
 
     // Route::get('/messages', [MessagesController::class, 'index'])->name('messages');
     // Route::get('/posts', [PostsController::class, 'index'])->name('posts');

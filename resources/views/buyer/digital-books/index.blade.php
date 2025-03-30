@@ -17,19 +17,20 @@
             <div class="w-full h-px bg-gradient-to-r from-transparent via-gray-300 to-transparent my-12"></div>
 
             <div class="flex flex-col lg:flex-row gap-8">
+
                 <!-- Sidebar Filter -->
                 <div class="w-full lg:w-1/4 bg-white rounded-xl shadow-lg p-6"
                     style="height: 800px; overflow-y: auto; scrollbar-width: thin; scrollbar-color: #48bb78 #f7fafc;">
 
                     <!-- Apply Filter Button -->
-                    <button
+                    <button id="apply-filter"
                         class="w-full bg-green-600 text-white py-2 px-4 rounded-lg mb-6 hover:bg-green-700 transition-colors duration-200">
                         Apply Filter
                     </button>
 
                     <!-- Search Bar -->
                     <div class="mb-6">
-                        <input type="text" placeholder="Search products..."
+                        <input id="search-filter" type="text" placeholder="Search products..."
                             class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500">
                     </div>
 
@@ -41,9 +42,9 @@
                             <h4 class="text-lg font-medium text-gray-800 mb-3">Categories</h4>
                             <ul class="space-y-2 max-h-48 overflow-y-auto"
                                 style="scrollbar-width: thin; scrollbar-color: #48bb78 #f7fafc;">
-                                @for ($i = 1; $i <= 15; $i++)
+                                @for ($i = 1; $i <= 5; $i++)
                                     <li>
-                                        <label class="flex items-center space-x-2">
+                                        <label class="checkbox-category flex items-center space-x-2">
                                             <input type="checkbox"
                                                 class="form-checkbox h-4 w-4 text-green-600 rounded focus:ring-green-500">
                                             <span class="text-gray-600">Category {{ $i }}</span>
@@ -61,28 +62,31 @@
                                 <li>
                                     <label class="flex items-center space-x-2">
                                         <input type="checkbox"
-                                            class="form-checkbox h-4 w-4 text-green-600 rounded focus:ring-green-500">
+                                            class="checkbox-price form-checkbox h-4 w-4 text-green-600 rounded focus:ring-green-500">
                                         <span class="text-gray-600">Under $50</span>
                                     </label>
                                 </li>
+
                                 <li>
                                     <label class="flex items-center space-x-2">
                                         <input type="checkbox"
-                                            class="form-checkbox h-4 w-4 text-green-600 rounded focus:ring-green-500">
+                                            class="checkbox-price form-checkbox h-4 w-4 text-green-600 rounded focus:ring-green-500">
                                         <span class="text-gray-600">$50 - $100</span>
                                     </label>
                                 </li>
+
                                 <li>
                                     <label class="flex items-center space-x-2">
                                         <input type="checkbox"
-                                            class="form-checkbox h-4 w-4 text-green-600 rounded focus:ring-green-500">
+                                            class="checkbox-price form-checkbox h-4 w-4 text-green-600 rounded focus:ring-green-500">
                                         <span class="text-gray-600">$100 - $200</span>
                                     </label>
                                 </li>
+
                                 <li>
                                     <label class="flex items-center space-x-2">
                                         <input type="checkbox"
-                                            class="form-checkbox h-4 w-4 text-green-600 rounded focus:ring-green-500">
+                                            class="checkbox-price form-checkbox h-4 w-4 text-green-600 rounded focus:ring-green-500">
                                         <span class="text-gray-600">Over $200</span>
                                     </label>
                                 </li>
@@ -96,28 +100,28 @@
                                 <li>
                                     <label class="flex items-center space-x-2">
                                         <input type="checkbox"
-                                            class="form-checkbox h-4 w-4 text-green-600 rounded focus:ring-green-500">
+                                            class="checkbox-rating form-checkbox h-4 w-4 text-green-600 rounded focus:ring-green-500">
                                         <span class="text-gray-600">★★★★★</span>
                                     </label>
                                 </li>
                                 <li>
                                     <label class="flex items-center space-x-2">
                                         <input type="checkbox"
-                                            class="form-checkbox h-4 w-4 text-green-600 rounded focus:ring-green-500">
+                                            class="checkbox-rating form-checkbox h-4 w-4 text-green-600 rounded focus:ring-green-500">
                                         <span class="text-gray-600">★★★★☆ & Up</span>
                                     </label>
                                 </li>
                                 <li>
                                     <label class="flex items-center space-x-2">
                                         <input type="checkbox"
-                                            class="form-checkbox h-4 w-4 text-green-600 rounded focus:ring-green-500">
+                                            class="checkbox-rating form-checkbox h-4 w-4 text-green-600 rounded focus:ring-green-500">
                                         <span class="text-gray-600">★★★☆☆ & Up</span>
                                     </label>
                                 </li>
                                 <li>
                                     <label class="flex items-center space-x-2">
                                         <input type="checkbox"
-                                            class="form-checkbox h-4 w-4 text-green-600 rounded focus:ring-green-500">
+                                            class="checkbox-rating form-checkbox h-4 w-4 text-green-600 rounded focus:ring-green-500">
                                         <span class="text-gray-600">★★☆☆☆ & Up</span>
                                     </label>
                                 </li>
@@ -269,5 +273,18 @@
     </script>
 
 
+    <script>
+
+        fetch(`/books/filter?category=${category}&price=${price}`)
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+
+                const newUrl = `/books?category=${category}&price=${price}`;
+                history.pushState({ path: newUrl }, '', newUrl);
+            })
+            .catch(error => console.error('Error:', error));
+
+    </script>
 
 @endsection
