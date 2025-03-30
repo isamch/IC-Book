@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\ElectronicBook;
 use Illuminate\Http\Request;
 
+
+
 class DigitalBookController extends Controller
 {
 
@@ -23,9 +25,39 @@ class DigitalBookController extends Controller
     }
 
 
-    public function loadMore(int $offset)
+    public function loadMore(Request $request, int $offset)
     {
 
+
+
+
+        // $electronicBooks = ElectronicBook::with(['book.images'])
+        //     ->whereHas('book', function ($query) {
+        //         $query->where('status', 1);
+        //     })
+        //     ->orderBy('id', 'asc')
+        //     ->skip(($offset))
+        //     ->take(2)
+        //     ->selectRaw('electronic_books.*, AVG(reviews.rating) as average_rating')
+        //     ->leftJoin('reviews', 'reviews.electronic_book_id', '=', 'electronic_books.id')
+        //     ->groupBy('electronic_books.id')
+        //     ->get();
+
+
+        // $electronicBooks = ElectronicBook::with(['book.images'])
+        //     ->whereHas('book', function ($query) {
+        //         $query->where('status', 1);
+        //     })
+        //     ->orderBy('id', 'asc')
+        //     ->skip(($offset))
+        //     ->take(2)
+        //     ->get()
+        //     ->map(function ($electronicBook) {
+        //         $avgRating = $electronicBook->reviews->avg('rating');
+        //         $electronicBook->argRating = number_format($avgRating, 2);
+        //         unset($electronicBook->reviews);
+        //         return $electronicBook;
+        //     });
 
 
         $electronicBooks = ElectronicBook::whereHas('book', function ($query) {
@@ -33,11 +65,13 @@ class DigitalBookController extends Controller
         })
             ->orderBy('id', 'asc')
             ->skip(($offset))
-            ->take(2)
+            ->take(5)
             ->get();
 
-        // dd($electronicBooks);
 
-        return response()->json($electronicBooks);
+        $view = view('buyer.digital-books.components.card', compact('electronicBooks'))->render();
+
+
+        return response(['html'=> $view])->header('Content-Type', 'text/html');
     }
 }
