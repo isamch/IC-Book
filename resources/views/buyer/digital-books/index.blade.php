@@ -1,3 +1,5 @@
+{{-- {{  dd($electronicBooks)  }} --}}
+
 @extends('layouts.main')
 
 @section('title', 'Books')
@@ -129,18 +131,24 @@
                 <!-- Product Grid -->
                 <div class="w-full lg:w-3/4 bg-white rounded-xl shadow-lg p-6"
                     style="height: 800px; overflow-y: auto; scrollbar-width: thin; scrollbar-color: #48bb78 #f7fafc;">
-                    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
-                        @for ($i = 1; $i <= 12; $i++)
+
+                    <div id="container-card" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 grid-container">
+
+
+                        @foreach ($electronicBooks as $electronicBook)
                             <div
-                                class="bg-white rounded-xl shadow-lg overflow-hidden transform transition-transform hover:scale-102 duration-200">
+                                class="bg-white rounded-md shadow-md overflow-hidden transform transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
+
+
                                 <div class="relative">
-                                    <img src="{{ asset('storage/images/books/default/book-1.png') }}"
-                                        alt="Product {{ $i }}" class="w-full h-60 object-cover object-center">
+                                    <img src="{{ asset('storage/' . optional($electronicBook->book->images->first())->image) }}"
+                                        alt="{{ $electronicBook->book->title }}"
+                                        class="w-full h-60 object-cover object-center">
                                     <div
-                                        class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-0 hover:opacity-80 transition-opacity duration-300 flex items-end p-4">
-                                        <a href="#buy"
-                                            class="inline-flex items-center bg-green-600 text-white py-2 px-6 rounded-full text-sm font-semibold hover:bg-green-800 transition-colors duration-100">
-                                            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor"
+                                        class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-80 flex items-end p-3">
+                                        <a href="#"
+                                            class="inline-flex items-center bg-green-600 text-white py-1.5 px-4 rounded-full text-xs font-semibold hover:bg-green-800 transition-colors duration-100">
+                                            <svg class="w-3.5 h-3.5 mr-1" fill="none" stroke="currentColor"
                                                 viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                     d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z">
@@ -151,55 +159,147 @@
                                     </div>
                                 </div>
 
-                                <div class="p-6">
-                                    <h4 class="text-xl font-semibold text-gray-900 mb-2 truncate">
-                                        <a href="#product{{ $i }}"
-                                            class="text-gray-900 hover:text-green-500 cursor-pointer">Product Title
-                                            {{ $i }}</a>
+                                <div class="p-4">
+                                    <h4 class="text-lg font-semibold text-gray-900 mb-1 truncate">
+
+                                        <a href="#" class="text-gray-900 hover:text-green-500 cursor-pointer">
+                                            {{ $electronicBook->book->title }}
+                                        </a>
                                     </h4>
 
-                                    <p class="text-gray-600 text-sm mb-4 line-clamp-3 overflow-hidden">
-                                        {{ Str::limit("Lorem ipsum dolor sit amet consectetur adipisicing elit" . $i, 50, '...') }}
+                                    <p class="text-gray-600 text-xs mb-3 line-clamp-2">
+                                        {{ Str::limit($electronicBook->book->description, 50, '...') }}
                                     </p>
 
                                     <div class="flex items-center justify-between">
                                         <div class="flex items-center space-x-1">
-                                            @for ($j = 1; $j <= 5; $j++)
-                                                @if ($j <= rand(3, 5))
-                                                    <svg class="w-4 h-4 text-yellow-400" fill="currentColor"
-                                                        viewBox="0 0 20 20">
-                                                        <path
-                                                            d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.953a1 1 0 00.95.69h4.162c.969 0 1.371 1.24.588 1.81l-3.366 2.445a1 1 0 00-.364 1.118l1.286 3.953c.3.921-.755 1.688-1.54 1.118l-3.366-2.445a1 1 0 00-1.176 0l-3.366 2.445c-.784.57-1.838-.197-1.54-1.118l1.286-3.953a1 1 0 00-.364-1.118L2.41 9.38c-.783-.57-.38-1.81.588-1.81h4.162a1 1 0 00.95-.69l1.286-3.953z">
-                                                        </path>
-                                                    </svg>
+
+
+                                            @for ($i = 0; $i < 5; $i++)
+                                                @if ($i < $electronicBook->reviews->avg('rating'))
+                                                    <i class="fas fa-star text-yellow-400 text-xs"></i>
                                                 @else
-                                                    <svg class="w-4 h-4 text-gray-300" fill="currentColor"
-                                                        viewBox="0 0 20 20">
-                                                        <path
-                                                            d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.953a1 1 0 00.95.69h4.162c.969 0 1.371 1.24.588 1.81l-3.366 2.445a1 1 0 00-.364 1.118l1.286 3.953c.3.921-.755 1.688-1.54 1.118l-3.366-2.445a1 1 0 00-1.176 0l-3.366 2.445c-.784.57-1.838-.197-1.54-1.118l1.286-3.953a1 1 0 00-.364-1.118L2.41 9.38c-.783-.57-.38-1.81.588-1.81h4.162a1 1 0 00.95-.69l1.286-3.953z">
-                                                        </path>
-                                                    </svg>
+                                                    <i class="fas fa-star text-gray-300 text-xs"></i>
                                                 @endif
                                             @endfor
-                                            <span
-                                                class="text-gray-500 text-xs ml-1">{{ rand(3, 5) }}.{{ rand(0, 9) }}</span>
+
+                                            <span class="text-gray-500 text-xs ml-1">
+                                                {{ number_format($electronicBook->reviews->avg('rating'), 1) }}
+                                            </span>
                                         </div>
-                                        <span class="text-gray-700 text-sm font-medium">${{ rand(10, 50) }}.99</span>
+                                        <span class="text-gray-700 text-xs font-medium">
+                                            ${{ number_format($electronicBook->book->price, 2) }}
+                                        </span>
                                     </div>
                                 </div>
                             </div>
-                        @endfor
+                        @endforeach
+
                     </div>
 
                     <!-- Show More Button -->
                     <div class="text-center pt-8">
-                        <a href="/more-products"
+                        <button id="load-more"
                             class="inline-flex items-center bg-transparent text-gray-600 border border-gray-600 py-2 px-6 rounded-full text-sm font-medium hover:bg-gray-100 hover:text-gray-700 transition-colors duration-200">
                             Show More Products
-                        </a>
+                        </button>
                     </div>
                 </div>
+
+
             </div>
         </div>
     </section>
+
+
+    <script>
+        let offset = 2;
+
+        function loadMoreBooks() {
+            fetch(`/books/load-more/${offset}`)
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data);
+                    offset += 2;
+                })
+                .catch(error => console.log('fetch load more error : ', error));
+
+        }
+
+        document.getElementById('load-more').addEventListener('click', loadMoreBooks());
+
+        function addloadingBooks(data) {
+
+            data.forEach(elecBook => {
+
+
+            });
+
+            let containerCard = document.getElementById('container-card');
+
+            let contetCard = `  <div
+                                    class="bg-white rounded-md shadow-md overflow-hidden transform transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
+
+
+                                    <div class="relative">
+                                        <img src="{{ asset('storage/' . optional($electronicBook->book->images->first())->image) }}"
+                                            alt="{{ $electronicBook->book->title }}"
+                                            class="w-full h-60 object-cover object-center">
+                                        <div
+                                            class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-80 flex items-end p-3">
+                                            <a href="#"
+                                                class="inline-flex items-center bg-green-600 text-white py-1.5 px-4 rounded-full text-xs font-semibold hover:bg-green-800 transition-colors duration-100">
+                                                <svg class="w-3.5 h-3.5 mr-1" fill="none" stroke="currentColor"
+                                                    viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                        d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z">
+                                                    </path>
+                                                </svg>
+                                                Buy Now
+                                            </a>
+                                        </div>
+                                    </div>
+
+                                    <div class="p-4">
+                                        <h4 class="text-lg font-semibold text-gray-900 mb-1 truncate">
+
+                                            <a href="#" class="text-gray-900 hover:text-green-500 cursor-pointer">
+                                                {{ $electronicBook->book->title }}
+                                            </a>
+                                        </h4>
+
+                                        <p class="text-gray-600 text-xs mb-3 line-clamp-2">
+                                            {{ Str::limit($electronicBook->book->description, 50, '...') }}
+                                        </p>
+
+                                        <div class="flex items-center justify-between">
+                                            <div class="flex items-center space-x-1">
+
+
+                                                @for ($i = 0; $i < 5; $i++)
+                                                    @if ($i < $electronicBook->reviews->avg('rating'))
+                                                        <i class="fas fa-star text-yellow-400 text-xs"></i>
+                                                    @else
+                                                        <i class="fas fa-star text-gray-300 text-xs"></i>
+                                                    @endif
+                                                @endfor
+
+                                                <span class="text-gray-500 text-xs ml-1">
+                                                    {{ number_format($electronicBook->reviews->avg('rating'), 1) }}
+                                                </span>
+                                            </div>
+                                            <span class="text-gray-700 text-xs font-medium">
+                                                ${{ number_format($electronicBook->book->price, 2) }}
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>`
+
+            containerCard.appendChild(contetCard);
+
+
+        }
+    </script>
+
+
 @endsection
