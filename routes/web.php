@@ -117,10 +117,19 @@ Route::middleware(['auth', 'email.verified'])->name('seller.')->group(function (
     Route::get('home', [BuyerHomeController::class, 'index'])->name('home');
 
 
-    Route::get('books', [BuyerDigitalBookController::class, 'index'])->name('books');
-    Route::get('books/load-more/{offset}', [BuyerDigitalBookController::class, 'loadMore'])->name('books.load-more');
-    Route::get('/books/filter', [BuyerDigitalBookController::class, 'applyFilter'])->name('books.applyFilter');
+    // Route::get('books', [BuyerDigitalBookController::class, 'index'])->name('books');
+    // Route::get('books/load-more/{offset}', [BuyerDigitalBookController::class, 'loadMore'])->name('books.load-more');
+    // Route::get('/books/filter', [BuyerDigitalBookController::class, 'applyFilter'])->name('books.applyFilter');
 
+    Route::prefix('books')->group(function () {
+
+        Route::get('/', [BuyerDigitalBookController::class, 'index'])->name('books.index');
+
+        Route::get('/load-more/{offset}', [BuyerDigitalBookController::class, 'loadMore'])->name('books.loadMore');
+
+        Route::get('/filter', [BuyerDigitalBookController::class, 'applyFilter'])->name('books.applyFilter');
+
+    });
 
 
 

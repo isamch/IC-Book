@@ -42,15 +42,27 @@
                             <h4 class="text-lg font-medium text-gray-800 mb-3">Categories</h4>
                             <ul class="space-y-2 max-h-48 overflow-y-auto"
                                 style="scrollbar-width: thin; scrollbar-color: #48bb78 #f7fafc;">
-                                @for ($i = 1; $i <= 8; $i++)
+                                <li>
+                                    <label class="flex items-center space-x-2">
+                                        <input type="checkbox" value="all-categories" checked
+                                            class="checkbox-category form-checkbox h-4 w-4 text-green-600 rounded focus:ring-green-500">
+                                        <span class="text-gray-600">
+                                            All
+                                        </span>
+                                    </label>
+                                </li>
+
+                                @foreach ($categories as $category)
                                     <li>
-                                        <label class="checkbox-category flex items-center space-x-2">
-                                            <input type="checkbox"
-                                                class="form-checkbox h-4 w-4 text-green-600 rounded focus:ring-green-500">
-                                            <span class="text-gray-600">Category {{ $i }}</span>
+                                        <label class="flex items-center space-x-2">
+                                            <input type="checkbox" value="{{ $category->name }}"
+                                                class="checkbox-category form-checkbox h-4 w-4 text-green-600 rounded focus:ring-green-500">
+                                            <span class="text-gray-600">
+                                                {{ $category->name }}
+                                            </span>
                                         </label>
                                     </li>
-                                @endfor
+                                @endforeach
                             </ul>
                         </div>
 
@@ -62,7 +74,7 @@
 
                                 <li>
                                     <label class="flex items-center space-x-2 cursor-pointer hover:bg-gray-50  rounded">
-                                        <input type="radio" name="price-range" value="all" checked
+                                        <input type="radio" name="price-range" value="all-prices" checked
                                             class="form-radio h-4 w-4 text-green-600 focus:ring-green-500">
                                         <span class="text-gray-600">All Prices</span>
                                     </label>
@@ -70,7 +82,7 @@
 
                                 <li>
                                     <label class="flex items-center space-x-2 cursor-pointer hover:bg-gray-50 rounded">
-                                        <input type="radio" name="price-range" value="under50"
+                                        <input type="radio" name="price-range" value="0-50"
                                             class="form-radio h-4 w-4 text-green-600 focus:ring-green-500">
                                         <span class="text-gray-600">Under $50</span>
                                     </label>
@@ -94,7 +106,7 @@
 
                                 <li>
                                     <label class="flex items-center space-x-2 cursor-pointer hover:bg-gray-50 rounded">
-                                        <input type="radio" name="price-range" value="over200"
+                                        <input type="radio" name="price-range" value="200-999999"
                                             class="form-radio h-4 w-4 text-green-600 focus:ring-green-500">
                                         <span class="text-gray-600">Over $200</span>
                                     </label>
@@ -110,48 +122,46 @@
 
                             <ul class="space-y-2 max-h-48 overflow-y-auto"
                                 style="scrollbar-width: thin; scrollbar-color: #48bb78 #f7fafc;">
-
-
-                                <li>
-                                    <label class="flex items-center space-x-2 cursor-pointer">
-                                        <input type="radio" name="rating-filter" value="5"
-                                               class="form-radio h-4 w-4 text-green-600 rounded focus:ring-green-500">
-                                        <span class="text-gray-600">★★★★★</span>
-                                    </label>
-                                </li>
                                 <li>
                                     <label class="flex items-center space-x-2 cursor-pointer">
                                         <input type="radio" name="rating-filter" value="0" checked
-                                               class="form-radio h-4 w-4 text-green-600 rounded focus:ring-green-500">
+                                            class="form-radio h-4 w-4 text-green-600 rounded focus:ring-green-500">
                                         <span class="text-gray-600">☆☆☆☆☆ & Up</span>
                                     </label>
                                 </li>
                                 <li>
                                     <label class="flex items-center space-x-2 cursor-pointer">
                                         <input type="radio" name="rating-filter" value="1"
-                                               class="form-radio h-4 w-4 text-green-600 rounded focus:ring-green-500">
+                                            class="form-radio h-4 w-4 text-green-600 rounded focus:ring-green-500">
                                         <span class="text-gray-600">★☆☆☆☆ & Up</span>
                                     </label>
                                 </li>
                                 <li>
                                     <label class="flex items-center space-x-2 cursor-pointer">
                                         <input type="radio" name="rating-filter" value="2"
-                                               class="form-radio h-4 w-4 text-green-600 rounded focus:ring-green-500">
+                                            class="form-radio h-4 w-4 text-green-600 rounded focus:ring-green-500">
                                         <span class="text-gray-600">★★☆☆☆ & Up</span>
                                     </label>
                                 </li>
                                 <li>
                                     <label class="flex items-center space-x-2 cursor-pointer">
                                         <input type="radio" name="rating-filter" value="3"
-                                               class="form-radio h-4 w-4 text-green-600 rounded focus:ring-green-500">
+                                            class="form-radio h-4 w-4 text-green-600 rounded focus:ring-green-500">
                                         <span class="text-gray-600">★★★☆☆ & Up</span>
                                     </label>
                                 </li>
                                 <li>
                                     <label class="flex items-center space-x-2 cursor-pointer">
                                         <input type="radio" name="rating-filter" value="4"
-                                               class="form-radio h-4 w-4 text-green-600 rounded focus:ring-green-500">
+                                            class="form-radio h-4 w-4 text-green-600 rounded focus:ring-green-500">
                                         <span class="text-gray-600">★★★★☆ & Up</span>
+                                    </label>
+                                </li>
+                                <li>
+                                    <label class="flex items-center space-x-2 cursor-pointer">
+                                        <input type="radio" name="rating-filter" value="5"
+                                            class="form-radio h-4 w-4 text-green-600 rounded focus:ring-green-500">
+                                        <span class="text-gray-600">★★★★★</span>
                                     </label>
                                 </li>
                             </ul>
@@ -244,33 +254,44 @@
         </div>
     </section>
 
-
     <script>
-        let offset = 5;
+        let offset = 2;
         const containerBooks = document.getElementById('container-card');
+        const loadMoreBtn = document.getElementById('load-more');
 
-        const loadMoreBooks = () => {
-            fetch(`/books/load-more/${offset}`)
-                .then(response => response.json())
-                .then(data => {
-                    // console.log(data);
-                    updateBooks(data);
-                    offset += 2;
+        const fetchBooks = (url, callback) => {
+            fetch(url, {
+                    headers: {
+                        'Accept': 'application/json'
+                    }
                 })
-                .catch(error => {
-                    console.log('fetch load more error:', error);
-                    showError();
-                });
+                .then(response => response.json())
+                .then(data => callback(data))
+                .catch(() => showError());
         };
 
-        const showLoadingSpinner = () => {
-            for (let i = 0; i < 5; i++) {
-                containerBooks.innerHTML += `
-                    <div class="spiner-load flex justify-center items-center h-40">
-                        <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-green-500"></div>
-                    </div>
-                `;
+
+        const updateBooks = (data) => {
+
+            loadMoreBtn.disabled = false;
+            loadMoreBtn.textContent = "Load More...";
+
+            containerBooks.querySelectorAll('.spiner-load').forEach(e => e.remove());
+
+            if (data.html) {
+                containerBooks.innerHTML += data.html;
+            } else {
+                loadMoreBtn.disabled = true;
+                loadMoreBtn.textContent = "No additional items available";
             }
+        };
+
+
+        const showLoadingSpinner = () => {
+            containerBooks.innerHTML += `
+                <div class="spiner-load flex justify-center items-center h-40">
+                    <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-green-500"></div>
+                </div>`;
         };
 
         const showError = () => {
@@ -279,41 +300,52 @@
                     <i class="h-16 w-16 mx-auto fas fa-exclamation-circle"></i>
                     <h3 class="mt-4 text-lg font-medium">Error loading content</h3>
                     <p class="mt-1 text-sm">Error loading content</p>
-                </div>
-            `;
+                </div>`;
         };
 
-        const updateBooks = (data) => {
-            containerBooks.querySelectorAll('.spiner-load').forEach(e => e.remove());
 
-            if (data.html) {
-                containerBooks.innerHTML += data.html;
-            } else {
-                const loadMoreBtn = document.getElementById('load-more');
-                loadMoreBtn.disabled = true;
-                loadMoreBtn.textContent = "No additional items available";
-            }
-        };
+        const getFilterData = () => ({
+            search: document.querySelector('#search-filter').value,
+            categories: Array.from(document.querySelectorAll('.checkbox-category:checked')).map(e => e.value),
+            price: document.querySelector('input[name="price-range"]:checked')?.value || '',
+            rating: document.querySelector('input[name="rating-filter"]:checked')?.value || '',
+        });
 
-        document.getElementById('load-more').addEventListener('click', () => {
+
+
+        loadMoreBtn.addEventListener('click', () => {
             showLoadingSpinner();
-            loadMoreBooks();
+
+            fetchBooks(`/books/load-more/${offset}`, updateBooks);
+
+            offset += 2;
+        });
+
+
+        document.getElementById('apply-filter').addEventListener('click', () => {
+
+            offset = 2;
+
+            const filterData = getFilterData();
+
+            const newUrl = `/books/filter?search=${filterData.search}&category=${filterData.categories.join(',')}&price=${filterData.price}&rating=${filterData.rating}`;
+
+            history.pushState({ path: newUrl }, '', newUrl);
+
+
+            fetchBooks(newUrl, (data) => {
+
+                containerBooks.innerHTML = '';
+
+                updateBooks(data);
+
+            });
+
         });
     </script>
 
 
-    <script>
-        fetch(`/books/filter?category=${category}&price=${price}`)
-            .then(response => response.json())
-            .then(data => {
-                console.log(data);
 
-                const newUrl = `/books?category=${category}&price=${price}`;
-                history.pushState({
-                    path: newUrl
-                }, '', newUrl);
-            })
-            .catch(error => console.error('Error:', error));
-    </script>
+
 
 @endsection
