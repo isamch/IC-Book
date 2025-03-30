@@ -42,7 +42,7 @@
                             <h4 class="text-lg font-medium text-gray-800 mb-3">Categories</h4>
                             <ul class="space-y-2 max-h-48 overflow-y-auto"
                                 style="scrollbar-width: thin; scrollbar-color: #48bb78 #f7fafc;">
-                                @for ($i = 1; $i <= 5; $i++)
+                                @for ($i = 1; $i <= 8; $i++)
                                     <li>
                                         <label class="checkbox-category flex items-center space-x-2">
                                             <input type="checkbox"
@@ -54,75 +54,104 @@
                             </ul>
                         </div>
 
-                        <!-- Price Filter -->
-                        <div>
+                        <div class="mt-6">
                             <h4 class="text-lg font-medium text-gray-800 mb-3">Price Range</h4>
+
                             <ul class="space-y-2 max-h-48 overflow-y-auto"
                                 style="scrollbar-width: thin; scrollbar-color: #48bb78 #f7fafc;">
+
                                 <li>
-                                    <label class="flex items-center space-x-2">
-                                        <input type="checkbox"
-                                            class="checkbox-price form-checkbox h-4 w-4 text-green-600 rounded focus:ring-green-500">
+                                    <label class="flex items-center space-x-2 cursor-pointer hover:bg-gray-50  rounded">
+                                        <input type="radio" name="price-range" value="all" checked
+                                            class="form-radio h-4 w-4 text-green-600 focus:ring-green-500">
+                                        <span class="text-gray-600">All Prices</span>
+                                    </label>
+                                </li>
+
+                                <li>
+                                    <label class="flex items-center space-x-2 cursor-pointer hover:bg-gray-50 rounded">
+                                        <input type="radio" name="price-range" value="under50"
+                                            class="form-radio h-4 w-4 text-green-600 focus:ring-green-500">
                                         <span class="text-gray-600">Under $50</span>
                                     </label>
                                 </li>
 
                                 <li>
-                                    <label class="flex items-center space-x-2">
-                                        <input type="checkbox"
-                                            class="checkbox-price form-checkbox h-4 w-4 text-green-600 rounded focus:ring-green-500">
+                                    <label class="flex items-center space-x-2 cursor-pointer hover:bg-gray-50 rounded">
+                                        <input type="radio" name="price-range" value="50-100"
+                                            class="form-radio h-4 w-4 text-green-600 focus:ring-green-500">
                                         <span class="text-gray-600">$50 - $100</span>
                                     </label>
                                 </li>
 
                                 <li>
-                                    <label class="flex items-center space-x-2">
-                                        <input type="checkbox"
-                                            class="checkbox-price form-checkbox h-4 w-4 text-green-600 rounded focus:ring-green-500">
+                                    <label class="flex items-center space-x-2 cursor-pointer hover:bg-gray-50 rounded">
+                                        <input type="radio" name="price-range" value="100-200"
+                                            class="form-radio h-4 w-4 text-green-600 focus:ring-green-500">
                                         <span class="text-gray-600">$100 - $200</span>
                                     </label>
                                 </li>
 
                                 <li>
-                                    <label class="flex items-center space-x-2">
-                                        <input type="checkbox"
-                                            class="checkbox-price form-checkbox h-4 w-4 text-green-600 rounded focus:ring-green-500">
+                                    <label class="flex items-center space-x-2 cursor-pointer hover:bg-gray-50 rounded">
+                                        <input type="radio" name="price-range" value="over200"
+                                            class="form-radio h-4 w-4 text-green-600 focus:ring-green-500">
                                         <span class="text-gray-600">Over $200</span>
                                     </label>
                                 </li>
                             </ul>
                         </div>
 
-                        <!-- Rating Filter -->
-                        <div>
+
+                        {{-- rating filter --}}
+                        <div class="mt-6">
+
                             <h4 class="text-lg font-medium text-gray-800 mb-3">Rating</h4>
-                            <ul class="space-y-2">
+
+                            <ul class="space-y-2 max-h-48 overflow-y-auto"
+                                style="scrollbar-width: thin; scrollbar-color: #48bb78 #f7fafc;">
+
+
                                 <li>
-                                    <label class="flex items-center space-x-2">
-                                        <input type="checkbox"
-                                            class="checkbox-rating form-checkbox h-4 w-4 text-green-600 rounded focus:ring-green-500">
+                                    <label class="flex items-center space-x-2 cursor-pointer">
+                                        <input type="radio" name="rating-filter" value="5"
+                                               class="form-radio h-4 w-4 text-green-600 rounded focus:ring-green-500">
                                         <span class="text-gray-600">★★★★★</span>
                                     </label>
                                 </li>
                                 <li>
-                                    <label class="flex items-center space-x-2">
-                                        <input type="checkbox"
-                                            class="checkbox-rating form-checkbox h-4 w-4 text-green-600 rounded focus:ring-green-500">
-                                        <span class="text-gray-600">★★★★☆ & Up</span>
+                                    <label class="flex items-center space-x-2 cursor-pointer">
+                                        <input type="radio" name="rating-filter" value="0" checked
+                                               class="form-radio h-4 w-4 text-green-600 rounded focus:ring-green-500">
+                                        <span class="text-gray-600">☆☆☆☆☆ & Up</span>
                                     </label>
                                 </li>
                                 <li>
-                                    <label class="flex items-center space-x-2">
-                                        <input type="checkbox"
-                                            class="checkbox-rating form-checkbox h-4 w-4 text-green-600 rounded focus:ring-green-500">
+                                    <label class="flex items-center space-x-2 cursor-pointer">
+                                        <input type="radio" name="rating-filter" value="1"
+                                               class="form-radio h-4 w-4 text-green-600 rounded focus:ring-green-500">
+                                        <span class="text-gray-600">★☆☆☆☆ & Up</span>
+                                    </label>
+                                </li>
+                                <li>
+                                    <label class="flex items-center space-x-2 cursor-pointer">
+                                        <input type="radio" name="rating-filter" value="2"
+                                               class="form-radio h-4 w-4 text-green-600 rounded focus:ring-green-500">
+                                        <span class="text-gray-600">★★☆☆☆ & Up</span>
+                                    </label>
+                                </li>
+                                <li>
+                                    <label class="flex items-center space-x-2 cursor-pointer">
+                                        <input type="radio" name="rating-filter" value="3"
+                                               class="form-radio h-4 w-4 text-green-600 rounded focus:ring-green-500">
                                         <span class="text-gray-600">★★★☆☆ & Up</span>
                                     </label>
                                 </li>
                                 <li>
-                                    <label class="flex items-center space-x-2">
-                                        <input type="checkbox"
-                                            class="checkbox-rating form-checkbox h-4 w-4 text-green-600 rounded focus:ring-green-500">
-                                        <span class="text-gray-600">★★☆☆☆ & Up</span>
+                                    <label class="flex items-center space-x-2 cursor-pointer">
+                                        <input type="radio" name="rating-filter" value="4"
+                                               class="form-radio h-4 w-4 text-green-600 rounded focus:ring-green-500">
+                                        <span class="text-gray-600">★★★★☆ & Up</span>
                                     </label>
                                 </li>
                             </ul>
@@ -274,17 +303,17 @@
 
 
     <script>
-
         fetch(`/books/filter?category=${category}&price=${price}`)
             .then(response => response.json())
             .then(data => {
                 console.log(data);
 
                 const newUrl = `/books?category=${category}&price=${price}`;
-                history.pushState({ path: newUrl }, '', newUrl);
+                history.pushState({
+                    path: newUrl
+                }, '', newUrl);
             })
             .catch(error => console.error('Error:', error));
-
     </script>
 
 @endsection

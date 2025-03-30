@@ -14,12 +14,16 @@ class DigitalBookController extends Controller
     public function index()
     {
 
-        $electronicBooks = ElectronicBook::whereHas('book', function ($query) {
-            $query->where('status', 1);
-        })
-            ->orderBy('created_at', 'desc')
+
+        $electronicBooks = ElectronicBook::selectRaw('electronic_books.*, COALESCE(SUM(rating), 0) as total_rating')
+            ->leftjoin('reviews', 'electronic_book_id', '=', 'electronic_books.id')
+            ->groupBy('electronic_books.id')
+            ->orderBy('total_rating', 'desc')
             ->take(10)
             ->get();
+
+            dd($electronicBooks->first()->book->categories);
+
 
         return view('buyer.digital-books.index', compact('electronicBooks'));
     }
@@ -75,7 +79,8 @@ class DigitalBookController extends Controller
     }
 
 
-    public function filterBooks(Request $request){
+
+    public function applyFilter(Request $request){
 
         dd($request);
 
