@@ -29,7 +29,7 @@
                         {{-- @endif --}}
                     </a>
 
-                    <a href="{{ route('seller.profile.show', Auth::user()->id) }}"
+                    <a href="{{ route('buyer.profile.show', Auth::user()->id) }}"
                         class="text-gray-800 flex items-center justify-center w-12 h-12 rounded-full bg-green-100 hover:bg-green-200">
                         @if (Auth::user()->photo)
                             <img src="{{ asset('storage/' . Auth::user()->photo) }}" alt="Profile Image"

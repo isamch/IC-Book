@@ -123,7 +123,7 @@
 
                         <!-- Form Actions -->
                         <div class="flex justify-end space-x-4 mt-8">
-                            <a href="{{ route('seller.profile.show', $user->id) }}"
+                            <a href="{{ route('buyer.profile.show', $user->id) }}"
                                 class="px-6 py-2 border border-gray-300 rounded-lg text-base font-medium text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none">
                                 Cancel
                             </a>

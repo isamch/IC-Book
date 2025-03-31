@@ -26,6 +26,7 @@ use App\Http\Controllers\Seller\MarketplaceBookController as SellerMarketplaceBo
 use App\Http\Controllers\Buyer\ProfileController as BuyerProfileController;
 use App\Http\Controllers\Buyer\HomeController as BuyerHomeController;
 use App\Http\Controllers\Buyer\DigitalBookController as BuyerDigitalBookController;
+use App\Http\Controllers\Buyer\MarketplaceBookController as BuyerMarketplaceBookController;
 
 
 
@@ -107,7 +108,7 @@ Route::middleware(['auth', 'email.verified'])->prefix('seller')->as('seller.')->
 
 
 // seller -------------------- :
-Route::middleware(['auth', 'email.verified'])->name('seller.')->group(function () {
+Route::middleware(['auth', 'email.verified'])->name('buyer.')->group(function () {
 
     Route::get('profile/{id}', [BuyerProfileController::class, 'show'])->name('profile.show');
     Route::get('profile/{id}/edit', [BuyerProfileController::class, 'edit'])->name('profile.edit');
@@ -117,20 +118,22 @@ Route::middleware(['auth', 'email.verified'])->name('seller.')->group(function (
     Route::get('home', [BuyerHomeController::class, 'index'])->name('home');
 
 
-    // Route::get('books', [BuyerDigitalBookController::class, 'index'])->name('books');
-    // Route::get('books/load-more/{offset}', [BuyerDigitalBookController::class, 'loadMore'])->name('books.load-more');
-    // Route::get('/books/filter', [BuyerDigitalBookController::class, 'applyFilter'])->name('books.applyFilter');
-
     Route::prefix('books')->group(function () {
-
         Route::get('/', [BuyerDigitalBookController::class, 'index'])->name('books.index');
-
         Route::get('/load-more/{offset}', [BuyerDigitalBookController::class, 'loadMore'])->name('books.loadMore');
-
         Route::get('/filter', [BuyerDigitalBookController::class, 'applyFilter'])->name('books.applyFilter');
-
     });
 
+
+    Route::prefix('marketplace/books')->group(function () {
+
+        Route::get('/', [BuyerMarketplaceBookController::class, 'index'])->name('marketplace.books.index');
+
+        Route::get('/load-more/{offset}', [BuyerMarketplaceBookController::class, 'loadMore'])->name('marketplace.books.loadMore');
+
+        Route::get('/filter', [BuyerMarketplaceBookController::class, 'applyFilter'])->name('marketplace.books.applyFilter');
+
+    });
 
 
     // Route::get('/messages', [MessagesController::class, 'index'])->name('messages');

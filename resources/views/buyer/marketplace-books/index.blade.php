@@ -18,15 +18,18 @@
                 <div class="w-full lg:w-1/4 bg-white rounded-xl shadow-lg p-6"
                     style="height: 800px; overflow-y: auto; scrollbar-width: thin; scrollbar-color: #48bb78 #f7fafc;">
 
-                    <button
+                    <!-- Apply Filter Button -->
+                    <button id="apply-filter"
                         class="w-full bg-green-600 text-white py-2 px-4 rounded-lg mb-6 hover:bg-green-700 transition-colors duration-200">
                         Apply Filter
                     </button>
 
+                    <!-- Search Bar -->
                     <div class="mb-6">
-                        <input type="text" placeholder="Search products..."
+                        <input id="search-filter" type="text" placeholder="Search products..."
                             class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500">
                     </div>
+
 
 
                     <div class="space-y-6">
@@ -40,129 +43,128 @@
                             <select id="dropdownResults"
                                 class="w-full px-4 py-2 border border-green-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 text-gray-800 bg-white transition-colors duration-300 ease-in-out"
                                 size="5">
-                                <option value="All" class="text-gray-800 hover:bg-green-100 py-1">All</option>
-                                <option value="Casablanca" class="text-gray-800 hover:bg-green-100 py-1">Casablanca</option>
-                                <option value="Marrakesh" class="text-gray-800 hover:bg-green-100 py-1">Marrakesh</option>
-                                <option value="Rabat" class="text-gray-800 hover:bg-green-100 py-1">Rabat</option>
-                                <option value="Fes" class="text-gray-800 hover:bg-green-100 py-1">Fes</option>
-                                <option value="Tangier" class="text-gray-800 hover:bg-green-100 py-1">Tangier</option>
-                                <option value="Safi" class="text-gray-800 hover:bg-green-100 py-1">Safi</option>
-                                <option value="El Jadida" class="text-gray-800 hover:bg-green-100 py-1">El Jadida</option>
-                                <option value="Nador" class="text-gray-800 hover:bg-green-100 py-1">Nador</option>
-                                <option value="Dakhla" class="text-gray-800 hover:bg-green-100 py-1">Dakhla</option>
-                                <option value="Asilah" class="text-gray-800 hover:bg-green-100 py-1">Asilah</option>
-                                <option value="Ifrane" class="text-gray-800 hover:bg-green-100 py-1">Ifrane</option>
-                                <option value="Beni Mellal" class="text-gray-800 hover:bg-green-100 py-1">Beni Mellal
+
+                                <!-- Default option -->
+                                <option value="All-location" selected class="text-gray-800 hover:bg-green-100 py-1">All
                                 </option>
+
+                                <!-- Loop through locations -->
+                                @foreach ($locations as $location)
+                                    <option value="{{ $location }}" class="text-gray-800 hover:bg-green-100 py-1">
+                                        {{ ucfirst($location) }}</option>
+                                @endforeach
+
                             </select>
                         </div>
 
 
 
 
+                        <!-- Category Filter -->
                         <div>
                             <h4 class="text-lg font-medium text-gray-800 mb-3">Categories</h4>
                             <ul class="space-y-2 max-h-48 overflow-y-auto"
                                 style="scrollbar-width: thin; scrollbar-color: #48bb78 #f7fafc;">
-                                @for ($i = 1; $i <= 15; $i++)
+                                <li>
+                                    <label class="flex items-center space-x-2">
+                                        <input type="checkbox" value="all-categories" checked
+                                            class="checkbox-category form-checkbox h-4 w-4 text-green-600 rounded focus:ring-green-500">
+                                        <span class="text-gray-600">
+                                            All
+                                        </span>
+                                    </label>
+                                </li>
+
+                                @foreach ($categories as $category)
                                     <li>
                                         <label class="flex items-center space-x-2">
-                                            <input type="checkbox"
-                                                class="form-checkbox h-4 w-4 text-green-600 rounded focus:ring-green-500">
-                                            <span class="text-gray-600">Category {{ $i }}</span>
+                                            <input type="checkbox" value="{{ $category->name }}"
+                                                class="checkbox-category form-checkbox h-4 w-4 text-green-600 rounded focus:ring-green-500">
+                                            <span class="text-gray-600">
+                                                {{ $category->name }}
+                                            </span>
                                         </label>
                                     </li>
-                                @endfor
+                                @endforeach
                             </ul>
                         </div>
 
-                        <div>
+
+                        <div class="mt-6">
                             <h4 class="text-lg font-medium text-gray-800 mb-3">Price Range</h4>
+
                             <ul class="space-y-2 max-h-48 overflow-y-auto"
                                 style="scrollbar-width: thin; scrollbar-color: #48bb78 #f7fafc;">
+
                                 <li>
-                                    <label class="flex items-center space-x-2">
-                                        <input type="checkbox"
-                                            class="form-checkbox h-4 w-4 text-green-600 rounded focus:ring-green-500">
+                                    <label class="flex items-center space-x-2 cursor-pointer hover:bg-gray-50  rounded">
+                                        <input type="radio" name="price-range" value="all-prices" checked
+                                            class="form-radio h-4 w-4 text-green-600 focus:ring-green-500">
+                                        <span class="text-gray-600">All Prices</span>
+                                    </label>
+                                </li>
+
+                                <li>
+                                    <label class="flex items-center space-x-2 cursor-pointer hover:bg-gray-50 rounded">
+                                        <input type="radio" name="price-range" value="0-50"
+                                            class="form-radio h-4 w-4 text-green-600 focus:ring-green-500">
                                         <span class="text-gray-600">Under $50</span>
                                     </label>
                                 </li>
+
                                 <li>
-                                    <label class="flex items-center space-x-2">
-                                        <input type="checkbox"
-                                            class="form-checkbox h-4 w-4 text-green-600 rounded focus:ring-green-500">
+                                    <label class="flex items-center space-x-2 cursor-pointer hover:bg-gray-50 rounded">
+                                        <input type="radio" name="price-range" value="50-100"
+                                            class="form-radio h-4 w-4 text-green-600 focus:ring-green-500">
                                         <span class="text-gray-600">$50 - $100</span>
                                     </label>
                                 </li>
+
                                 <li>
-                                    <label class="flex items-center space-x-2">
-                                        <input type="checkbox"
-                                            class="form-checkbox h-4 w-4 text-green-600 rounded focus:ring-green-500">
+                                    <label class="flex items-center space-x-2 cursor-pointer hover:bg-gray-50 rounded">
+                                        <input type="radio" name="price-range" value="100-200"
+                                            class="form-radio h-4 w-4 text-green-600 focus:ring-green-500">
                                         <span class="text-gray-600">$100 - $200</span>
                                     </label>
                                 </li>
+
                                 <li>
-                                    <label class="flex items-center space-x-2">
-                                        <input type="checkbox"
-                                            class="form-checkbox h-4 w-4 text-green-600 rounded focus:ring-green-500">
+                                    <label class="flex items-center space-x-2 cursor-pointer hover:bg-gray-50 rounded">
+                                        <input type="radio" name="price-range" value="200-999999"
+                                            class="form-radio h-4 w-4 text-green-600 focus:ring-green-500">
                                         <span class="text-gray-600">Over $200</span>
                                     </label>
                                 </li>
                             </ul>
                         </div>
 
-                        <div>
-                            <h4 class="text-lg font-medium text-gray-800 mb-3">Rating</h4>
-                            <ul class="space-y-2">
-                                <li>
-                                    <label class="flex items-center space-x-2">
-                                        <input type="checkbox"
-                                            class="form-checkbox h-4 w-4 text-green-600 rounded focus:ring-green-500">
-                                        <span class="text-gray-600">★★★★★</span>
-                                    </label>
-                                </li>
-                                <li>
-                                    <label class="flex items-center space-x-2">
-                                        <input type="checkbox"
-                                            class="form-checkbox h-4 w-4 text-green-600 rounded focus:ring-green-500">
-                                        <span class="text-gray-600">★★★★☆ & Up</span>
-                                    </label>
-                                </li>
-                                <li>
-                                    <label class="flex items-center space-x-2">
-                                        <input type="checkbox"
-                                            class="form-checkbox h-4 w-4 text-green-600 rounded focus:ring-green-500">
-                                        <span class="text-gray-600">★★★☆☆ & Up</span>
-                                    </label>
-                                </li>
-                                <li>
-                                    <label class="flex items-center space-x-2">
-                                        <input type="checkbox"
-                                            class="form-checkbox h-4 w-4 text-green-600 rounded focus:ring-green-500">
-                                        <span class="text-gray-600">★★☆☆☆ & Up</span>
-                                    </label>
-                                </li>
-                            </ul>
-                        </div>
+
 
 
                     </div>
                 </div>
 
+                <!-- Product Grid -->
                 <div class="w-full lg:w-3/4 bg-white rounded-xl shadow-lg p-6"
                     style="height: 800px; overflow-y: auto; scrollbar-width: thin; scrollbar-color: #48bb78 #f7fafc;">
-                    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
-                        @for ($i = 1; $i <= 12; $i++)
+
+                    <div id="container-card" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 grid-container">
+
+
+                        @foreach ($physicalBooks as $physicalBook)
                             <div
-                                class="bg-white rounded-xl shadow-lg overflow-hidden transform transition-transform hover:scale-102 duration-200">
+                                class="bg-white rounded-md shadow-md overflow-hidden transform transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
+
+
                                 <div class="relative">
-                                    <img src="{{ asset('storage/images/books/default/book-1.png') }}"
-                                        alt="Product {{ $i }}" class="w-full h-60 object-cover object-center">
+                                    <img src="{{ asset('storage/' . optional($physicalBook->book->images->first())->image) }}"
+                                        alt="{{ $physicalBook->book->title }}"
+                                        class="w-full h-60 object-cover object-center">
                                     <div
-                                        class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-0 hover:opacity-80 transition-opacity duration-300 flex items-end p-4">
-                                        <a href="#buy"
-                                            class="inline-flex items-center bg-green-600 text-white py-2 px-6 rounded-full text-sm font-semibold hover:bg-green-800 transition-colors duration-100">
-                                            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor"
+                                        class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-80 flex items-end p-3">
+                                        <a href="#"
+                                            class="inline-flex items-center bg-green-600 text-white py-1.5 px-4 rounded-full text-xs font-semibold hover:bg-green-800 transition-colors duration-100">
+                                            <svg class="w-3.5 h-3.5 mr-1" fill="none" stroke="currentColor"
                                                 viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                     d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z">
@@ -173,32 +175,43 @@
                                     </div>
                                 </div>
 
-                                <div class="p-6">
-                                    <h4 class="text-xl font-semibold text-gray-900 mb-2 truncate">
-                                        <a href="#product{{ $i }}"
-                                            class="text-gray-900 hover:text-green-500 cursor-pointer">Product Title
-                                            {{ $i }}</a>
+                                <div class="p-4">
+                                    <h4 class="text-lg font-semibold text-gray-900 mb-1 truncate">
+
+                                        <a href="#" class="text-gray-900 hover:text-green-500 cursor-pointer">
+                                            {{ $physicalBook->book->title }}
+                                        </a>
                                     </h4>
-                                    <p class="text-gray-600 text-sm mb-4 line-clamp-3 overflow-hidden">
-                                        {{ Str::limit('Lorem ipsum dolor sit amet consectetur adipisicing elit' . $i, 50, '...') }}
+
+                                    <p class="text-gray-600 text-xs mb-3 line-clamp-2">
+                                        {{ Str::limit($physicalBook->book->description, 50, '...') }}
                                     </p>
+
                                     <div class="flex items-center justify-between">
-                                        {{-- <span class="text-gray-700 text-sm font-medium">{{ $cityName }}</span> --}}
-                                        <span class="text-gray-700 text-sm font-medium">Rabat</span>
-                                        <span class="text-gray-700 text-sm font-medium">${{ rand(10, 50) }}.99</span>
+                                        <span class="text-gray-700 text-sm font-medium">
+                                            {{ $physicalBook->location }}
+                                        </span>
+                                        <span class="text-gray-700 text-xs font-medium">
+
+                                            ${{ number_format($physicalBook->book->price, 2) }}
+                                        </span>
                                     </div>
                                 </div>
                             </div>
-                        @endfor
+                        @endforeach
+
                     </div>
 
+                    <!-- Show More Button -->
                     <div class="text-center pt-8">
-                        <a href="/more-products"
+                        <button id="load-more"
                             class="inline-flex items-center bg-transparent text-gray-600 border border-gray-600 py-2 px-6 rounded-full text-sm font-medium hover:bg-gray-100 hover:text-gray-700 transition-colors duration-200">
                             Show More Products
-                        </a>
+                        </button>
                     </div>
                 </div>
+
+
             </div>
         </div>
     </section>
@@ -225,6 +238,106 @@
         }
 
         document.getElementById('searchCities').addEventListener('input', filterCities);
+    </script>
+
+
+
+    <script>
+        let offset = 2;
+        const containerBooks = document.getElementById('container-card');
+        const loadMoreBtn = document.getElementById('load-more');
+
+        const fetchBooks = (url, callback) => {
+            fetch(url, {
+                    headers: {
+                        'Accept': 'application/json'
+                    }
+                })
+                .then(response => response.json())
+                .then(data => callback(data))
+                .catch(() => showError());
+        };
+
+
+        const updateBooks = (data) => {
+
+            loadMoreBtn.disabled = false;
+            loadMoreBtn.textContent = "Load More...";
+
+            containerBooks.querySelectorAll('.spiner-load').forEach(e => e.remove());
+
+            if (data.html) {
+                containerBooks.innerHTML += data.html;
+            } else {
+                loadMoreBtn.disabled = true;
+                loadMoreBtn.textContent = "No additional items available";
+            }
+        };
+
+
+        const showLoadingSpinner = () => {
+            containerBooks.innerHTML += `
+            <div class="spiner-load flex justify-center items-center h-40">
+                <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-green-500"></div>
+            </div>`;
+        };
+
+        const showError = () => {
+            containerBooks.innerHTML += `
+            <div class="text-center py-12 text-red-500">
+                <i class="h-16 w-16 mx-auto fas fa-exclamation-circle"></i>
+                <h3 class="mt-4 text-lg font-medium">Error loading content</h3>
+                <p class="mt-1 text-sm">Error loading content</p>
+            </div>`;
+        };
+
+
+        const getFilterData = () => ({
+            search: document.querySelector('#search-filter').value,
+            categories: Array.from(document.querySelectorAll('.checkbox-category:checked')).map(e => e.value),
+            price: document.querySelector('input[name="price-range"]:checked')?.value || '',
+            location: document.getElementById('dropdownResults').value,
+        });
+
+
+
+        loadMoreBtn.addEventListener('click', () => {
+
+            showLoadingSpinner();
+
+            let params = new URLSearchParams(window.location.search);
+
+            let url = `/marketplace/books/load-more/${offset}?${params.toString()}`;
+
+            fetchBooks(url, updateBooks);
+
+            offset += 2;
+        });
+
+
+        document.getElementById('apply-filter').addEventListener('click', () => {
+
+            offset = 2;
+
+            const filterData = getFilterData();
+
+            const newUrl =
+                `/marketplace/books/filter?search=${filterData.search}&category=${filterData.categories.join(',')}&price=${filterData.price}&location=${filterData.location}`;
+
+            history.pushState({
+                path: newUrl
+            }, '', newUrl);
+
+
+            fetchBooks(newUrl, (data) => {
+
+                containerBooks.innerHTML = '';
+
+                updateBooks(data);
+
+            });
+
+        });
     </script>
 
 @endsection

@@ -80,11 +80,7 @@ class DigitalBookController extends Controller
                     $categories = array_map('strtolower', $categories);
 
                     $query->whereHas('categories', function ($categoryQuery) use ($categories) {
-                        foreach ($categories as $category) {
-                            $categoryQuery->orWhere(function ($query) use ($category) {
-                                $query->whereRaw('LOWER(name) = ?', [$category]);
-                            });
-                        }
+                        $categoryQuery->whereIn(DB::raw('LOWER(name)'), $categories);
                     });
                 }
 

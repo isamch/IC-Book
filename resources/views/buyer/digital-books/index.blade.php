@@ -316,7 +316,13 @@
         loadMoreBtn.addEventListener('click', () => {
             showLoadingSpinner();
 
-            fetchBooks(`/books/load-more/${offset}`, updateBooks);
+
+            let params = new URLSearchParams(window.location.search);
+
+            let url = `/books/load-more/${offset}?${params.toString()}`;
+
+            fetchBooks(url, updateBooks);
+
 
             offset += 2;
         });
