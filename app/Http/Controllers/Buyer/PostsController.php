@@ -14,7 +14,7 @@ class PostsController extends Controller
     {
         $posts = $this->fetchPosts();
 
-        // dd($posts);
+        // dd($posts[1]->comments);
 
         return view('buyer.posts.index', compact('posts'));
     }
