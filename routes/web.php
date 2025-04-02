@@ -138,9 +138,17 @@ Route::middleware(['auth', 'email.verified'])->name('buyer.')->group(function ()
 
     Route::prefix('posts')->group(function () {
 
-        Route::get('/', [BuyePostController::class, 'index'])->name('posts');
+        Route::get('/', [BuyePostController::class, 'index'])->name('posts.index');
 
-        Route::get('/load-more/{offset}', [BuyePostController::class, 'loadMore']);
+        Route::get('/load-more/{offset}', [BuyePostController::class, 'posts.loadMore']);
+
+        Route::post('/', [BuyePostController::class, 'storePost'])->name('posts.store');
+
+
+        Route::post('/{post}/like', [BuyePostController::class, 'toggleLike'])->name('posts.like');
+
+
+
 
     });
 
