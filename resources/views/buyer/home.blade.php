@@ -17,7 +17,7 @@
                 <h4 class="text-2xl font-semibold text-gray-800 mb-4">{{ $elecBookOfTheMonth->book->title }}</h4>
                 <p class="text-xl text-gray-600 mb-8 leading-relaxed">{{ $elecBookOfTheMonth->book->description }}</p>
 
-                <a href="#"
+                <a href="{{ route('buyer.books.show', $elecBookOfTheMonth->id) }}"
                     class="btn bg-green-500 text-white py-3 px-8 rounded-lg text-base font-semibold hover:bg-green-600 transition-all duration-200">
                     Show Details
                 </a>
@@ -79,7 +79,8 @@
                         <div class="p-4">
                             <h4 class="text-lg font-semibold text-gray-900 mb-1 truncate">
 
-                                <a href="#" class="text-gray-900 hover:text-green-500 cursor-pointer">
+                                <a href="{{ route('buyer.books.show', $topElecBook->id) }}"
+                                    class="text-gray-900 hover:text-green-500 cursor-pointer">
                                     {{ $topElecBook->book->title }}
                                 </a>
                             </h4>
@@ -115,7 +116,7 @@
             </div>
             <!-- Show More Button -->
             <div class="text-center pt-8">
-                <a href=""
+                <a href="{{ route('buyer.books.index') }}"
                     class="inline-flex items-center bg-transparent text-gray-600 border border-gray-600 py-2 px-6 rounded-full text-sm font-medium hover:bg-gray-100 hover:text-gray-700 transition-colors duration-200">
                     Show More Books
                 </a>

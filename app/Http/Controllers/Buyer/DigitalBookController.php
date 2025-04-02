@@ -162,7 +162,6 @@ class DigitalBookController extends Controller
     public function createReview(Request $request, int $id)
     {
 
-
         $request->validate([
             'selectedRating' => 'nullable|integer|between:1,5',
             'comment' => 'required|string|max:1000',

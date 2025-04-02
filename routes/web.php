@@ -27,6 +27,7 @@ use App\Http\Controllers\Buyer\ProfileController as BuyerProfileController;
 use App\Http\Controllers\Buyer\HomeController as BuyerHomeController;
 use App\Http\Controllers\Buyer\DigitalBookController as BuyerDigitalBookController;
 use App\Http\Controllers\Buyer\MarketplaceBookController as BuyerMarketplaceBookController;
+use App\Http\Controllers\Buyer\PostsController as BuyePostController;
 
 
 
@@ -101,7 +102,7 @@ Route::middleware(['auth', 'email.verified'])->prefix('seller')->as('seller.')->
 
 
 
-// seller -------------------- :
+// buyer -------------------- :
 Route::middleware(['auth', 'email.verified'])->name('buyer.')->group(function () {
 
     Route::get('profile/{id}', [BuyerProfileController::class, 'show'])->name('profile.show');
@@ -134,14 +135,20 @@ Route::middleware(['auth', 'email.verified'])->name('buyer.')->group(function ()
     });
 
 
-    // Route::get('/messages', [MessagesController::class, 'index'])->name('messages');
-    // Route::get('/posts', [PostsController::class, 'index'])->name('posts');
 
+    Route::prefix('posts')->group(function () {
+
+        Route::get('/', [BuyePostController::class, 'index'])->name('posts');
+
+        Route::get('/load-more/{offset}', [BuyePostController::class, 'loadMore']);
+
+    });
+
+
+
+    // Route::get('/messages', [MessagesController::class, 'index'])->name('messages');
 
 });
-
-
-
 
 
 
