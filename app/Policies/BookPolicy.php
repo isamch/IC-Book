@@ -21,7 +21,9 @@ class BookPolicy
      */
     public function view(User $user, Book $book): bool
     {
-        return $user->seller->id === $book->seller_id || $user->roles->pluck('name')->contains('admin');
+
+        return ($user->seller && $user->seller->id === $book->seller_id)
+        || $user->roles->pluck('name')->contains('admin');
     }
 
     /**
@@ -37,7 +39,9 @@ class BookPolicy
      */
     public function update(User $user, Book $book): bool
     {
-        return $user->roles->pluck('name')->contains('seller') && $user->seller->id === $book->seller_id;
+
+        return $user->roles->pluck('name')->contains('seller') && ($user->seller && $user->seller->id === $book->seller_id);
+
     }
 
     /**
@@ -56,6 +60,14 @@ class BookPolicy
     {
         return $user->roles->pluck('name')->contains('admin');
     }
+
+
+    // specific for buyer :
+    public function viewBuyer(User $user, Book $book): bool
+    {
+        return $book->status == true;
+    }
+
 
 
 }

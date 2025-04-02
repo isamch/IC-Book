@@ -1,4 +1,4 @@
-{{-- {{ dd($electronicBook->reviews) }} --}}
+{{-- {{ dd($electronicBook->book->seller) }} --}}
 
 @extends('layouts.main')
 
@@ -29,7 +29,9 @@
 
 
                 <div class="flex-1" style="height: fit-content">
-                    <h1 class="text-3xl font-extrabold text-gray-800 mb-4">Book Title</h1>
+                    <h1 class="text-3xl font-extrabold text-gray-800 mb-4">
+                        {{ $electronicBook->book->title }}
+                    </h1>
                     <div class="flex items-center space-x-2 mb-6">
                         <div class="flex items-center">
 
@@ -61,9 +63,21 @@
 
 
                     <div class="block text-center mb-8">
+                        <div class="flex items-center gap-4 mb-6">
+                            <img src="{{ asset('storage/' . optional($electronicBook->book->seller->user)->photo ) }}"
+                                alt="Owner Image" class="w-10 h-10 rounded-full object-cover border-2 border-gray-200">
+                            <div>
+                                <p class="text-lg font-semibold text-gray-800">
+                                    {{ $electronicBook->book->seller->user->first_name }}
+                                    {{ $electronicBook->book->seller->user->last_name }}
+                                </p>
+                            </div>
+                        </div>
+
                         <span class="text-2xl font-bold text-gray-800 block mb-4">
                             ${{ number_format($electronicBook->book->price, 2) }}
                         </span>
+
                         <button
                             class="w-full bg-green-600 text-white py-2 rounded-full text-sm font-semibold hover:bg-green-700 transition-colors duration-200 flex items-center justify-center">
                             <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">

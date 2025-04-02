@@ -24,6 +24,11 @@ class MarketplaceBookController extends Controller
 
     public function loadMore(Request $request, int $offset)
     {
+
+        if ($offset > 1000) {
+            return response()->json(['message' => 'Too many requests'], 429);
+        }
+
         $physicalBooks = $this->fetchBooks($request, $offset);
 
         $view = view('buyer.marketplace-books.components.card', compact('physicalBooks'))->render();
@@ -78,7 +83,6 @@ class MarketplaceBookController extends Controller
                 $query->whereHas('categories', function ($categoryQuery) use ($categories) {
 
                     $categoryQuery->whereIn(DB::raw('LOWER(name)'), $categories);
-
                 });
             }
 
@@ -89,7 +93,6 @@ class MarketplaceBookController extends Controller
                 $query->whereBetween('price', [(int) $minPrice, (int) ($maxPrice === '999999' ? PHP_INT_MAX : $maxPrice)]);
             }
 
-            // Ensure the book has an active status
             $query->where('status', 1);
         })
             ->when($location, function ($query) use ($location) {
@@ -97,12 +100,46 @@ class MarketplaceBookController extends Controller
                 if (!empty($location) && $location !== 'All-location') {
                     $query->whereRaw('LOWER(location) = ?', [strtolower($location)]);
                 }
-
             })
             ->orderBy('updated_at', 'desc')
             ->skip($offset)
             ->take(2)
             ->get();
-
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    // get view book:
+    public function show(int $id)
+    {
+
+        $physicalBook = PhysicalBook::findOrFail($id);
+
+        try {
+
+            $this->authorize('viewBuyer', $physicalBook->book);
+        } catch (\Illuminate\Auth\Access\AuthorizationException $e) {
+
+            return redirect()->route('buyer.marketplace.books.index')->withErrors(['You are not authorized to view this book.']);
+        }
+
+        return view('buyer.marketplace-books.view', compact('physicalBook'));
+    }
+
+
+
+
 }

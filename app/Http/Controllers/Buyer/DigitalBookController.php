@@ -23,6 +23,11 @@ class DigitalBookController extends Controller
 
     public function loadMore(Request $request, int $offset)
     {
+
+        if ($offset > 1000) {
+            return response()->json(['message' => 'Too many requests'], 429);
+        }
+
         $electronicBooks = $this->fetchBooks($request, $offset);
         $view = view('buyer.digital-books.components.card', compact('electronicBooks'))->render();
 
@@ -113,18 +118,25 @@ class DigitalBookController extends Controller
 
 
 
-
-
-
-
     // other :
 
     public function show(int $id)
     {
 
-        $electronicBook = ElectronicBook::findOrFail($id);
+        $electronicBook = ElectronicBook::with(['reviews' => function ($query) {
+            $query->orderBy('rating', 'desc');
+        }])->findOrFail($id);
+
+        try {
+
+            $this->authorize('viewBuyer', $electronicBook->book);
+        } catch (\Illuminate\Auth\Access\AuthorizationException $e) {
+
+            return redirect()->route('buyer.books.index')->withErrors(['You are not authorized to view this book.']);
+        }
 
         $hasRating = $this->hasRating($electronicBook);
+
 
         return view('buyer.digital-books.view', compact('electronicBook', 'hasRating'));
     }
@@ -135,20 +147,18 @@ class DigitalBookController extends Controller
     {
         $buyer = Auth::user()->buyer;
 
-        // dd($buyer);
-
         if (!$buyer) {
             return false;
         }
 
-        $userReviews = $electronicBook->reviews->where('buyer_id', $buyer->id);
-
-        return $userReviews->isNotEmpty();
+        return $electronicBook->reviews()
+            ->where('buyer_id', $buyer->id)
+            ->exists();
     }
 
 
-    // createReview
 
+    // createReview
     public function createReview(Request $request, int $id)
     {
 
@@ -158,7 +168,15 @@ class DigitalBookController extends Controller
             'comment' => 'required|string|max:1000',
         ]);
 
+
         $electronicBook = ElectronicBook::findOrFail($id);
+
+        if ($this->hasRating($electronicBook)) {
+            return response()->json([
+                'success' => false,
+                'message' => 'You have already submitted a review for this book.',
+            ], 400);
+        }
 
 
         $review = $electronicBook->reviews()->create([
@@ -171,7 +189,4 @@ class DigitalBookController extends Controller
 
         return response()->json(['success' => true, 'review' => $review]);
     }
-
-
-
 }

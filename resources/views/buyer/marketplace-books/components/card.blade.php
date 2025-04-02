@@ -7,7 +7,7 @@
             <img src="{{ asset('storage/' . optional($physicalBook->book->images->first())->image) }}"
                 alt="{{ $physicalBook->book->title }}" class="w-full h-60 object-cover object-center">
             <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-80 flex items-end p-3">
-                <a href="#"
+                <a href="{{ route('buyer.marketplace.books.show', $physicalBook->id) }}"
                     class="inline-flex items-center bg-green-600 text-white py-1.5 px-4 rounded-full text-xs font-semibold hover:bg-green-800 transition-colors duration-100">
                     <svg class="w-3.5 h-3.5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"

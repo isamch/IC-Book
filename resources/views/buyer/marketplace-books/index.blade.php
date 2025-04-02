@@ -178,7 +178,7 @@
                                 <div class="p-4">
                                     <h4 class="text-lg font-semibold text-gray-900 mb-1 truncate">
 
-                                        <a href="#" class="text-gray-900 hover:text-green-500 cursor-pointer">
+                                        <a href="{{ route('buyer.marketplace.books.show', $physicalBook->id) }}" class="text-gray-900 hover:text-green-500 cursor-pointer">
                                             {{ $physicalBook->book->title }}
                                         </a>
                                     </h4>

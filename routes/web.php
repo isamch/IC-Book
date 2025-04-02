@@ -85,9 +85,6 @@ Route::middleware(['auth', 'email.verified'])->prefix('admin')->as('admin.')->gr
 
     Route::resource('marketplace/books', AdminMarketplaceBookController::class)->names('marketplace.books');
     Route::patch('marketplace/books/{id}/toggle-status', [AdminMarketplaceBookController::class, 'toggleStatus'])->name('marketplace.books.toggle-status');
-
-
-
 });
 
 
@@ -96,13 +93,10 @@ Route::middleware(['auth', 'email.verified'])->prefix('admin')->as('admin.')->gr
 
 
 // seller -------------------- :
-
 Route::middleware(['auth', 'email.verified'])->prefix('seller')->as('seller.')->group(function () {
     Route::resource('books', SellerDigitalBookController::class);
 
     Route::resource('marketplace/books', SellerMarketplaceBookController::class)->names('marketplace.books');
-
-
 });
 
 
@@ -126,17 +120,16 @@ Route::middleware(['auth', 'email.verified'])->name('buyer.')->group(function ()
         Route::get('/{id}', [BuyerDigitalBookController::class, 'show'])->name('books.show');
 
         Route::post('/{id}/reviews/create', [BuyerDigitalBookController::class, 'createReview'])->name('books.review.create');
-
     });
 
 
     Route::prefix('marketplace/books')->group(function () {
 
         Route::get('/', [BuyerMarketplaceBookController::class, 'index'])->name('marketplace.books.index');
-
         Route::get('/load-more/{offset}', [BuyerMarketplaceBookController::class, 'loadMore'])->name('marketplace.books.loadMore');
-
         Route::get('/filter', [BuyerMarketplaceBookController::class, 'applyFilter'])->name('marketplace.books.applyFilter');
+
+        Route::get('/{id}', [BuyerMarketplaceBookController::class, 'show'])->name('marketplace.books.show');
 
     });
 
@@ -293,25 +286,3 @@ Route::middleware(['auth', 'email.verified'])->name('buyer.')->group(function ()
 // Route::get('/admin/orders', function () {
 //     return view('admin.order.index');
 // })->name('home');
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
