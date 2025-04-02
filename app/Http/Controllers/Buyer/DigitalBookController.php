@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\ElectronicBook;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class DigitalBookController extends Controller
@@ -106,4 +107,71 @@ class DigitalBookController extends Controller
             ->take(2)
             ->get();
     }
+
+
+
+
+
+
+
+
+
+
+    // other :
+
+    public function show(int $id)
+    {
+
+        $electronicBook = ElectronicBook::findOrFail($id);
+
+        $hasRating = $this->hasRating($electronicBook);
+
+        return view('buyer.digital-books.view', compact('electronicBook', 'hasRating'));
+    }
+
+
+
+    private function hasRating(ElectronicBook $electronicBook)
+    {
+        $buyer = Auth::user()->buyer;
+
+        // dd($buyer);
+
+        if (!$buyer) {
+            return false;
+        }
+
+        $userReviews = $electronicBook->reviews->where('buyer_id', $buyer->id);
+
+        return $userReviews->isNotEmpty();
+    }
+
+
+    // createReview
+
+    public function createReview(Request $request, int $id)
+    {
+
+
+        $request->validate([
+            'selectedRating' => 'nullable|integer|between:1,5',
+            'comment' => 'required|string|max:1000',
+        ]);
+
+        $electronicBook = ElectronicBook::findOrFail($id);
+
+
+        $review = $electronicBook->reviews()->create([
+            'rating' => $request->selectedRating,
+            'comment' => $request->comment,
+            'electronic_book_id' => $id,
+            'buyer_id' => Auth::user()->buyer->id,
+        ]);
+
+
+        return response()->json(['success' => true, 'review' => $review]);
+    }
+
+
+
 }

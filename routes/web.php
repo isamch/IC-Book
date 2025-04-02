@@ -122,6 +122,11 @@ Route::middleware(['auth', 'email.verified'])->name('buyer.')->group(function ()
         Route::get('/', [BuyerDigitalBookController::class, 'index'])->name('books.index');
         Route::get('/load-more/{offset}', [BuyerDigitalBookController::class, 'loadMore'])->name('books.loadMore');
         Route::get('/filter', [BuyerDigitalBookController::class, 'applyFilter'])->name('books.applyFilter');
+
+        Route::get('/{id}', [BuyerDigitalBookController::class, 'show'])->name('books.show');
+
+        Route::post('/{id}/reviews/create', [BuyerDigitalBookController::class, 'createReview'])->name('books.review.create');
+
     });
 
 

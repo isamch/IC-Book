@@ -99,7 +99,7 @@ class ProfileController extends Controller
 
 
 
-        return redirect()->route('seller.profile.show', $id)->with('success', 'Profile updated successfully.');
+        return redirect()->route('buyer.profile.show', $id)->with('success', 'Profile updated successfully.');
 
     }
 

@@ -65,7 +65,7 @@ class AuthController extends Controller
             $user = $this->authService->login($credentials);
             $request->session()->regenerate();
 
-            return redirect()->route('seller.home')->with('success', 'Login Success!');
+            return redirect()->intended(route('buyer.home'))->with('success', 'Login Success!');
 
         } catch (\Illuminate\Auth\AuthenticationException $e) {
 
