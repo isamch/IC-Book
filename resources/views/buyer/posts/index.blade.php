@@ -96,8 +96,7 @@
 
                             <div class="flex items-center justify-between text-gray-600">
                                 <div class="flex items-center gap-2">
-                                    <button id="like-button-{{ $post->id }}"
-                                        onclick="toggleLike({{ $post->id }})"
+                                    <button id="like-button-{{ $post->id }}" onclick="toggleLike({{ $post->id }})"
                                         class="flex items-center gap-1 hover:text-green-600 transition-colors duration-200 {{ $post->liked_by_user ? 'text-green-600' : '' }} ">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20"
                                             fill="currentColor">
@@ -128,32 +127,39 @@
 
                             <div class="mt-6">
 
-                                <div id="comments-1"
-                                    style="max-height: 12rem; overflow-y: auto; transition: max-height 0.3s ease;
-                                    scrollbar-width: thin; scrollbar-color: #48bb78 #f7fafc;
-                                    {{ $post->comments->isEmpty() ? 'max-height: 0; padding: 0;' : '' }}"
-                                    class="space-y-4">
+                                <div id="comments-container-{{ $post->id }}"
+                                    class="max-h-48 overflow-y-auto transition-all duration-300 ease-in-out space-y-4
+                                    scrollbar-thin scrollbar-thumb-green-500 scrollbar-track-gray-100 scrollbar-w-1">
+
 
                                     @foreach ($post->comments as $comment)
-                                        <div class="flex items-start gap-3">
+                                        <div class="flex items-start gap-3 mb-2">
                                             <img src="{{ asset('storage/' . optional($comment->user)->photo) }}"
-                                                alt="User Image" class="w-7 h-7 rounded-full border-2 border-green-200">
-                                            <div>
-                                                <p class="text-sm font-semibold text-green-800">
-                                                    {{ $comment->user->first_name }}
-                                                </p>
+                                                alt="User Image" class="w-8 h-8 rounded-full border-2 border-green-200">
+                                            <div class="flex-1">
+                                                <div class="flex items-center mb-2 gap-2">
+                                                    <p class="text-sm font-semibold text-green-800">
+                                                        {{ $comment->user->first_name }}
+                                                    </p>
+                                                    <p class="text-xs text-gray-500 leading-tight">
+                                                        ({{ $comment->created_at->diffForHumans() }})
+                                                    </p>
+                                                </div>
                                                 <p class="text-sm text-gray-700">
                                                     {{ $comment->content }}
                                                 </p>
                                             </div>
                                         </div>
+
+                                        <div class="border-t border-gray-300 my-2 opacity-30"></div>
                                     @endforeach
                                 </div>
 
                                 <div class="mt-4 flex items-center gap-2">
-                                    <input type="text" placeholder="Add a comment..."
+                                    <input id="comment-content-{{ $post->id }}" required type="text"
+                                        placeholder="Add a comment..."
                                         class="flex-1 p-2 border border-gray-300 rounded-lg focus:outline-none focus:border-green-500">
-                                    <button
+                                    <button onclick="addComment({{ $post->id }})"
                                         class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors duration-200 flex items-center gap-2">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 transform rotate-180"
                                             viewBox="0 0 24 24" fill="currentColor">
@@ -235,6 +241,76 @@
 
         }
     </script>
+
+
+
+    {{-- for add comments --}}
+    <script>
+        function createCommentHTML(photo, firstName, content) {
+            return `
+                <div class="flex items-start gap-3 mb-4">
+                    <img src="/storage/${photo}" alt="User Image" class="w-8 h-8 rounded-full border-2 border-green-200">
+                    <div class="flex-1">
+                        <div class="flex items-center mb-2 gap-2">
+                            <p class="text-sm font-semibold text-green-800">${firstName}</p>
+                            <p class="text-xs text-gray-500 leading-tight">
+                                (1 second ago)
+                            </p>
+                        </div>
+                        <p class="text-sm text-gray-700">
+                            ${content}
+                        </p>
+                    </div>
+                </div>
+
+                <div class="border-t border-gray-300 my-2 opacity-30"></div>
+
+
+            `;
+        }
+
+
+        function addComment(postId) {
+
+            const content = document.getElementById(`comment-content-${postId}`).value;
+
+
+            if (!content.trim()) {
+                return;
+            }
+
+            fetch(`/posts/${postId}/comment/create`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    },
+                    body: JSON.stringify({
+                        content: content
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+
+                    console.log(data.comment);
+
+                    const commentsContainer = document.getElementById(`comments-container-${postId}`);
+                    if (commentsContainer) {
+                        const newCommentHTML = createCommentHTML(data.user.photo, data.user.first_name, data.comment.content);
+                        commentsContainer.insertAdjacentHTML('afterbegin', newCommentHTML);
+                    }
+
+                    const commentInput = document.getElementById(`comment-content-${postId}`);
+                    if (commentInput) {
+                        commentInput.value = '';
+                    }
+
+                })
+                .catch(error => console.error('Error adding comment:', error));
+        };
+    </script>
+
+
 
 
 

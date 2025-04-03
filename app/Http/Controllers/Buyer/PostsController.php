@@ -16,8 +16,6 @@ class PostsController extends Controller
         $posts = $this->fetchPosts();
 
 
-        // dd($posts[3]->likes->contains('user_id', 4));
-
         return view('buyer.posts.index', compact('posts'));
     }
 
@@ -31,8 +29,6 @@ class PostsController extends Controller
         $posts = $this->fetchPosts($offset);
 
 
-        // dd($posts);
-
         $view = view('buyer.posts.components.card', compact('posts'))->render();
 
         return response(['html' => $view], 200, ['Content-Type' => 'text/html']);
@@ -41,14 +37,19 @@ class PostsController extends Controller
 
     private function fetchPosts(int $offset = 0)
     {
+
         return Post::latest()
+            ->with('comments', function($query){
+                $query->orderBy('created_at', 'desc');
+            })
             ->skip($offset)
             ->take(5)
             ->get()
-            ->map(function($post) {
+            ->map(function ($post) {
                 $post->liked_by_user = $post->likes->pluck('user_id')->contains(Auth::id());
                 return $post;
             });
+
     }
 
 
@@ -58,8 +59,6 @@ class PostsController extends Controller
     public function storePost(Request $request)
     {
 
-
-        // dd($request);
 
 
         $request->validate([
@@ -83,7 +82,6 @@ class PostsController extends Controller
 
 
         return redirect()->back()->with('success', 'Post created successfully!');
-
     }
 
 
@@ -102,26 +100,34 @@ class PostsController extends Controller
             $post->likes()->where('user_id', $userId)->delete();
 
             return response()->json(['liked' => false, 'count' => $post->likes->count()]);
-
         } else {
 
             $post->likes()->create(['user_id' => $userId]);
             return response()->json(['liked' => true, 'count' => $post->likes->count()]);
-
         }
-
     }
 
 
 
-    public function storeComment()
+    public function addComment(Request $request, Post $post)
     {
 
+        $request->validate([
+            'content' => 'required|string|max:255',
+        ]);
+
+        $comment = $post->comments()->create([
+            'user_id' => Auth::user()->id,
+            'content' => $request->content,
+        ]);
+
+
+        return response()->json([
+            'comment' => $comment,
+            'user' => [
+                'photo' => Auth::user()->photo,
+                'first_name' => Auth::user()->first_name
+            ]
+        ]);
     }
-
-
-
-
-
-
 }

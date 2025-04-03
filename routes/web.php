@@ -131,7 +131,6 @@ Route::middleware(['auth', 'email.verified'])->name('buyer.')->group(function ()
         Route::get('/filter', [BuyerMarketplaceBookController::class, 'applyFilter'])->name('marketplace.books.applyFilter');
 
         Route::get('/{id}', [BuyerMarketplaceBookController::class, 'show'])->name('marketplace.books.show');
-
     });
 
 
@@ -145,9 +144,9 @@ Route::middleware(['auth', 'email.verified'])->name('buyer.')->group(function ()
         Route::post('/', [BuyePostController::class, 'storePost'])->name('posts.store');
 
 
-        Route::post('/{post}/like', [BuyePostController::class, 'toggleLike'])->name('posts.like');
+        Route::post('/{post}/like', [BuyePostController::class, 'toggleLike'])->name('posts.likes');
 
-
+        Route::post('/{post}/comment/create', [BuyePostController::class, 'addComment'])->name('posts.comments');
 
 
     });
