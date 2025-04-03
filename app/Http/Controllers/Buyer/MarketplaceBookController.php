@@ -73,18 +73,18 @@ class MarketplaceBookController extends Controller
             }
 
             // Category Filter
-            if ($category && $category !== 'all-categories') {
-
+            if (!empty($category)) {
                 $categories = explode(',', $category);
 
+                if (!in_array('all-categories', $categories)) {
+                    $categories = array_map('strtolower', $categories);
 
-                $categories = array_map('strtolower', $categories);
-
-                $query->whereHas('categories', function ($categoryQuery) use ($categories) {
-
-                    $categoryQuery->whereIn(DB::raw('LOWER(name)'), $categories);
-                });
+                    $query->whereHas('categories', function ($categoryQuery) use ($categories) {
+                        $categoryQuery->whereIn(DB::raw('LOWER(name)'), $categories);
+                    });
+                }
             }
+
 
 
             // Price Filter
@@ -138,8 +138,4 @@ class MarketplaceBookController extends Controller
 
         return view('buyer.marketplace-books.view', compact('physicalBook'));
     }
-
-
-
-
 }

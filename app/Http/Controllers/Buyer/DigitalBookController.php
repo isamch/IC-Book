@@ -79,17 +79,17 @@ class DigitalBookController extends Controller
                 }
 
                 // Category Filter
-                if (!empty($category) && $category !== 'all-categories') {
-
+                if (!empty($category)) {
                     $categories = explode(',', $category);
 
-                    $categories = array_map('strtolower', $categories);
+                    if (!in_array('all-categories', $categories)) {
+                        $categories = array_map('strtolower', $categories);
 
-                    $query->whereHas('categories', function ($categoryQuery) use ($categories) {
-                        $categoryQuery->whereIn(DB::raw('LOWER(name)'), $categories);
-                    });
+                        $query->whereHas('categories', function ($categoryQuery) use ($categories) {
+                            $categoryQuery->whereIn(DB::raw('LOWER(name)'), $categories);
+                        });
+                    }
                 }
-
 
                 // Price Filter
                 if (!empty($price) && $price !== 'all-prices') {

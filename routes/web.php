@@ -139,7 +139,7 @@ Route::middleware(['auth', 'email.verified'])->name('buyer.')->group(function ()
 
         Route::get('/', [BuyePostController::class, 'index'])->name('posts.index');
 
-        Route::get('/load-more/{offset}', [BuyePostController::class, 'posts.loadMore']);
+        Route::get('/load-more/{offset}', [BuyePostController::class, 'loadMore']);
 
         Route::post('/', [BuyePostController::class, 'storePost'])->name('posts.store');
 

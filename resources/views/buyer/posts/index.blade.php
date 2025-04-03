@@ -173,11 +173,15 @@
                         </div>
                     @endforeach
 
-                    <div class="text-center pt-8">
-                        <a href="/more-products"
+
+
+                    <!-- Show More Button -->
+                    <div id="load-more-container" class="text-center pt-8">
+
+                        <button id="load-more-posts"
                             class="inline-flex items-center bg-transparent text-gray-600 border border-gray-600 py-2 px-6 rounded-full text-sm font-medium hover:bg-gray-100 hover:text-gray-700 transition-colors duration-200">
-                            Show More ...
-                        </a>
+                            Show More Products
+                        </button>
                     </div>
                 </div>
             </div>
@@ -296,7 +300,8 @@
 
                     const commentsContainer = document.getElementById(`comments-container-${postId}`);
                     if (commentsContainer) {
-                        const newCommentHTML = createCommentHTML(data.user.photo, data.user.first_name, data.comment.content);
+                        const newCommentHTML = createCommentHTML(data.user.photo, data.user.first_name, data.comment
+                            .content);
                         commentsContainer.insertAdjacentHTML('afterbegin', newCommentHTML);
                     }
 
@@ -313,5 +318,66 @@
 
 
 
+    <script>
+        let offset = 2;
+        const containerPosts = document.getElementById('posts-container');
+        const loadMoreBtn = document.getElementById('load-more-posts');
 
+
+        const fetchPosts = (url, callback) => {
+            fetch(url, {
+                    headers: {
+                        'Accept': 'application/json'
+                    }
+                })
+                .then(response => response.json())
+                .then(data => callback(data))
+                .catch(() => showError());
+        };
+
+
+        const updatePosts = (data) => {
+
+
+            loadMoreBtn.disabled = false;
+            loadMoreBtn.textContent = "Load More...";
+
+            containerPosts.querySelectorAll('.spiner-load').forEach(e => e.remove());
+
+
+
+            if (data.html) {
+                document.getElementById('load-more-container').insertAdjacentHTML('beforebegin', data.html);
+                // containerPosts.innerHTML += data.html;
+            } else {
+                loadMoreBtn.disabled = true;
+                loadMoreBtn.textContent = "No additional items available";
+            }
+
+        };
+
+
+        const showLoadingSpinner = () => {
+
+            document.getElementById('load-more-container').insertAdjacentHTML('beforebegin', `
+                <div class="spiner-load flex justify-center items-center h-40">
+                    <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-green-500"></div>
+                </div>
+            `);
+
+        };
+
+
+
+        loadMoreBtn.addEventListener('click', () => {
+            showLoadingSpinner();
+
+            let url = `/posts/load-more/${offset}`;
+
+            fetchPosts(url, updatePosts);
+
+            offset += 2;
+
+        });
+    </script>
 @endsection
