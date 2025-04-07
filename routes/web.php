@@ -44,6 +44,7 @@ use App\Http\Controllers\Buyer\PostsController as BuyePostController;
 */
 
 
+Route::get('/', [BuyerHomeController::class, 'index'])->name('home');
 
 
 // auth :

@@ -82,7 +82,10 @@
                                 <img src="{{ asset('storage/' . optional($post->user)->photo) }}" alt="User Image"
                                     class="w-10 h-10 rounded-full border-2 border-green-200">
                                 <div>
-                                    <p class="font-semibold text-green-800">{{ optional($post->user)->name }}</p>
+                                    <p class="font-semibold text-green-800">
+                                        {{ optional($post->user)->first_name }}
+                                        {{ optional($post->user)->last_name }}
+                                    </p>
                                     <p class="text-xs text-gray-500">{{ $post->created_at->diffForHumans() }}</p>
                                 </div>
                             </div>
