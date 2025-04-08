@@ -162,7 +162,9 @@ Route::middleware(['auth', 'email.verified'])->name('buyer.')->group(function ()
 
 
     Route::get('/chat', [ChatController::class, 'index'])->name('chat');
-    Route::get('/chat/{id}', [ChatController::class, 'getConversation']);
+    Route::get('/chat/{id}', [ChatController::class, 'getConversation'])->name('chat.conversation');
+
+    Route::post('chat/send-message', [ChatController::class, 'sendMessage'])->name('chat.message.send');
 
 
 

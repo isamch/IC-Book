@@ -15,44 +15,48 @@
                     <div class="overflow-y-auto space-y-3"
                         style="max-height: calc(100vh - 250px); overflow-y: auto; scrollbar-width: thin; scrollbar-color: #48bb78 #f7fafc;">
 
-                        @foreach ($contactsWithLastMessage as $contactAndLastMessage)
-                            <div
-                                class="flex items-center gap-3 p-3 hover:bg-gray-50 rounded-lg cursor-pointer transition-all duration-200 conversation-item">
-                                {{-- bg-green-50 border-l-4 border-green-500 --}}
+                        @foreach ($contacts as $contact)
+
+                            <a href="{{ route('chat.conversation', $contact->id) }}"
+                                class="flex items-center gap-3 p-3 hover:bg-gray-50 rounded-lg cursor-pointer transition-all duration-200 conversation-item
+                                {{ $contact->last_message->sender_id === $contact->id ? 'bg-green-50 border-l-4 border-green-500' : '' }} ">
 
                                 <div class="relative">
-                                    <img src="{{ asset('storage/' . optional($contactAndLastMessage)->photo) }}"
-                                        alt="User Image"
+                                    <img src="{{ asset('storage/' . optional($contact)->photo) }}" alt="User Image"
                                         class="w-12 h-12 rounded-full object-cover border border-gray-200 shadow-sm">
 
-                                        {{-- online offline --}}
-                                    <span class="absolute bottom-0 right-0 w-3.5 h-3.5 rounded-full bg-green-500 border-2 border-white">
+                                    {{-- online offline --}}
+                                    <span
+                                        class="absolute bottom-0 right-0 w-3.5 h-3.5 rounded-full bg-green-500 border-2 border-white">
                                     </span>
                                 </div>
 
                                 <div class="flex-1 min-w-0">
                                     <div class="flex justify-between items-baseline">
                                         <p class="text-base font-semibold text-gray-800 truncate">
-                                            {{ $contactAndLastMessage->first_name }}
-                                            {{ $contactAndLastMessage->last_name }}
+                                            {{ $contact->first_name }}
+                                            {{ $contact->last_name }}
                                         </p>
                                         <span class="text-xs text-gray-400 whitespace-nowrap">
-                                            {{ $contactAndLastMessage->last_message->updated_at->diffForHumans() }}
+                                            {{ $contact->last_message->updated_at->diffForHumans() }}
                                         </span>
                                     </div>
                                     <p class="text-xs text-gray-500 truncate">
-                                        {{ $contactAndLastMessage->last_message->content }}
+                                        {{ $contact->last_message->content }}
                                     </p>
 
                                 </div>
 
-                                <div
-                                    class="flex-shrink-0 w-5 h-5 rounded-full bg-green-500 flex items-center justify-center">
-                                    <span class="text-[10px] font-medium text-white">
+                                @if ($contact->unread_count)
+                                    <div
+                                        class="flex-shrink-0 w-4 h-4 rounded-full bg-green-500 flex items-center justify-center">
+                                        <span class="text-[9px] font-semibold text-white leading-none">
+                                            {{ $contact->unread_count }}
+                                        </span>
+                                    </div>
+                                @endif
 
-                                    </span>
-                                </div>
-                            </div>
+                            </a>
                         @endforeach
 
                     </div>

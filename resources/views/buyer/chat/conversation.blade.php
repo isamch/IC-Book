@@ -15,53 +15,259 @@
                     <div class="overflow-y-auto space-y-3"
                         style="max-height: calc(100vh - 250px); overflow-y: auto; scrollbar-width: thin; scrollbar-color: #48bb78 #f7fafc;">
 
-                        @for ($i = 1; $i <= 20; $i++)
-                            <div
+                        @foreach ($contacts as $contact)
+                            <a href="{{ route('chat.conversation', $contact->id) }}"
                                 class="flex items-center gap-3 p-3 hover:bg-gray-50 rounded-lg cursor-pointer transition-all duration-200 conversation-item
-                                {{ $i == 1 ? 'bg-green-50 border-l-4 border-green-500' : '' }}">
+                                {{ $contact->last_message->sender_id === $contact->id ? 'bg-green-50 border-l-4 border-green-500' : '' }}
+                                {{ $contact->id === $contactChat->id ? 'bg-gray-300 border-l-4 border-green-500' : '' }} ">
 
                                 <div class="relative">
-                                    <img src="{{ asset('storage/images/profile/default/default-profile.png') }}"
-                                        alt="User Image"
+                                    <img src="{{ asset('storage/' . optional($contact)->photo) }}" alt="User Image"
                                         class="w-12 h-12 rounded-full object-cover border border-gray-200 shadow-sm">
+
+                                    {{-- online offline --}}
                                     <span
-                                        class="absolute bottom-0 right-0 w-3.5 h-3.5 rounded-full bg-green-500 border-2 border-white"></span>
+                                        class="absolute bottom-0 right-0 w-3.5 h-3.5 rounded-full bg-green-500 border-2 border-white">
+                                    </span>
                                 </div>
 
                                 <div class="flex-1 min-w-0">
                                     <div class="flex justify-between items-baseline">
-                                        <p class="text-base font-semibold text-gray-800 truncate">John Doe
-                                            {{ $i }}</p>
-                                        <span class="text-xs text-gray-400 whitespace-nowrap">{{ $i }}h
-                                            ago</span>
+                                        <p class="text-base font-semibold text-gray-800 truncate">
+                                            {{ $contact->first_name }}
+                                            {{ $contact->last_name }}
+                                        </p>
+                                        <span class="text-xs text-gray-400 whitespace-nowrap">
+                                            {{ $contact->last_message->updated_at->diffForHumans() }}
+                                        </span>
                                     </div>
-                                    <p class="text-xs text-gray-500 truncate">Hello, I'm interested in your book! Would
-                                        you be willing to negotiate the price?</p>
+                                    <p class="text-xs text-gray-500 truncate">
+                                        {{ $contact->last_message->content }}
+                                    </p>
+
                                 </div>
 
-                                @if ($i == 2 || $i == 4)
+                                @if ($contact->unread_count)
                                     <div
-                                        class="flex-shrink-0 w-5 h-5 rounded-full bg-green-500 flex items-center justify-center">
-                                        <span class="text-[10px] font-medium text-white">{{ $i }}</span>
+                                        class="flex-shrink-0 w-4 h-4 rounded-full bg-green-500 flex items-center justify-center">
+                                        <span class="text-[9px] font-semibold text-white leading-none">
+                                            {{ $contact->unread_count }}
+                                        </span>
                                     </div>
                                 @endif
-                            </div>
-                        @endfor
+
+                            </a>
+                        @endforeach
+
                     </div>
                 </div>
 
                 <div class="lg:col-span-2 bg-white rounded-xl shadow-lg p-4 flex flex-col">
-                    <div class="flex items-center justify-center h-full">
-                        <p class="text-white bg-gradient-to-r from-green-400 to-blue-500 px-4 py-2 rounded-full">Select a
-                            chat to start messaging</p>
+
+                    <!-- Active Chat -->
+                    <div class="flex flex-col h-full justify-between">
+                        <!-- Chat Header -->
+                        <div class="flex items-center justify-between pb-4 border-b border-gray-100">
+                            <div class="flex items-center gap-3">
+                                <img src="{{ asset('storage/' . optional($contactChat)->photo) }}" alt="User Image"
+                                    class="w-10 h-10 rounded-full object-cover border border-gray-200">
+                                <div>
+                                    <h2 class="text-lg font-semibold text-gray-800">
+                                        {{ $contactChat->first_name }}
+                                        {{ $contactChat->last_name }}
+                                    </h2>
+                                    <p class="text-xs text-green-500">
+                                        Online
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="flex items-center gap-3">
+                                <button class="text-gray-400 hover:text-gray-600 transition-colors">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
+                                        viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                                    </svg>
+                                </button>
+                                <button class="text-gray-400 hover:text-gray-600 transition-colors">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
+                                        viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" />
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+
+
+                        <!-- Messages Area -->
+                        <div class="overflow-y-auto space-y-3"
+                            style="max-height: calc(100vh - 250px); overflow-y: auto; scrollbar-width: thin; scrollbar-color: #48bb78 #f7fafc;">
+
+                            @php
+                                $lastDate = null;
+                            @endphp
+
+                            <div id="messagesContainer" class="space-y-4">
+
+                                @foreach ($messages as $message)
+                                    @if ($message->formatted_date !== $lastDate)
+                                        <div class="flex justify-center">
+                                            <span class="text-xs bg-gray-100 text-gray-500 px-3 py-1 rounded-full">
+                                                {{ $message->formatted_date }}
+
+                                            </span>
+                                        </div>
+                                        @php $lastDate = $message->formatted_date; @endphp
+                                    @endif
+
+
+
+
+
+                                    @if ($message->sender_id != Auth::user()->id)
+                                        <div class="flex items-end" style="width: 70%;">
+
+                                            <div class="flex gap-2 items-center">
+                                                <img src="{{ asset('storage/images/profile/default/default-profile.png') }}"
+                                                    alt="User Image"
+                                                    class="w-8 h-8 rounded-full object-cover border border-gray-200 flex-shrink-0">
+                                                <div>
+                                                    <div class="bg-gray-100 rounded-2xl rounded-bl-none p-3 shadow-sm">
+                                                        <p class="text-sm text-gray-800">
+                                                            {{ $message->content }}
+                                                        </p>
+                                                    </div>
+                                                    <span style="font-size: 10px; color: #6b7280; margin-left: 0.5rem;">
+                                                        {{ $message->full_datetime }}
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @else
+                                        <!-- Outgoing Message -->
+                                        <div class="flex justify-end">
+
+                                            <div class="max-w-[85%]">
+                                                <div
+                                                    class="bg-green-500 text-white rounded-2xl rounded-br-none p-3 shadow-sm">
+                                                    <p class="text-sm">
+                                                        {{ $message->content }}
+                                                    </p>
+                                                </div>
+                                                <div class="flex items-center justify-end gap-1 mt-1">
+                                                    <span style="font-size: 10px; color: #6b7280; margin-left: 0.5rem;">
+                                                        {{ $message->full_datetime }}
+                                                    </span>
+
+                                                    @if ($message->is_read)
+                                                        <i class="fas fa-check text-green-400 text-xs"></i>
+                                                    @else
+                                                        <i class="fas fa-check text-gray-400 text-xs"></i>
+                                                    @endif
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    @endif
+                                @endforeach
+
+
+                            </div>
+                        </div>
+
+
+
+
+                        <!-- Message Input -->
+                        <div class="mt-4 border-t border-gray-100 pt-4">
+                            <div class="flex items-center gap-2">
+                                <div class="flex-grow relative">
+                                    <input type="text" id="messageInput"
+                                        class="w-full p-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-200 text-sm"
+                                        placeholder="Type your message..." />
+                                </div>
+
+                                <button id="sendMessageButton"
+                                    class="bg-green-500 hover:bg-green-600 text-white p-3 rounded-lg transition-colors duration-200 flex items-center justify-center">
+                                    <i class="fas fa-paper-plane text-sm"></i>
+                                </button>
+
+                            </div>
+                        </div>
+
+
+
                     </div>
 
-                    <div class="spinner hidden absolute inset-0 flex justify-center items-center">
-                        <div class="w-16 h-16 border-4 border-t-4 border-green-500 rounded-full animate-spin"></div>
-                    </div>
                 </div>
             </div>
         </div>
     </div>
+
+
+
+
+    {{-- script --}}
+    <script>
+        document.getElementById('sendMessageButton').addEventListener('click', function() {
+            let message = document.getElementById('messageInput').value;
+
+            if (message.trim() !== "") {
+                fetch('{{ route('chat.message.send') }}', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                        },
+                        body: JSON.stringify({
+                            message: message,
+                            receiver_id: {{ $contactChat->id }}
+                        })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+
+                        if (data.success) {
+
+                            appendSenderMessage(data.message.content, data.message.full_datetime);
+
+                            document.getElementById('messageInput').value = '';
+                        }
+
+                    })
+                    .catch(error => console.error('the Error:', error));
+            }
+        });
+
+
+
+        // display message :
+        function appendSenderMessage(content, fullDateTime) {
+            const messageWrapper = document.createElement('div');
+            messageWrapper.classList.add('flex', 'justify-end');
+
+            messageWrapper.innerHTML = `
+                <div class="max-w-[85%]">
+                    <div
+                        class="bg-green-500 text-white rounded-2xl rounded-br-none p-3 shadow-sm">
+                        <p class="text-sm">
+                            ${content}
+                        </p>
+                    </div>
+                    <div class="flex items-center justify-end gap-1 mt-1">
+                        <span style="font-size: 10px; color: #6b7280; margin-left: 0.5rem;">
+                            ${fullDateTime}
+                        </span>
+
+                        <i class="fas fa-check text-gray-400 text-xs"></i>
+                    </div>
+                </div>
+            `;
+
+            document.getElementById('messagesContainer').appendChild(messageWrapper);
+        }
+    </script>
 
 @endsection
