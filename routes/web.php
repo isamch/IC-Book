@@ -28,9 +28,7 @@ use App\Http\Controllers\Buyer\HomeController as BuyerHomeController;
 use App\Http\Controllers\Buyer\DigitalBookController as BuyerDigitalBookController;
 use App\Http\Controllers\Buyer\MarketplaceBookController as BuyerMarketplaceBookController;
 use App\Http\Controllers\Buyer\PostsController as BuyePostController;
-
-
-
+use App\Http\Controllers\Chat\ChatController;
 
 /*
 |--------------------------------------------------------------------------
@@ -163,6 +161,8 @@ Route::middleware(['auth', 'email.verified'])->name('buyer.')->group(function ()
 
 
 
+    Route::get('/chat', [ChatController::class, 'index'])->name('chat');
+    Route::get('/chat/{id}', [ChatController::class, 'getConversation']);
 
 
 

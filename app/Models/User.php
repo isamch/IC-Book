@@ -85,6 +85,19 @@ class User extends Authenticatable
         return $this->hasMany(Message::class, 'receiver_id');
     }
 
+    public function contacts()
+    {
+        $sentIds = $this->sentMessages()->pluck('receiver_id')->toArray();
+        $receivedIds = $this->receivedMessages()->pluck('sender_id')->toArray();
+
+        $allIds = collect($sentIds)->merge($receivedIds)->unique();
+
+        // $allIds = array_unique(array_merge($sentIds, $receivedIds));
+
+        return User::whereIn('id', $allIds)->get();
+    }
+
+
     // posts:
     public function posts()
     {
@@ -100,5 +113,4 @@ class User extends Authenticatable
     {
         return $this->hasMany(Like::class);
     }
-
 }

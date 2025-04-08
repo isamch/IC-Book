@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\Role;
 use App\Repositories\BuyerRepository;
 use App\Repositories\SellerRepository;
 use App\Repositories\UserRepository;
@@ -30,8 +31,10 @@ class AuthService
     {
         if ($data['user_type'] === 'buyer') {
             return $this->registerBuyer($data);
+
         } elseif ($data['user_type'] === 'seller') {
             return $this->registerSeller($data);
+
         } elseif ($data['user_type'] === 'admin') {
             return $this->registerUser($data);
         }
@@ -52,7 +55,15 @@ class AuthService
 
         $data['password'] = Hash::make($data['password']);
 
-        return $this->UserRepository->create($data);
+        $user = $this->UserRepository->create($data);
+
+        $this->buyerRepository->create(['user_id' => $user->id]);
+
+        $this->assignRole($user, $data['user_type']);
+
+        return $user;
+
+
     }
 
     public function registerBuyer(array $data)
@@ -92,5 +103,18 @@ class AuthService
     public function logout()
     {
         Auth::logout();
+    }
+
+
+
+    public function assignRole($user, $userType)
+    {
+        if ($userType === 'seller') {
+            $user->roles()->syncWithoutDetaching([Role::where('name', 'buyer')->first()->id]);
+            $user->roles()->syncWithoutDetaching([Role::where('name', 'seller')->first()->id]);
+        } elseif ($userType === 'admin') {
+            $user->roles()->syncWithoutDetaching([Role::where('name', 'buyer')->first()->id]);
+            $user->roles()->syncWithoutDetaching([Role::where('name', 'admin')->first()->id]);
+        }
     }
 }
