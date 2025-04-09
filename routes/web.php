@@ -169,6 +169,9 @@ Route::middleware(['auth', 'email.verified'])->name('buyer.')->group(function ()
 
 
 
+    Route::get('/test/chat', function () {
+        return view('buyer.chat.testChat');
+    });
 
 
 

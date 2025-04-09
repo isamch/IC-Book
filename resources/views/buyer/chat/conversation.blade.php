@@ -18,7 +18,7 @@
                         @foreach ($contacts as $contact)
                             <a href="{{ route('chat.conversation', $contact->id) }}"
                                 class="flex items-center gap-3 p-3 hover:bg-gray-50 rounded-lg cursor-pointer transition-all duration-200 conversation-item
-                                {{ $contact->last_message->sender_id === $contact->id ? 'bg-green-50 border-l-4 border-green-500' : '' }}
+                                {{-- {{ $contact->last_message->sender_id === $contact->id ? 'bg-green-50 border-l-4 border-green-500' : '' }} --}}
                                 {{ $contact->id === $contactChat->id ? 'bg-gray-300 border-l-4 border-green-500' : '' }} ">
 
                                 <div class="relative">
@@ -42,6 +42,14 @@
                                         </span>
                                     </div>
                                     <p class="text-xs text-gray-500 truncate">
+                                        @if ($contact->last_message->sender_id != $contact->id)
+                                            @if ($contact->last_message->is_read)
+                                                <i class="fas fa-check text-green-400 text-xs"></i>
+                                            @else
+                                                <i class="fas fa-check text-gray-400 text-xs"></i>
+                                            @endif
+                                        @endif
+
                                         {{ $contact->last_message->content }}
                                     </p>
 
@@ -102,7 +110,7 @@
 
 
                         <!-- Messages Area -->
-                        <div class="overflow-y-auto space-y-3"
+                        <div id="scroll-conversation" class="overflow-y-auto space-y-3"
                             style="max-height: calc(100vh - 250px); overflow-y: auto; scrollbar-width: thin; scrollbar-color: #48bb78 #f7fafc;">
 
                             @php
@@ -231,9 +239,12 @@
 
                         if (data.success) {
 
-                            appendSenderMessage(data.message.content, data.message.full_datetime);
+
+                            appendSenderMessage(data.message.content, data.full_datetime);
 
                             document.getElementById('messageInput').value = '';
+                            scrollDown();
+
                         }
 
                     })
@@ -269,5 +280,61 @@
             document.getElementById('messagesContainer').appendChild(messageWrapper);
         }
     </script>
+
+    {{-- script foe laravel echo --}}
+    <script>
+        window.addEventListener('DOMContentLoaded', function() {
+
+            let user_id = document.querySelector('meta[name="user-id"]').getAttribute('content');
+
+            window.Echo.private('chat.' + user_id)
+                .listen('MessageSent', (e) => {
+                    appendReceiveMessage(e.message);
+
+                });
+
+        });
+
+
+
+        // append recive message :
+        function appendReceiveMessage(message) {
+            const chatBox = document.getElementById('messagesContainer');
+
+            const messageElement = document.createElement('div');
+            messageElement.className = 'flex items-end w-[70%]';
+
+            messageElement.innerHTML = `
+                <div class="flex gap-2 items-center">
+                    <img src="/storage/images/profile/default/default-profile.png"
+                        alt="User Image"
+                        class="w-8 h-8 rounded-full object-cover border border-gray-200 flex-shrink-0">
+                    <div>
+                        <div class="bg-gray-100 rounded-2xl rounded-bl-none p-3 shadow-sm">
+                            <p class="text-sm text-gray-800">
+                                ${message.content}
+                            </p>
+                        </div>
+                        <span style="font-size: 10px; color: #6b7280; margin-left: 0.5rem;">
+                            ${message.full_datetime}
+                        </span>
+                    </div>
+                </div>
+            `;
+
+            chatBox.appendChild(messageElement);
+            scrollDown();
+        }
+
+
+        function scrollDown() {
+            const scrollChat = document.getElementById('scroll-conversation');
+            scrollChat.scrollTop = scrollChat.scrollHeight;
+
+        }
+        scrollDown();
+    </script>
+
+
 
 @endsection

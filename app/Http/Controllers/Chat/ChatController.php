@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Chat;
 
+use App\Events\MessageSent;
 use App\Http\Controllers\Controller;
 use App\Models\Message;
 use App\Models\User;
@@ -48,7 +49,8 @@ class ChatController extends Controller
             ->get()
             ->map(function ($message) {
 
-                return $this->formatMessageDate($message);;
+                $test = $message->full_datetime;
+                return $message;
             });
 
 
@@ -91,27 +93,6 @@ class ChatController extends Controller
     }
 
 
-    private function formatMessageDate($message)
-    {
-        $date = \Carbon\Carbon::parse($message->created_at);
-
-        if ($date->isToday()) {
-            $message->formatted_date = 'Today';
-        } elseif ($date->isYesterday()) {
-            $message->formatted_date = 'Yesterday';
-        } else {
-            $message->formatted_date = $date->format('d M Y');
-        }
-
-        $message->formatted_time = $date->format('h:i A');
-        $message->full_datetime = $message->formatted_date . ', ' . $message->formatted_time;
-
-        return $message;
-    }
-
-
-
-
 
 
 
@@ -132,11 +113,8 @@ class ChatController extends Controller
         ]);
 
 
-        $message = $this->formatMessageDate($message);
+        broadcast(new MessageSent($message))->toOthers();
 
-
-        // broadcast(new MessageSent($message));
-
-        return response()->json(['success' => true, 'message' => $message]);
+        return response()->json(['success' => true, 'message' => $message, 'full_datetime'=> $message->full_datetime]);
     }
 }

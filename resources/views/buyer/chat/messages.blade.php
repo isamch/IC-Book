@@ -16,10 +16,10 @@
                         style="max-height: calc(100vh - 250px); overflow-y: auto; scrollbar-width: thin; scrollbar-color: #48bb78 #f7fafc;">
 
                         @foreach ($contacts as $contact)
-
                             <a href="{{ route('chat.conversation', $contact->id) }}"
                                 class="flex items-center gap-3 p-3 hover:bg-gray-50 rounded-lg cursor-pointer transition-all duration-200 conversation-item
-                                {{ $contact->last_message->sender_id === $contact->id ? 'bg-green-50 border-l-4 border-green-500' : '' }} ">
+                                {{-- {{ $contact->last_message->sender_id === $contact->id ? 'bg-green-50 border-l-4 border-green-500' : '' }}  --}}
+                                 ">
 
                                 <div class="relative">
                                     <img src="{{ asset('storage/' . optional($contact)->photo) }}" alt="User Image"
@@ -42,6 +42,14 @@
                                         </span>
                                     </div>
                                     <p class="text-xs text-gray-500 truncate">
+                                        @if ($contact->last_message->sender_id != $contact->id)
+                                            @if ($contact->last_message->is_read)
+                                            <i class="fas fa-check text-green-400 text-xs"></i>
+                                            @else
+                                            <i class="fas fa-check text-gray-400 text-xs"></i>
+                                            @endif
+                                        @endif
+
                                         {{ $contact->last_message->content }}
                                     </p>
 
