@@ -19,12 +19,12 @@ class MessageSent implements ShouldBroadcast
      */
 
     public $message;
-    // public $full_datetime;
+    public $unreadCount;
 
-    public function __construct($message)
+    public function __construct($message, $unreadCount)
     {
         $this->message = $message;
-
+        $this->unreadCount = $unreadCount;
     }
 
     /**
@@ -34,8 +34,6 @@ class MessageSent implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        // dd($this->message);
-
         return new PrivateChannel('chat.' . $this->message->receiver_id);
     }
 
@@ -43,9 +41,6 @@ class MessageSent implements ShouldBroadcast
 
     public function broadcastWith()
     {
-        // return [
-        //     'message' => $this->message
-        // ];
 
         return [
             'message' => [
@@ -55,6 +50,7 @@ class MessageSent implements ShouldBroadcast
                 'sender_id' => $this->message->sender_id,
                 'receiver_id' => $this->message->receiver_id,
                 'is_read' => $this->message->is_read,
+                'count_unread' => $this->unreadCount,
             ],
         ];
 

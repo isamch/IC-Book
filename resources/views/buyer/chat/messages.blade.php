@@ -16,7 +16,7 @@
                         style="max-height: calc(100vh - 250px); overflow-y: auto; scrollbar-width: thin; scrollbar-color: #48bb78 #f7fafc;">
 
                         @foreach ($contacts as $contact)
-                            <a href="{{ route('chat.conversation', $contact->id) }}"
+                            <a href="{{ route('chat.conversation', $contact->id) }}" data-sender-contact-id="{{ $contact->id }}"
                                 class="flex items-center gap-3 p-3 hover:bg-gray-50 rounded-lg cursor-pointer transition-all duration-200 conversation-item
                                 {{-- {{ $contact->last_message->sender_id === $contact->id ? 'bg-green-50 border-l-4 border-green-500' : '' }}  --}}
                                  ">
@@ -41,12 +41,16 @@
                                             {{ $contact->last_message->updated_at->diffForHumans() }}
                                         </span>
                                     </div>
-                                    <p class="text-xs text-gray-500 truncate">
+
+                                    <p data-sender-uncheck-contact-id="{{ $contact->id }}"
+                                        class="text-xs text-gray-500 truncate">
+
                                         @if ($contact->last_message->sender_id != $contact->id)
                                             @if ($contact->last_message->is_read)
-                                            <i class="fas fa-check text-green-400 text-xs"></i>
+                                                <i class="fas fa-check-double text-green-500 text-xs"></i>
                                             @else
-                                            <i class="fas fa-check text-gray-400 text-xs"></i>
+                                                <i class="fas fa-check text-gray-400 text-xs"
+                                                    data-sender-uncheck-id="{{ $contact->last_message->sender_id }}"></i>
                                             @endif
                                         @endif
 
@@ -55,14 +59,22 @@
 
                                 </div>
 
-                                @if ($contact->unread_count)
+
+                                {{-- @if ($contact->unread_count)
                                     <div
                                         class="flex-shrink-0 w-4 h-4 rounded-full bg-green-500 flex items-center justify-center">
                                         <span class="text-[9px] font-semibold text-white leading-none">
                                             {{ $contact->unread_count }}
                                         </span>
                                     </div>
-                                @endif
+                                @endif --}}
+
+                                <div data-sender-notification-contact-id="{{ $contact->id }}" class="flex-shrink-0 w-4 h-4 rounded-full bg-green-500 flex items-center justify-center
+                                    @if ($contact->unread_count == 0) hidden @endif">
+                                    <span class="text-[9px] font-semibold text-white leading-none">
+                                        {{ $contact->unread_count }}
+                                    </span>
+                                </div>
 
                             </a>
                         @endforeach
@@ -83,6 +95,62 @@
             </div>
         </div>
     </div>
+
+
+
+
+    <script>
+        window.addEventListener('DOMContentLoaded', function() {
+
+            let user_id = document.querySelector('meta[name="user-id"]').getAttribute('content');
+
+            window.Echo.private('chat.' + user_id)
+                .listen('MessageSent', (e) => {
+
+                    console.log(e);
+                    appendMessageContact(e.message, false);
+                    showNotification(e.message.sender_id, e.message.count_unread);
+
+                });
+
+        });
+
+
+
+        // // send message convesation append
+        function appendMessageContact(message, mine){
+
+            let otherUserId = message.sender_id;
+
+            const uncheckMessageContact = document.querySelector(`[data-sender-uncheck-contact-id="${otherUserId}"]`);
+
+            console.log(uncheckMessageContact);
+
+            if (mine) {
+                uncheckMessageContact.innerHTML = `
+                <i class="fas fa-check text-gray-400 text-xs"
+                    data-sender-uncheck-id="{{ $contact->last_message->sender_id  ?? '' }}"></i>
+
+                ${ message.content }
+            `;
+            } else {
+                uncheckMessageContact.innerHTML = `${ message.content }`;
+            }
+
+        };
+
+
+        // show notifcation:
+        function showNotification(otherUserId, unreadCount){
+            const contactNotificationCount = document.querySelector(`[data-sender-notification-contact-id="${otherUserId}"]`);
+            contactNotificationCount.classList.remove('hidden');
+            contactNotificationCount.querySelector('span').textContent = unreadCount;
+        };
+
+
+
+
+    </script>
 
 
 @endsection

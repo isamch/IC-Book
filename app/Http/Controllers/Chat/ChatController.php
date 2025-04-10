@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Chat;
 
+use App\Events\MarkAsReadEvent;
 use App\Events\MessageSent;
 use App\Http\Controllers\Controller;
 use App\Models\Message;
@@ -47,18 +48,23 @@ class ChatController extends Controller
             })
             ->orderBy('created_at', 'asc')
             ->get()
-            ->map(function ($message) {
+            ->map(function ($message) use ($authId) {
 
                 $test = $message->full_datetime;
+
+                // make is_read true:
+                if ($message->receiver_id == $authId && !$message->is_read) {
+                    $message->is_read = true;
+                    $message->save();
+                }
+
                 return $message;
             });
 
+        broadcast(new MarkAsReadEvent($otherUserId, $authId))->toOthers();
 
         return view('buyer.chat.conversation', compact('messages', 'contacts', 'contactChat'));
     }
-
-
-
 
 
 
@@ -97,15 +103,10 @@ class ChatController extends Controller
 
 
 
-
-
-
-
     // send message :
     public function sendMessage(Request $request)
     {
 
-        // dd($request);
         $message = Message::create([
             'sender_id' => Auth::user()->id,
             'receiver_id' => $request->receiver_id,
@@ -113,8 +114,35 @@ class ChatController extends Controller
         ]);
 
 
-        broadcast(new MessageSent($message))->toOthers();
+        $unreadCount = Message::where('sender_id', Auth::user()->id)
+                ->where('receiver_id', $request->receiver_id)
+                ->where('is_read', false)
+                ->count();
 
-        return response()->json(['success' => true, 'message' => $message, 'full_datetime'=> $message->full_datetime]);
+
+        broadcast(new MessageSent($message, $unreadCount))->toOthers();
+
+        return response()->json(['success' => true, 'message' => $message, 'full_datetime' => $message->full_datetime]);
+    }
+
+
+
+
+    public function markAsRead(Request $request)
+    {
+        $user_seen_id = Auth::user()->id;
+
+        $user_send_msg = $request->input('sender_id');
+
+
+        Message::where('sender_id', $user_send_msg)
+            ->where('receiver_id', $user_seen_id)
+            ->where('is_read', false)
+            ->update(['is_read' => true]);
+
+
+        broadcast(new MarkAsReadEvent($user_send_msg, $user_seen_id))->toOthers();
+
+        return response()->json(['status' => 'broadcasted']);
     }
 }

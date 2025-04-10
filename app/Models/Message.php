@@ -15,6 +15,7 @@ class Message extends Model
         'sender_id',
         'receiver_id',
         'content',
+        'is_read',
     ];
 
 
@@ -42,9 +43,7 @@ class Message extends Model
             $formatted_date = $date->format('d M Y');
         }
 
-       $formatted_time = $date->format('h:i A');
-       return $formatted_date . ', ' . $formatted_time;
+        $formatted_time = $date->format('h:i A');
+        return $formatted_date . ', ' . $formatted_time;
     }
-
-
 }

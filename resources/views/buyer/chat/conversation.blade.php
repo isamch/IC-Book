@@ -41,12 +41,15 @@
                                             {{ $contact->last_message->updated_at->diffForHumans() }}
                                         </span>
                                     </div>
-                                    <p class="text-xs text-gray-500 truncate">
+
+                                    <p data-sender-uncheck-contact-id="{{ $contact->id }}"
+                                        class="text-xs text-gray-500 truncate">
                                         @if ($contact->last_message->sender_id != $contact->id)
                                             @if ($contact->last_message->is_read)
-                                                <i class="fas fa-check text-green-400 text-xs"></i>
+                                                <i class="fas fa-check-double text-green-500 text-xs"></i>
                                             @else
-                                                <i class="fas fa-check text-gray-400 text-xs"></i>
+                                                <i class="fas fa-check text-gray-400 text-xs"
+                                                    data-sender-uncheck-id="{{ $contact->last_message->sender_id }}"></i>
                                             @endif
                                         @endif
 
@@ -55,14 +58,21 @@
 
                                 </div>
 
-                                @if ($contact->unread_count)
+                                {{-- @if ($contact->unread_count && $contact->id != $contactChat->id)
                                     <div
                                         class="flex-shrink-0 w-4 h-4 rounded-full bg-green-500 flex items-center justify-center">
                                         <span class="text-[9px] font-semibold text-white leading-none">
                                             {{ $contact->unread_count }}
                                         </span>
                                     </div>
-                                @endif
+                                @endif --}}
+
+                                <div data-sender-notification-contact-id="{{ $contact->id }}" class="flex-shrink-0 w-4 h-4 rounded-full bg-green-500 flex items-center justify-center
+                                    @if ($contact->unread_count == 0) hidden @endif">
+                                    <span class="text-[9px] font-semibold text-white leading-none">
+                                        {{ $contact->unread_count }}
+                                    </span>
+                                </div>
 
                             </a>
                         @endforeach
@@ -138,7 +148,7 @@
                                         <div class="flex items-end" style="width: 70%;">
 
                                             <div class="flex gap-2 items-center">
-                                                <img src="{{ asset('storage/images/profile/default/default-profile.png') }}"
+                                                <img src="{{ asset('storage/' . optional($contactChat)->photo) }}"
                                                     alt="User Image"
                                                     class="w-8 h-8 rounded-full object-cover border border-gray-200 flex-shrink-0">
                                                 <div>
@@ -170,9 +180,10 @@
                                                     </span>
 
                                                     @if ($message->is_read)
-                                                        <i class="fas fa-check text-green-400 text-xs"></i>
+                                                        <i class="fas fa-check-double text-green-500 text-xs"></i>
                                                     @else
-                                                        <i class="fas fa-check text-gray-400 text-xs"></i>
+                                                        <i class="fas fa-check text-gray-400 text-xs"
+                                                            data-sender-uncheck-id="{{ $message->sender_id }}"></i>
                                                     @endif
                                                 </div>
                                             </div>
@@ -204,7 +215,6 @@
 
                             </div>
                         </div>
-
 
 
                     </div>
@@ -241,7 +251,7 @@
 
 
                             appendSenderMessage(data.message.content, data.full_datetime);
-
+                            appendMessageContact(data.message, true);
                             document.getElementById('messageInput').value = '';
                             scrollDown();
 
@@ -253,11 +263,50 @@
         });
 
 
+        // send message convesation append
+        function appendMessageContact(message, mine) {
+
+            let otherUserId = {{ $contactChat->id }};
+
+            const uncheckMessageContact = document.querySelector(`[data-sender-uncheck-contact-id="${otherUserId}"]`);
+
+            // if (mine) {
+            //     uncheckMessageContact.innerHTML = `
+            //         <i class="fas fa-check text-gray-400 text-xs"
+            //             data-sender-uncheck-id="{{ $contact->last_message->sender_id ?? ''}}"></i>
+
+            //         ${ message.content }
+            //     `;
+            // } else {
+            //     uncheckMessageContact.innerHTML = `${ message.content }`;
+            // }
+
+            if (uncheckMessageContact) {
+                if (mine) {
+                    uncheckMessageContact.innerHTML = `
+                        <i class="fas fa-check text-gray-400 text-xs"
+                            data-sender-uncheck-id="{{ $contact->last_message->sender_id ?? '' }}"></i>
+
+                        ${ message.content }
+                    `;
+                } else {
+                    uncheckMessageContact.innerHTML = `${ message.content }`;
+                }
+            }
+
+
+        };
+
+
 
         // display message :
         function appendSenderMessage(content, fullDateTime) {
+            let user_id = document.querySelector('meta[name="user-id"]').getAttribute('content');
+
             const messageWrapper = document.createElement('div');
             messageWrapper.classList.add('flex', 'justify-end');
+
+            messageWrapper.setAttribute('data-sender-id', user_id);
 
             messageWrapper.innerHTML = `
                 <div class="max-w-[85%]">
@@ -272,7 +321,7 @@
                             ${fullDateTime}
                         </span>
 
-                        <i class="fas fa-check text-gray-400 text-xs"></i>
+                        <i class="fas fa-check text-gray-400 text-xs" data-sender-uncheck-id="${ user_id }"></i>
                     </div>
                 </div>
             `;
@@ -290,10 +339,22 @@
             window.Echo.private('chat.' + user_id)
                 .listen('MessageSent', (e) => {
                     appendReceiveMessage(e.message);
+                    appendMessageContact(e.message, false);
+                    showNotification(e.message.sender_id, e.message.count_unread);
+                    seenMessage();
 
                 });
 
         });
+
+
+        // show notifcation:
+        function showNotification(otherUserId, unreadCount) {
+            const contactNotificationCount = document.querySelector(
+                `[data-sender-notification-contact-id="${otherUserId}"]`);
+            contactNotificationCount.classList.remove('hidden');
+            contactNotificationCount.querySelector('span').textContent = unreadCount;
+        };
 
 
 
@@ -306,7 +367,7 @@
 
             messageElement.innerHTML = `
                 <div class="flex gap-2 items-center">
-                    <img src="/storage/images/profile/default/default-profile.png"
+                    <img src="{{ asset('storage/' . optional($contactChat)->photo) }}"
                         alt="User Image"
                         class="w-8 h-8 rounded-full object-cover border border-gray-200 flex-shrink-0">
                     <div>
@@ -336,5 +397,79 @@
     </script>
 
 
+    <script>
+        // make message seen
 
+        window.addEventListener('DOMContentLoaded', function() {
+
+            let user_id = document.querySelector('meta[name="user-id"]').getAttribute('content');
+
+
+            Echo.private('seen.' + user_id)
+                .listen('MarkAsReadEvent', (event) => {
+
+                    markMessagesAsRead(event.user_send_meg);
+                });
+
+
+        });
+
+
+
+        function markMessagesAsRead(contactId) {
+
+            const uncheckMessage = document.querySelectorAll(`[data-sender-uncheck-id="${contactId}"]`);
+
+
+            uncheckMessage.forEach(msg => {
+                if (msg) {
+                    msg.classList.remove('text-gray-400', 'fa-check');
+                    msg.classList.add('text-green-500', 'fa-check-double');
+                }
+            });
+
+
+        }
+    </script>
+
+
+    <script>
+        function seenMessage() {
+
+
+
+            let user_id = document.querySelector('meta[name="user-id"]').getAttribute('content');
+
+            let otherUserId = {{ $contactChat->id }};
+            let isInCurrentPage = window.location.pathname === '/chat/' + otherUserId;
+
+
+            if (isInCurrentPage) {
+
+
+                fetch('/chat/mark-as-read', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                        },
+                        body: JSON.stringify({
+                            sender_id: otherUserId
+                        })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                    });
+
+            }
+
+
+        }
+
+        // seenMessage();
+    </script>
 @endsection

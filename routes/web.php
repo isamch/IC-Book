@@ -146,8 +146,6 @@ Route::middleware(['auth', 'email.verified'])->name('buyer.')->group(function ()
         Route::post('/{post}/like', [BuyePostController::class, 'toggleLike'])->name('posts.likes');
 
         Route::post('/{post}/comment/create', [BuyePostController::class, 'addComment'])->name('posts.comments');
-
-
     });
 
 
@@ -159,19 +157,22 @@ Route::middleware(['auth', 'email.verified'])->name('buyer.')->group(function ()
 
 
 
-
+Route::middleware(['auth', 'email.verified'])->group(function () {
 
     Route::get('/chat', [ChatController::class, 'index'])->name('chat');
     Route::get('/chat/{id}', [ChatController::class, 'getConversation'])->name('chat.conversation');
 
     Route::post('chat/send-message', [ChatController::class, 'sendMessage'])->name('chat.message.send');
 
+    Route::post('/chat/mark-as-read', [ChatController::class, 'markAsRead'])->name('chat.markAsRead');
+
+});
 
 
 
-    Route::get('/test/chat', function () {
-        return view('buyer.chat.testChat');
-    });
+Route::get('/test/chat', function () {
+    return view('buyer.chat.testChat');
+});
 
 
 
