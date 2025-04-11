@@ -67,7 +67,8 @@
                                     </div>
                                 @endif --}}
 
-                                <div data-sender-notification-contact-id="{{ $contact->id }}" class="flex-shrink-0 w-4 h-4 rounded-full bg-green-500 flex items-center justify-center
+                                <div data-sender-notification-contact-id="{{ $contact->id }}"
+                                    class="flex-shrink-0 w-4 h-4 rounded-full bg-green-500 flex items-center justify-center
                                     @if ($contact->unread_count == 0) hidden @endif">
                                     <span class="text-[9px] font-semibold text-white leading-none">
                                         {{ $contact->unread_count }}
@@ -265,20 +266,24 @@
 
         // send message convesation append
         function appendMessageContact(message, mine) {
-            let otherUserId = message.sender_id;
+
+            let otherUserId = {{ $contactChat->id }};
+
             const uncheckMessageContact = document.querySelector(`[data-sender-uncheck-contact-id="${otherUserId}"]`);
 
-            if (uncheckMessageContact) {
-                if (mine) {
-                    uncheckMessageContact.innerHTML = `
-                        <i class="fas fa-check text-gray-400 text-xs"
-                            data-sender-uncheck-id="{{ $contact->last_message->sender_id ?? '' }}"></i>
+            if (mine) {
 
-                        ${ message.content }
-                    `;
-                } else {
-                    uncheckMessageContact.innerHTML = `${ message.content }`;
-                }
+                uncheckMessageContact.innerHTML = `
+                    <i class="fas fa-check text-gray-400 text-xs"
+                    data-sender-uncheck-id="{{ $contact->last_message->sender_id ?? '' }}"></i>
+
+                    ${ message.content }
+                `;
+
+            } else {
+
+                uncheckMessageContact.innerHTML = `${ message.content }`;
+
             }
 
         };
@@ -325,7 +330,7 @@
             window.Echo.private('chat.' + user_id)
                 .listen('MessageSent', (e) => {
 
-                    console.log(e);
+                    // console.log(e);
 
                     appendReceiveMessage(e.message);
                     appendMessageContact(e.message, false);
@@ -346,9 +351,9 @@
                 `[data-sender-notification-contact-id="${otherUserId}"]`);
 
 
-                if (otherUserId == currentContactId) {
-                    return;
-                }
+            if (otherUserId == currentContactId) {
+                return;
+            }
 
             contactNotificationCount.classList.remove('hidden');
             contactNotificationCount.querySelector('span').textContent = unreadCount;

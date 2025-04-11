@@ -73,7 +73,8 @@ class ChatController extends Controller
 
         $contacts = $user->contacts();
 
-        return $contacts->map(function ($contact) use ($user) {
+        $contactsWithDetails = $contacts->map(function ($contact) use ($user) {
+
             $lastMessage = Message::where(function ($query) use ($user, $contact) {
                 $query->where('sender_id', $user->id)
                     ->where('receiver_id', $contact->id);
@@ -96,6 +97,11 @@ class ChatController extends Controller
 
             return $contact;
         });
+
+        return $contactsWithDetails->sortByDesc( function($contact){
+            return $contact->last_message->created_at;
+        });
+
     }
 
 

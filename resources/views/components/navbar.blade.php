@@ -21,13 +21,12 @@
             @auth
                 <div class="flex items-center justify-center space-x-6">
 
-                    <a href="#"
+
+                    <a href=""
                         class="text-gray-800 relative flex items-center justify-center w-12 h-12 rounded-full bg-green-100 hover:bg-green-200">
-                        <i class="fas fa-envelope text-xl text-green-500"></i>
-                        {{-- @if (Auth::user()->unreadMessagesCount() > 0) --}}
-                        <span class="absolute top-0 right-0 inline-block w-3 h-3 bg-red-500 rounded-full"></span>
-                        {{-- @endif --}}
+                        <i class="fas fa-cogs text-xl text-green-500"></i>
                     </a>
+
 
                     <a href="{{ route('buyer.profile.show', Auth::user()->id) }}"
                         class="text-gray-800 flex items-center justify-center w-12 h-12 rounded-full bg-green-100 hover:bg-green-200">
@@ -67,7 +66,7 @@
             <a href="/home" class="text-white hover:text-gray-200">Home</a>
             <a href="/books" class="text-white hover:text-gray-200">Books</a>
             <a href="/posts" class="text-white hover:text-gray-200">posts</a>
-            <a href="/marketplace" class="text-white hover:text-gray-200">Marketplace</a>
+            <a href="/marketplace/books" class="text-white hover:text-gray-200">Marketplace</a>
             <a href="/chat" class="text-white hover:text-gray-200">Chat</a>
         </div>
     </nav>

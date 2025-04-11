@@ -59,7 +59,7 @@
                                 </div>
                             </div>
 
-                            <a href="#"
+                            <a href="{{ route('buyer.chat.conversation',  $physicalBook->book->seller->user->id) }}"
                                 class="block w-full bg-green-600 text-white py-2 px-6 rounded-full text-sm font-semibold hover:bg-green-700 transition-colors duration-200 text-center">
                                 <svg class="w-4 h-4 inline-block mr-2" fill="none" stroke="currentColor"
                                     viewBox="0 0 24 24">

@@ -125,6 +125,7 @@
 
 
             if (mine) {
+
                 uncheckMessageContact.innerHTML = `
                 <i class="fas fa-check text-gray-400 text-xs"
                     data-sender-uncheck-id="{{ $contact->last_message->sender_id  ?? '' }}"></i>
