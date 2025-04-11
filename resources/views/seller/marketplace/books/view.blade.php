@@ -128,7 +128,7 @@
 
                                     <div class="border-t border-gray-200 pt-6">
                                         <p class="text-sm font-medium text-gray-500">Seller Information</p>
-                                        <a href="{{ route('seller.profile.show', $physicalBook->book->seller->user->id) }}" class="mt-4 flex items-center">
+                                        <a href="{{ route('buyer.profile.show', $physicalBook->book->seller->user->id) }}" class="mt-4 flex items-center">
                                             <img id="sellerImage"
                                                 src="{{ asset('storage/' . $physicalBook->book->seller->user->photo) }}"
                                                 alt="Seller" class="w-12 h-12 rounded-full border-2 border-green-200">

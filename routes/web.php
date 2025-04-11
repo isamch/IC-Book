@@ -12,6 +12,7 @@ use App\Models\User;
 
 // controllers :
 // admin:
+use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\Admin\DigitalBookController as AdminDigitalBookController;
 use App\Http\Controllers\Admin\MarketplaceBookController as AdminMarketplaceBookController;
@@ -72,7 +73,9 @@ Route::get('email/message', [VerificationController::class, 'ShowMessage'])->nam
 
 // admin -------------------- :
 
-Route::middleware(['auth', 'email.verified'])->prefix('admin')->as('admin.')->group(function () {
+Route::middleware(['auth', 'email.verified', 'role.check:admin'])->prefix('admin')->as('admin.')->group(function () {
+
+    Route::get('dashboard', [AdminDashboardController::class, 'index'])->name('dashboard.index');
 
     Route::get('users', [AdminUserController::class, 'index'])->name('users.index');
     Route::get('users/{id}', [AdminUserController::class, 'show'])->name('users.show');
@@ -93,16 +96,20 @@ Route::middleware(['auth', 'email.verified'])->prefix('admin')->as('admin.')->gr
 
 
 // seller -------------------- :
-Route::middleware(['auth', 'email.verified'])->prefix('seller')->as('seller.')->group(function () {
+Route::middleware(['auth', 'email.verified', 'role.check:seller'])->prefix('seller')->as('seller.')->group(function () {
+
+    Route::resource('dashboard', SellerDigitalBookController::class);
+
     Route::resource('books', SellerDigitalBookController::class);
 
     Route::resource('marketplace/books', SellerMarketplaceBookController::class)->names('marketplace.books');
+
 });
 
 
 
 // buyer -------------------- :
-Route::middleware(['auth', 'email.verified'])->name('buyer.')->group(function () {
+Route::middleware(['auth', 'email.verified', 'role.check:buyer'])->name('buyer.')->group(function () {
 
     Route::get('profile/{id}', [BuyerProfileController::class, 'show'])->name('profile.show');
     Route::get('profile/{id}/edit', [BuyerProfileController::class, 'edit'])->name('profile.edit');

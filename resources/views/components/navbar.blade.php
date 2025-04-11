@@ -22,7 +22,15 @@
                 <div class="flex items-center justify-center space-x-6">
 
 
-                    <a href=""
+                    <a href="
+                        @if (auth()->user()->roles->contains('name', 'admin'))
+                            {{ route('admin.users.index') }}
+                        @elseif (auth()->user()->roles->contains('name', 'seller'))
+                            {{ route('seller.books.index') }}
+                        @else
+                            #
+                        @endif
+                    "
                         class="text-gray-800 relative flex items-center justify-center w-12 h-12 rounded-full bg-green-100 hover:bg-green-200">
                         <i class="fas fa-cogs text-xl text-green-500"></i>
                     </a>
