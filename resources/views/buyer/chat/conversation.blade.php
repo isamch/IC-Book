@@ -16,7 +16,7 @@
                         style="max-height: calc(100vh - 250px); overflow-y: auto; scrollbar-width: thin; scrollbar-color: #48bb78 #f7fafc;">
 
                         @foreach ($contacts as $contact)
-                            <a href="{{ route('chat.conversation', $contact->id) }}"
+                            <a href="{{ route('buyer.chat.conversation', $contact->id) }}"
                                 class="flex items-center gap-3 p-3 hover:bg-gray-50 rounded-lg cursor-pointer transition-all duration-200 conversation-item
                                 {{-- {{ $contact->last_message->sender_id === $contact->id ? 'bg-green-50 border-l-4 border-green-500' : '' }} --}}
                                 {{ $contact->id === $contactChat->id ? 'bg-gray-300 border-l-4 border-green-500' : '' }} ">
@@ -233,7 +233,7 @@
             let message = document.getElementById('messageInput').value;
 
             if (message.trim() !== "") {
-                fetch('{{ route('chat.message.send') }}', {
+                fetch('{{ route('buyer.chat.message.send') }}', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
@@ -265,21 +265,8 @@
 
         // send message convesation append
         function appendMessageContact(message, mine) {
-
-            let otherUserId = {{ $contactChat->id }};
-
+            let otherUserId = message.sender_id;
             const uncheckMessageContact = document.querySelector(`[data-sender-uncheck-contact-id="${otherUserId}"]`);
-
-            // if (mine) {
-            //     uncheckMessageContact.innerHTML = `
-            //         <i class="fas fa-check text-gray-400 text-xs"
-            //             data-sender-uncheck-id="{{ $contact->last_message->sender_id ?? ''}}"></i>
-
-            //         ${ message.content }
-            //     `;
-            // } else {
-            //     uncheckMessageContact.innerHTML = `${ message.content }`;
-            // }
 
             if (uncheckMessageContact) {
                 if (mine) {
@@ -293,7 +280,6 @@
                     uncheckMessageContact.innerHTML = `${ message.content }`;
                 }
             }
-
 
         };
 
@@ -338,6 +324,9 @@
 
             window.Echo.private('chat.' + user_id)
                 .listen('MessageSent', (e) => {
+
+                    console.log(e);
+
                     appendReceiveMessage(e.message);
                     appendMessageContact(e.message, false);
                     showNotification(e.message.sender_id, e.message.count_unread);
@@ -350,8 +339,17 @@
 
         // show notifcation:
         function showNotification(otherUserId, unreadCount) {
+
+            let currentContactId = {{ $contactChat->id }};
+
             const contactNotificationCount = document.querySelector(
                 `[data-sender-notification-contact-id="${otherUserId}"]`);
+
+
+                if (otherUserId == currentContactId) {
+                    return;
+                }
+
             contactNotificationCount.classList.remove('hidden');
             contactNotificationCount.querySelector('span').textContent = unreadCount;
         };
@@ -360,6 +358,7 @@
 
         // append recive message :
         function appendReceiveMessage(message) {
+
             const chatBox = document.getElementById('messagesContainer');
 
             const messageElement = document.createElement('div');

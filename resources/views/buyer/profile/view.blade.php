@@ -44,7 +44,7 @@
                             </a>
                         @endif
 
-                        <a href="{{ route('chat.conversation',  $user->id) }}"
+                        <a href="{{ route('buyer.chat.conversation',  $user->id) }}"
                             class="border border-gray-300 px-4 py-2 rounded-lg text-base font-medium text-green-800 hover:bg-green-100 focus:outline-none flex items-center justify-center">
                             <i class="fas fa-envelope mr-2"></i>
                             Send Message

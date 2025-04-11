@@ -16,7 +16,7 @@
                         style="max-height: calc(100vh - 250px); overflow-y: auto; scrollbar-width: thin; scrollbar-color: #48bb78 #f7fafc;">
 
                         @foreach ($contacts as $contact)
-                            <a href="{{ route('chat.conversation', $contact->id) }}" data-sender-contact-id="{{ $contact->id }}"
+                            <a href="{{ route('buyer.chat.conversation', $contact->id) }}" data-sender-contact-id="{{ $contact->id }}"
                                 class="flex items-center gap-3 p-3 hover:bg-gray-50 rounded-lg cursor-pointer transition-all duration-200 conversation-item
                                 {{-- {{ $contact->last_message->sender_id === $contact->id ? 'bg-green-50 border-l-4 border-green-500' : '' }}  --}}
                                  ">
@@ -107,7 +107,6 @@
             window.Echo.private('chat.' + user_id)
                 .listen('MessageSent', (e) => {
 
-                    console.log(e);
                     appendMessageContact(e.message, false);
                     showNotification(e.message.sender_id, e.message.count_unread);
 
@@ -124,7 +123,6 @@
 
             const uncheckMessageContact = document.querySelector(`[data-sender-uncheck-contact-id="${otherUserId}"]`);
 
-            console.log(uncheckMessageContact);
 
             if (mine) {
                 uncheckMessageContact.innerHTML = `
@@ -142,6 +140,9 @@
 
         // show notifcation:
         function showNotification(otherUserId, unreadCount){
+
+
+
             const contactNotificationCount = document.querySelector(`[data-sender-notification-contact-id="${otherUserId}"]`);
             contactNotificationCount.classList.remove('hidden');
             contactNotificationCount.querySelector('span').textContent = unreadCount;

@@ -150,23 +150,23 @@ Route::middleware(['auth', 'email.verified'])->name('buyer.')->group(function ()
 
 
 
-    // Route::get('/messages', [MessagesController::class, 'index'])->name('messages');
+    Route::prefix('chat')->group(function () {
+
+        Route::get('/', [ChatController::class, 'index'])->name('chat');
+        Route::get('/{id}', [ChatController::class, 'getConversation'])->name('chat.conversation');
+
+        Route::post('/send-message', [ChatController::class, 'sendMessage'])->name('chat.message.send');
+
+        Route::post('/mark-as-read', [ChatController::class, 'markAsRead'])->name('chat.markAsRead');
+
+    });
+
 
 });
 
 
 
 
-Route::middleware(['auth', 'email.verified'])->group(function () {
-
-    Route::get('/chat', [ChatController::class, 'index'])->name('chat');
-    Route::get('/chat/{id}', [ChatController::class, 'getConversation'])->name('chat.conversation');
-
-    Route::post('chat/send-message', [ChatController::class, 'sendMessage'])->name('chat.message.send');
-
-    Route::post('/chat/mark-as-read', [ChatController::class, 'markAsRead'])->name('chat.markAsRead');
-
-});
 
 
 
