@@ -5,13 +5,13 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
 
     public function index()
     {
-        // $this->authorize('viewAny');
 
         $users = User::paginate(5);
 
@@ -21,16 +21,15 @@ class UserController extends Controller
 
     public function show($id)
     {
-        // $this->authorize('view');
 
         $user = User::findOrFail($id);
+
 
         return view('admin.users.view', compact('user'));
     }
 
     public function toggleStatus($id)
     {
-        $this->authorize('toggle');
 
         $user = User::findOrFail($id);
 

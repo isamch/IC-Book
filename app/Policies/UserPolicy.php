@@ -4,6 +4,7 @@ namespace App\Policies;
 
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
+use Illuminate\Support\Facades\Auth;
 
 class UserPolicy
 {
@@ -20,7 +21,7 @@ class UserPolicy
      */
     public function view(User $user, User $model): bool
     {
-        return $user->roles->pluck('name')->contains('admin');
+        return $user->status;
     }
 
     /**
@@ -69,5 +70,10 @@ class UserPolicy
     public function toggle(User $user): bool
     {
         return $user->roles->pluck('name')->contains('admin');
+    }
+
+    public function conversation(User $user, User $contactChat): bool
+    {
+        return $contactChat->status || $user->roles->pluck('name')->contains('admin');
     }
 }

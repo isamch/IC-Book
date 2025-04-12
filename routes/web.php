@@ -75,7 +75,7 @@ Route::get('email/message', [VerificationController::class, 'ShowMessage'])->nam
 
 Route::middleware(['auth', 'email.verified', 'role.check:admin'])->prefix('admin')->as('admin.')->group(function () {
 
-    Route::get('dashboard', [AdminDashboardController::class, 'index'])->name('dashboard.index');
+    Route::get('dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
 
     Route::get('users', [AdminUserController::class, 'index'])->name('users.index');
     Route::get('users/{id}', [AdminUserController::class, 'show'])->name('users.show');
@@ -103,7 +103,6 @@ Route::middleware(['auth', 'email.verified', 'role.check:seller'])->prefix('sell
     Route::resource('books', SellerDigitalBookController::class);
 
     Route::resource('marketplace/books', SellerMarketplaceBookController::class)->names('marketplace.books');
-
 });
 
 

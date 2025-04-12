@@ -13,6 +13,7 @@ class ProfileController extends Controller
     {
         $user = User::where('id', $id)->where('status', 1)->whereNotNull('email_verified_at')->first();
 
+
         if (!$user) {
             abort(404, 'Page not found');
         }

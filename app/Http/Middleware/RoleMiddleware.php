@@ -22,7 +22,6 @@ class RoleMiddleware
             abort(403, 'Unauthorized');
         }
 
-
         if (!$user->roles->pluck('name')->contains($role)) {
 
             abort(403, "Access denied - You don't have permission.");
@@ -30,7 +29,6 @@ class RoleMiddleware
         }
 
         return $next($request);
-
 
     }
 }

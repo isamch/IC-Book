@@ -21,8 +21,6 @@ class ChatController extends Controller
 
         $contacts = $this->getContactsWithDetails($user);
 
-        // dd($contacts);
-
         return view('buyer.chat.messages', compact('contacts'));
     }
 
@@ -36,6 +34,15 @@ class ChatController extends Controller
 
         $contacts = $this->getContactsWithDetails($user);
         $contactChat = User::findOrFail($otherUserId);
+
+
+
+        try {
+            $this->authorize('conversation', $contactChat);
+        } catch (\Illuminate\Auth\Access\AuthorizationException $e) {
+
+            return abort(404);
+        }
 
 
         $messages = Message::where(function ($query) use ($authId, $otherUserId) {

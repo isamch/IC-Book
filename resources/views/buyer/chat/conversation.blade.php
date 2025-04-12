@@ -271,19 +271,22 @@
 
             const uncheckMessageContact = document.querySelector(`[data-sender-uncheck-contact-id="${otherUserId}"]`);
 
-            if (mine) {
+            if (uncheckMessageContact) {
 
-                uncheckMessageContact.innerHTML = `
-                    <i class="fas fa-check text-gray-400 text-xs"
-                    data-sender-uncheck-id="{{ $contact->last_message->sender_id ?? '' }}"></i>
+                if (mine) {
 
-                    ${ message.content }
-                `;
+                    uncheckMessageContact.innerHTML = `
+                        <i class="fas fa-check text-gray-400 text-xs"
+                        data-sender-uncheck-id="{{ $contact->last_message->sender_id ?? '' }}"></i>
 
-            } else {
+                        ${ message.content }
+                    `;
 
-                uncheckMessageContact.innerHTML = `${ message.content }`;
+                } else {
 
+                    uncheckMessageContact.innerHTML = `${ message.content }`;
+
+                }
             }
 
         };

@@ -89,6 +89,13 @@ class AuthService
             throw new AuthenticationException('The provided email or password is incorrect. Please try again.');
         }
 
+        $user = Auth::user();
+
+        if ($user->status === false) {
+            Auth::logout();
+            throw new AuthenticationException('Your account is blocked or not verified. Please contact support.');
+        }
+
         // if (!Auth::user()->email_verified_at) {
         //     throw ValidationException::withMessages([
         //     'email' => ['Please verify your email address to continue.'],
