@@ -20,7 +20,7 @@
             </div>
 
             <nav class="space-y-2">
-                <a href="/seller/dashboard" class="flex items-center gap-3 p-3 rounded-lg hover:bg-green-700">
+                <a href="{{ route('seller.dashboard') }}" class="flex items-center gap-3 p-3 rounded-lg hover:bg-green-700">
                     <i class="fas fa-tachometer-alt"></i>
                     <span>Dashboard</span>
                 </a>

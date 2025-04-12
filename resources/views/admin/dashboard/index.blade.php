@@ -9,10 +9,12 @@
     <div class="flex h-screen">
         <!-- Sidebar -->
         <div class="w-64 bg-green-800 text-white p-4">
-            <div class="flex items-center gap-3 mb-8">
+            <a  href="{{ route('buyer.home') }}"
+                class="flex items-center gap-3 mb-8">
                 <i class="fas fa-book-open text-2xl"></i>
                 <h1 class="text-xl font-bold">IC Book</h1>
-            </div>
+            </a>
+
 
             <nav class="space-y-2">
                 <a href="/admin/dashboard" class="flex items-center gap-3 p-3 rounded-lg bg-green-700">

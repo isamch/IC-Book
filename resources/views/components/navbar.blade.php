@@ -37,7 +37,7 @@
                     <a href="
                         @if (auth()->user()->roles->contains('name', 'admin')) {{ route('admin.dashboard') }}
                         @elseif (auth()->user()->roles->contains('name', 'seller'))
-                            {{ route('seller.books.dashboard') }}
+                            {{ route('seller.dashboard') }}
                         @else
                             # @endif
                     "

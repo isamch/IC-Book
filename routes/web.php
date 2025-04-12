@@ -19,6 +19,7 @@ use App\Http\Controllers\Admin\MarketplaceBookController as AdminMarketplaceBook
 
 
 // seller :
+use App\Http\Controllers\Seller\DashboardController as SellerDashboardController;
 use App\Http\Controllers\Seller\DigitalBookController as SellerDigitalBookController;
 use App\Http\Controllers\Seller\MarketplaceBookController as SellerMarketplaceBookController;
 
@@ -98,7 +99,7 @@ Route::middleware(['auth', 'email.verified', 'role.check:admin'])->prefix('admin
 // seller -------------------- :
 Route::middleware(['auth', 'email.verified', 'role.check:seller'])->prefix('seller')->as('seller.')->group(function () {
 
-    Route::resource('dashboard', SellerDigitalBookController::class);
+    Route::get('dashboard', [SellerDashboardController::class, 'index'])->name('dashboard');
 
     Route::resource('books', SellerDigitalBookController::class);
 
