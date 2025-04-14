@@ -192,9 +192,9 @@
 
                         <!-- Form footer -->
                         <div class="mt-8 pt-6 border-t border-gray-200 flex justify-end space-x-4">
-                            <a  {{ route('seller.books.index') }}
-                            type="button"
-                                class="px-6 py-2 border border-gray-300 rounded-lg text-base font-medium text-gray-700 hover:bg-gray-100 focus:outline-none">
+                            <a href="{{ route('seller.books.index') }}"
+                                type="button"
+                                class="px-6 py-2 border border-gray-300 rounded-lg text-base font-medium text-gray-700 hover:bg-gray-100 focus:outline-none cursor-pointer">
                                 Cancel
                             </a>
                             <button type="submit"

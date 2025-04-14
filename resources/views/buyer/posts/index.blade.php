@@ -105,7 +105,7 @@
                                             <div class="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 bg-green-500 rounded-full border border-white"></div>
                                         </a>
 
-                                        <a href="{{ route('buyer.profile.show', $post->user->id) }}"
+                                        <a href="{{ route('buyer.profile.show', $post->user->id) }}">
                                             <p class="font-medium text-sm text-gray-800 group-hover:text-green-600 transition-colors duration-200">
                                                 {{ optional($post->user)->first_name }}
                                                 {{ optional($post->user)->last_name }}
@@ -183,8 +183,8 @@
                                                         <p class="text-xs font-medium text-gray-800">
                                                             {{ $comment->user->first_name }}
                                                         </p>
-                                                        <p class="text-[10px] text-gray-500">
-                                                            {{ $comment->created_at->diffForHumans() }}
+                                                        <p class="text-gray-500" style="font-size: 10px">
+                                                            ({{ $comment->created_at->diffForHumans() }})
                                                         </p>
                                                     </div>
                                                     <p class="text-xs text-gray-700">
@@ -287,7 +287,7 @@
                     <div class="flex-1 bg-white p-2 rounded-md shadow-sm">
                         <div class="flex items-center gap-1 mb-0.5">
                             <p class="text-xs font-medium text-gray-800">${firstName}</p>
-                            <p class="text-[10px] text-gray-500">just now</p>
+                            <p class="text-gray-500" style="font-size: 10px">(just now)</p>
                         </div>
                         <p class="text-xs text-gray-700">${content}</p>
                     </div>
@@ -314,7 +314,9 @@
                 })
                 .then(response => response.json())
                 .then(data => {
+
                     const commentsContainer = document.getElementById(`comments-container-${postId}`);
+
                     if (commentsContainer) {
                         const newCommentHTML = createCommentHTML(data.user.photo, data.user.first_name, data.comment.content);
                         commentsContainer.insertAdjacentHTML('afterbegin', newCommentHTML);
@@ -328,7 +330,7 @@
                 .catch(error => console.error('Error adding comment:', error));
         }
 
-        let offset = 2;
+        let offset = 5;
         const containerPosts = document.getElementById('posts-container');
         const loadMoreBtn = document.getElementById('load-more-posts');
 
@@ -386,7 +388,7 @@
 
             let url = `/posts/load-more/${offset}`;
             fetchPosts(url, updatePosts);
-            offset += 2;
+            offset += 5;
         });
 
         // Initialize scrollable container

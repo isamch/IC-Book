@@ -44,8 +44,8 @@ use App\Http\Controllers\Chat\ChatController;
 */
 
 
-Route::get('/', [BuyerHomeController::class, 'index'])->name('home');
-Route::get('home', [BuyerHomeController::class, 'index'])->name('home');
+Route::get('/', [BuyerHomeController::class, 'index'])->name('buyer.home');
+Route::get('home', [BuyerHomeController::class, 'index'])->name('buyer.home');
 
 
 // auth :
