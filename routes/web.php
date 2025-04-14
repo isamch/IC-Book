@@ -45,6 +45,7 @@ use App\Http\Controllers\Chat\ChatController;
 
 
 Route::get('/', [BuyerHomeController::class, 'index'])->name('home');
+Route::get('home', [BuyerHomeController::class, 'index'])->name('home');
 
 
 // auth :
@@ -111,12 +112,15 @@ Route::middleware(['auth', 'email.verified', 'role.check:seller'])->prefix('sell
 // buyer -------------------- :
 Route::middleware(['auth', 'email.verified', 'role.check:buyer'])->name('buyer.')->group(function () {
 
-    Route::get('profile/{id}', [BuyerProfileController::class, 'show'])->name('profile.show');
-    Route::get('profile/{id}/edit', [BuyerProfileController::class, 'edit'])->name('profile.edit');
-    Route::put('profile/{id}', [BuyerProfileController::class, 'update'])->name('profile.update');
 
+    Route::prefix('profile')->group(function(){
 
-    Route::get('home', [BuyerHomeController::class, 'index'])->name('home');
+        Route::get('/{id}', [BuyerProfileController::class, 'show'])->name('profile.show');
+        Route::get('/{id}/edit', [BuyerProfileController::class, 'edit'])->name('profile.edit');
+        Route::put('/{id}', [BuyerProfileController::class, 'update'])->name('profile.update');
+
+    });
+
 
 
     Route::prefix('books')->group(function () {
@@ -144,15 +148,11 @@ Route::middleware(['auth', 'email.verified', 'role.check:buyer'])->name('buyer.'
     Route::prefix('posts')->group(function () {
 
         Route::get('/', [BuyePostController::class, 'index'])->name('posts.index');
-
         Route::get('/load-more/{offset}', [BuyePostController::class, 'loadMore']);
-
         Route::post('/', [BuyePostController::class, 'storePost'])->name('posts.store');
-
-
         Route::post('/{post}/like', [BuyePostController::class, 'toggleLike'])->name('posts.likes');
-
         Route::post('/{post}/comment/create', [BuyePostController::class, 'addComment'])->name('posts.comments');
+
     });
 
 
@@ -161,9 +161,7 @@ Route::middleware(['auth', 'email.verified', 'role.check:buyer'])->name('buyer.'
 
         Route::get('/', [ChatController::class, 'index'])->name('chat');
         Route::get('/{id}', [ChatController::class, 'getConversation'])->name('chat.conversation');
-
         Route::post('/send-message', [ChatController::class, 'sendMessage'])->name('chat.message.send');
-
         Route::post('/mark-as-read', [ChatController::class, 'markAsRead'])->name('chat.markAsRead');
     });
 });

@@ -6,10 +6,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <meta name="user-id" content="{{ Auth::user()->id }}">
+    @auth
+        <meta name="user-id" content="{{ Auth::user()->id }}">
+    @endauth
 
     <title>IC Book | @yield('title')</title>
-    <link rel="icon" href="img/icons8-book-16.png" type="image/x-icon">
+    <link rel="shortcut icon" href="{{ asset('storage/images/favicon/book-favicon.png') }}" type="image/x-icon">
 
     <link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css" />
 
