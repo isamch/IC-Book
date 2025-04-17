@@ -31,6 +31,7 @@ class Message extends Model
     }
 
 
+
     public function getFullDatetimeAttribute()
     {
         $date = \Carbon\Carbon::parse($this->created_at);
@@ -47,3 +48,4 @@ class Message extends Model
         return $formatted_date . ', ' . $formatted_time;
     }
 }
+
