@@ -68,11 +68,19 @@
                                 @endif --}}
 
                                 <div data-sender-notification-contact-id="{{ $contact->id }}"
-                                    class="flex-shrink-0 w-4 h-4 rounded-full bg-green-500 flex items-center justify-center
-                                    @if ($contact->unread_count == 0) hidden @endif">
+                                    class="flex-shrink-0 w-4 h-4 rounded-full bg-green-500
+                                    flex items-center justify-center
+
+                                    @if ($contact->unread_count == 0 || $contact->id == $contactChat->id)
+
+                                        hidden
+
+                                    @endif">
+
                                     <span class="text-[9px] font-semibold text-white leading-none">
                                         {{ $contact->unread_count }}
                                     </span>
+
                                 </div>
 
                             </a>
@@ -128,7 +136,9 @@
                                 $lastDate = null;
                             @endphp
 
-                            <div id="messagesContainer" class="space-y-4">
+
+                            <div id="messagesContainer"  data-messages-container="{{ $contactChat->id }}"
+                                class="space-y-4">
 
                                 @foreach ($messages as $message)
                                     @if ($message->formatted_date !== $lastDate)
@@ -250,8 +260,7 @@
 
                         if (data.success) {
 
-
-                            appendSenderMessage(data.message.content, data.full_datetime);
+                            appendSenderMessage(data.message.content, data.full_datetime, data.message.sender_id);
                             appendMessageContact(data.message, true);
                             document.getElementById('messageInput').value = '';
                             scrollDown();
@@ -267,9 +276,13 @@
         // send message convesation append
         function appendMessageContact(message, mine) {
 
-            let otherUserId = {{ $contactChat->id }};
+            let otherUserId = message.sender_id;
 
-            const uncheckMessageContact = document.querySelector(`[data-sender-uncheck-contact-id="${otherUserId}"]`);
+            let uncheckMessageContact = document.querySelector(`[data-sender-uncheck-contact-id="${otherUserId}"]`);
+            if (!uncheckMessageContact) {
+                uncheckMessageContact = document.querySelector(`[data-sender-uncheck-contact-id="${message.receiver_id}"]`);
+            }
+
 
             if (uncheckMessageContact) {
 
@@ -277,7 +290,7 @@
 
                     uncheckMessageContact.innerHTML = `
                         <i class="fas fa-check text-gray-400 text-xs"
-                        data-sender-uncheck-id="{{ $contact->last_message->sender_id ?? '' }}"></i>
+                        data-sender-uncheck-id="${otherUserId}"></i>
 
                         ${ message.content }
                     `;
@@ -289,12 +302,13 @@
                 }
             }
 
+
         };
 
 
 
         // display message :
-        function appendSenderMessage(content, fullDateTime) {
+        function appendSenderMessage(content, fullDateTime, sender_id) {
             let user_id = document.querySelector('meta[name="user-id"]').getAttribute('content');
 
             const messageWrapper = document.createElement('div');
@@ -315,12 +329,15 @@
                             ${fullDateTime}
                         </span>
 
-                        <i class="fas fa-check text-gray-400 text-xs" data-sender-uncheck-id="${ user_id }"></i>
+                        <i class="fas fa-check text-gray-400 text-xs" data-sender-uncheck-converation-id="${ user_id }"></i>
                     </div>
                 </div>
             `;
 
-            document.getElementById('messagesContainer').appendChild(messageWrapper);
+            const messagesContainer = document.getElementById('messagesContainer');
+            if (messagesContainer) {
+                messagesContainer.appendChild(messageWrapper);
+            }
         }
     </script>
 
@@ -333,7 +350,6 @@
             window.Echo.private('chat.' + user_id)
                 .listen('MessageSent', (e) => {
 
-                    // console.log(e);
 
                     appendReceiveMessage(e.message);
                     appendMessageContact(e.message, false);
@@ -367,7 +383,7 @@
         // append recive message :
         function appendReceiveMessage(message) {
 
-            const chatBox = document.getElementById('messagesContainer');
+
 
             const messageElement = document.createElement('div');
             messageElement.className = 'flex items-end w-[70%]';
@@ -390,7 +406,14 @@
                 </div>
             `;
 
-            chatBox.appendChild(messageElement);
+
+            const messagesContainer = document.querySelector(`[data-messages-container="${message.sender_id}"]`);
+
+
+            if (messagesContainer) {
+                messagesContainer.appendChild(messageElement);
+            }
+
             scrollDown();
         }
 
@@ -414,8 +437,7 @@
 
             Echo.private('seen.' + user_id)
                 .listen('MarkAsReadEvent', (event) => {
-
-                    markMessagesAsRead(event.user_send_meg);
+                    markMessagesAsRead(event.user_seen_id, event.user_send_meg);
                 });
 
 
@@ -423,12 +445,19 @@
 
 
 
-        function markMessagesAsRead(contactId) {
+        function markMessagesAsRead(contactId, myid) {
 
-            const uncheckMessage = document.querySelectorAll(`[data-sender-uncheck-id="${contactId}"]`);
+            const uncheckMessageConversation = document.querySelectorAll(`[data-sender-uncheck-converation-id="${myid}"]`);
 
 
-            uncheckMessage.forEach(msg => {
+            let uncheckMessageContact = document.querySelectorAll(`[data-sender-uncheck-contact-id="${contactId}"]`);
+            if (!uncheckMessageContact) {
+                uncheckMessageContact = document.querySelectorAll(`[data-sender-uncheck-contact-id="${message.myid}"]`);
+            }
+
+
+
+            uncheckMessageConversation.forEach(msg => {
                 if (msg) {
                     msg.classList.remove('text-gray-400', 'fa-check');
                     msg.classList.add('text-green-500', 'fa-check-double');
@@ -436,7 +465,18 @@
             });
 
 
+            uncheckMessageContact.forEach(msg => {
+                if (msg) {
+                    const icon = msg.querySelector('i');
+                    if (icon) {
+                        icon.classList.remove('text-gray-400', 'fa-check');
+                        icon.classList.add('text-green-500', 'fa-check-double');
+                    }
+                }
+            });
+
         }
+
     </script>
 
 

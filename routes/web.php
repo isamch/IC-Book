@@ -31,6 +31,9 @@ use App\Http\Controllers\Buyer\DigitalBookController as BuyerDigitalBookControll
 use App\Http\Controllers\Buyer\MarketplaceBookController as BuyerMarketplaceBookController;
 use App\Http\Controllers\Buyer\PostsController as BuyePostController;
 use App\Http\Controllers\Chat\ChatController;
+use App\Http\Controllers\Buyer\StripeController;
+
+use App\Http\Controllers\Buyer\OrderController as BuyerOrderController;
 
 /*
 |--------------------------------------------------------------------------
@@ -113,56 +116,80 @@ Route::middleware(['auth', 'email.verified', 'role.check:seller'])->prefix('sell
 Route::middleware(['auth', 'email.verified', 'role.check:buyer'])->name('buyer.')->group(function () {
 
 
-    Route::prefix('profile')->group(function(){
+    Route::prefix('profile')->as('profile.')->group(function(){
 
-        Route::get('/{id}', [BuyerProfileController::class, 'show'])->name('profile.show');
-        Route::get('/{id}/edit', [BuyerProfileController::class, 'edit'])->name('profile.edit');
-        Route::put('/{id}', [BuyerProfileController::class, 'update'])->name('profile.update');
+        Route::get('/{id}', [BuyerProfileController::class, 'show'])->name('show');
+        Route::get('/{id}/edit', [BuyerProfileController::class, 'edit'])->name('edit');
+        Route::put('/{id}', [BuyerProfileController::class, 'update'])->name('update');
 
     });
 
 
 
-    Route::prefix('books')->group(function () {
-        Route::get('/', [BuyerDigitalBookController::class, 'index'])->name('books.index');
-        Route::get('/load-more/{offset}', [BuyerDigitalBookController::class, 'loadMore'])->name('books.loadMore');
-        Route::get('/filter', [BuyerDigitalBookController::class, 'applyFilter'])->name('books.applyFilter');
+    Route::prefix('books')->as('books.')->group(function () {
+        Route::get('/', [BuyerDigitalBookController::class, 'index'])->name('index');
+        Route::get('/load-more/{offset}', [BuyerDigitalBookController::class, 'loadMore'])->name('loadMore');
+        Route::get('/filter', [BuyerDigitalBookController::class, 'applyFilter'])->name('applyFilter');
 
-        Route::get('/{id}', [BuyerDigitalBookController::class, 'show'])->name('books.show');
+        Route::get('/orders', [BuyerOrderController::class, 'index'])->name('orders.index');
+        Route::get('orders/{id}', [BuyerOrderController::class, 'show'])->name('orders.show');
 
-        Route::post('/{id}/reviews/create', [BuyerDigitalBookController::class, 'createReview'])->name('books.review.create');
+        // preview pdf:
+        Route::get('/{id}/preview', [BuyerOrderController::class, 'preview'])->name('preview.pdf');
+
+        Route::get('/{id}', [BuyerDigitalBookController::class, 'show'])->name('show');
+        Route::post('/{id}/reviews/create', [BuyerDigitalBookController::class, 'createReview'])->name('review.create');
+
+
+
     });
 
 
-    Route::prefix('marketplace/books')->group(function () {
+    Route::prefix('marketplace/books')->as('marketplace.books.')->group(function () {
 
-        Route::get('/', [BuyerMarketplaceBookController::class, 'index'])->name('marketplace.books.index');
-        Route::get('/load-more/{offset}', [BuyerMarketplaceBookController::class, 'loadMore'])->name('marketplace.books.loadMore');
-        Route::get('/filter', [BuyerMarketplaceBookController::class, 'applyFilter'])->name('marketplace.books.applyFilter');
+        Route::get('/', [BuyerMarketplaceBookController::class, 'index'])->name('index');
+        Route::get('/load-more/{offset}', [BuyerMarketplaceBookController::class, 'loadMore'])->name('loadMore');
+        Route::get('/filter', [BuyerMarketplaceBookController::class, 'applyFilter'])->name('applyFilter');
 
-        Route::get('/{id}', [BuyerMarketplaceBookController::class, 'show'])->name('marketplace.books.show');
+        Route::get('/{id}', [BuyerMarketplaceBookController::class, 'show'])->name('show');
     });
 
 
 
-    Route::prefix('posts')->group(function () {
+    Route::prefix('posts')->as('posts.')->group(function () {
 
-        Route::get('/', [BuyePostController::class, 'index'])->name('posts.index');
+        Route::get('/', [BuyePostController::class, 'index'])->name('index');
         Route::get('/load-more/{offset}', [BuyePostController::class, 'loadMore']);
-        Route::post('/', [BuyePostController::class, 'storePost'])->name('posts.store');
-        Route::post('/{post}/like', [BuyePostController::class, 'toggleLike'])->name('posts.likes');
-        Route::post('/{post}/comment/create', [BuyePostController::class, 'addComment'])->name('posts.comments');
+        Route::post('/', [BuyePostController::class, 'storePost'])->name('store');
+        Route::post('/{post}/like', [BuyePostController::class, 'toggleLike'])->name('likes');
+        Route::post('/{post}/comment/create', [BuyePostController::class, 'addComment'])->name('comments');
 
     });
 
 
 
-    Route::prefix('chat')->group(function () {
+    Route::prefix('chat')->as('chat.')->group(function () {
 
-        Route::get('/', [ChatController::class, 'index'])->name('chat');
-        Route::get('/{id}', [ChatController::class, 'getConversation'])->name('chat.conversation');
-        Route::post('/send-message', [ChatController::class, 'sendMessage'])->name('chat.message.send');
-        Route::post('/mark-as-read', [ChatController::class, 'markAsRead'])->name('chat.markAsRead');
+        Route::get('/', [ChatController::class, 'index'])->name('index');
+        Route::get('/{id}', [ChatController::class, 'getConversation'])->name('conversation');
+        Route::post('/send-message', [ChatController::class, 'sendMessage'])->name('message.send');
+        Route::post('/mark-as-read', [ChatController::class, 'markAsRead'])->name('markAsRead');
+    });
+
+
+    // payment routes:
+    Route::prefix('payment')->as('payment.')->group(function () {
+
+        // stripe :
+        Route::prefix('stripe')->as('stripe.')->group(function () {
+
+            // Route::get('/', [StripeController::class, 'index'])->name('index');
+            Route::post('/checkout/{id}', [StripeController::class, 'createSession'])->name('checkout');
+            Route::get('/success/{id}', [StripeController::class, 'success'])->name('success');
+
+        });
+
+
     });
 });
 
@@ -170,8 +197,3 @@ Route::middleware(['auth', 'email.verified', 'role.check:buyer'])->name('buyer.'
 
 
 
-
-
-Route::get('/test/chat', function () {
-    return view('buyer.chat.testChat');
-});

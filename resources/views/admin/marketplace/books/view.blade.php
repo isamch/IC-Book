@@ -173,7 +173,7 @@
 
                         <div class="flex space-x-4">
 
-                            <a href="{{ route('buyer.chat.conversation', $physicalBook->book->seller->id) }}"
+                            <a href="{{ route('buyer.chat.conversation', $physicalBook->book->seller->user->id) }}"
                                 class="px-6 py-2 border border-gray-300 rounded-lg text-base font-medium text-blue-600 hover:bg-blue-100 focus:outline-none flex items-center">
                                 <i class="fas fa-envelope mr-2"></i>
                                 Send Message

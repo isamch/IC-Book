@@ -115,13 +115,6 @@ class MarketplaceBookController extends Controller
 
 
 
-
-
-
-
-
-
-
     // get view book:
     public function show(int $id)
     {

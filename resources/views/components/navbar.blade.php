@@ -34,16 +34,25 @@
 
 
                     <!-- Dashboard Link -->
-                    <a href="
-                        @if (auth()->user()->roles->contains('name', 'admin')) {{ route('admin.dashboard') }}
-                        @elseif (auth()->user()->roles->contains('name', 'seller'))
-                            {{ route('seller.dashboard') }}
-                        @else
-                            # @endif
-                    "
-                        class="text-gray-800 relative flex items-center justify-center w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-green-100 hover:bg-green-200">
-                        <i class="fas fa-cogs text-lg sm:text-xl text-green-500"></i>
-                    </a>
+
+
+                    @if (auth()->user()->roles->contains('name', 'admin'))
+                        <a href="{{ route('admin.dashboard') }}"
+                            class="text-gray-800 relative flex items-center justify-center w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-green-100 hover:bg-green-200">
+                            <i class="fas fa-cogs text-lg sm:text-xl text-green-500"></i>
+                        </a>
+                    @elseif (auth()->user()->roles->contains('name', 'seller'))
+                        <a href="{{ route('seller.dashboard') }}"
+                            class="text-gray-800 relative flex items-center justify-center w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-green-100 hover:bg-green-200">
+                            <i class="fas fa-cogs text-lg sm:text-xl text-green-500"></i>
+                        </a>
+                    @else
+                        <a href="{{ route('buyer.books.orders.index') }}"
+                            class="text-gray-800 relative flex items-center justify-center w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-green-100 hover:bg-green-200">
+                            <i class="fas fa-book text-lg sm:text-xl text-green-500"></i>
+                        </a>
+                    @endif
+
 
                     <!-- Profile Link -->
                     <a href="{{ route('buyer.profile.show', Auth::user()->id) }}"
@@ -112,7 +121,7 @@
             <a href="/books" class="text-white hover:text-gray-200">Books</a>
             <a href="/posts" class="text-white hover:text-gray-200">Posts</a>
             <a href="/marketplace/books" class="text-white hover:text-gray-200">Marketplace</a>
-            <a href="/chat" class="text-white hover:text-gray-200">Chat</a>
+            <a href="{{ route('buyer.chat.index') }}" class="text-white hover:text-gray-200">Chat</a>
         </div>
 
         <!-- Mobile Navigation Menu - Hidden by Default -->
@@ -123,7 +132,7 @@
                 <a href="/posts" class="text-white hover:text-gray-200 py-1 border-b border-green-500">Posts</a>
                 <a href="/marketplace/books"
                     class="text-white hover:text-gray-200 py-1 border-b border-green-500">Marketplace</a>
-                <a href="/chat" class="text-white hover:text-gray-200 py-1">Chat</a>
+                <a href="{{ route('buyer.chat.index') }}" class="text-white hover:text-gray-200 py-1">Chat</a>
             </div>
         </div>
     </nav>
