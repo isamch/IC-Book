@@ -35,9 +35,10 @@ class AuthService
         } elseif ($data['user_type'] === 'seller') {
             return $this->registerSeller($data);
 
-        } elseif ($data['user_type'] === 'admin') {
-            return $this->registerUser($data);
         }
+        // elseif ($data['user_type'] === 'admin') {
+        //     return $this->registerUser($data);
+        // }
     }
 
     public function registerUser(array $data)
@@ -119,9 +120,8 @@ class AuthService
         if ($userType === 'seller') {
             $user->roles()->syncWithoutDetaching([Role::where('name', 'buyer')->first()->id]);
             $user->roles()->syncWithoutDetaching([Role::where('name', 'seller')->first()->id]);
-        } elseif ($userType === 'admin') {
+        } elseif ($userType === 'buyer') {
             $user->roles()->syncWithoutDetaching([Role::where('name', 'buyer')->first()->id]);
-            $user->roles()->syncWithoutDetaching([Role::where('name', 'admin')->first()->id]);
         }
     }
 }

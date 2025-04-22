@@ -35,7 +35,10 @@
 
                     <!-- Dashboard Link -->
 
-
+                    <a href="{{ route('buyer.books.orders.index') }}"
+                        class="text-gray-800 relative flex items-center justify-center w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-green-100 hover:bg-green-200">
+                        <i class="fas fa-book text-lg sm:text-xl text-green-500"></i>
+                    </a>
                     @if (auth()->user()->roles->contains('name', 'admin'))
                         <a href="{{ route('admin.dashboard') }}"
                             class="text-gray-800 relative flex items-center justify-center w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-green-100 hover:bg-green-200">
@@ -46,12 +49,8 @@
                             class="text-gray-800 relative flex items-center justify-center w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-green-100 hover:bg-green-200">
                             <i class="fas fa-cogs text-lg sm:text-xl text-green-500"></i>
                         </a>
-                    @else
-                        <a href="{{ route('buyer.books.orders.index') }}"
-                            class="text-gray-800 relative flex items-center justify-center w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-green-100 hover:bg-green-200">
-                            <i class="fas fa-book text-lg sm:text-xl text-green-500"></i>
-                        </a>
                     @endif
+
 
 
                     <!-- Profile Link -->
