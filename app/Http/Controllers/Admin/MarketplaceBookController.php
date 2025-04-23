@@ -3,30 +3,33 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\PhysicalBook;
+use App\Services\Admin\MarketplaceBookService as AdminMarketplaceBookService;
+use App\Services\MarketplaceBookService;
 use Illuminate\Http\Request;
 
 class MarketplaceBookController extends Controller
 {
+    protected $marketplaceBookService;
 
-    /**
-     * Display a listing of the resource.
-     */
+    public function __construct(AdminMarketplaceBookService $marketplaceBookService)
+    {
+        $this->marketplaceBookService = $marketplaceBookService;
+    }
+
+
     public function index()
     {
         // $this->authorize('viewAny');
 
-        $physicalBooks = PhysicalBook::paginate(3);
+        $physicalBooks = $this->marketplaceBookService->getAllBooks();
+
         return view('admin.marketplace.books.index', compact('physicalBooks'));
     }
 
 
-    /**
-     * Display the specified resource.
-     */
     public function show($id)
     {
-        $physicalBook = PhysicalBook::findOrFail($id);
+        $physicalBook = $this->marketplaceBookService->getBookById($id);
 
         // $this->authorize('view', $physicalBook->book);
 
@@ -34,18 +37,9 @@ class MarketplaceBookController extends Controller
     }
 
 
-    /**
-     * Toggle the active status of the specified resource.
-     */
     public function toggleStatus($id)
     {
-        $physicalBook = PhysicalBook::findOrFail($id);
-
-        // $this->authorize('toggle');
-
-        $physicalBook->book->status = !$physicalBook->book->status;
-
-        $physicalBook->book->save();
+        $physicalBook = $this->marketplaceBookService->toggleBookStatus($id);
 
         return redirect()->back()->with('success', 'Book status updated successfully.');
     }
