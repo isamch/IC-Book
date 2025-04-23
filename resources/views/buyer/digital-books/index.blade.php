@@ -189,7 +189,7 @@
                                         class="w-full h-60 object-cover object-center">
                                     <div
                                         class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-80 flex items-end p-3">
-                                        <a href="#"
+                                        <a href="{{ route('buyer.books.show', $electronicBook->id) }}"
                                             class="inline-flex items-center bg-green-600 text-white py-1.5 px-4 rounded-full text-xs font-semibold hover:bg-green-800 transition-colors duration-100">
                                             <svg class="w-3.5 h-3.5 mr-1" fill="none" stroke="currentColor"
                                                 viewBox="0 0 24 24">
@@ -205,7 +205,8 @@
                                 <div class="p-4">
                                     <h4 class="text-lg font-semibold text-gray-900 mb-1 truncate">
 
-                                        <a href="{{ route('buyer.books.show', $electronicBook->id) }}"  class="text-gray-900 hover:text-green-500 cursor-pointer">
+                                        <a href="{{ route('buyer.books.show', $electronicBook->id) }}"
+                                            class="text-gray-900 hover:text-green-500 cursor-pointer">
                                             {{ $electronicBook->book->title }}
                                         </a>
                                     </h4>
@@ -334,9 +335,12 @@
 
             const filterData = getFilterData();
 
-            const newUrl = `/books/filter?search=${filterData.search}&category=${filterData.categories.join(',')}&price=${filterData.price}&rating=${filterData.rating}`;
+            const newUrl =
+                `/books/filter?search=${filterData.search}&category=${filterData.categories.join(',')}&price=${filterData.price}&rating=${filterData.rating}`;
 
-            history.pushState({ path: newUrl }, '', newUrl);
+            history.pushState({
+                path: newUrl
+            }, '', newUrl);
 
 
             fetchBooks(newUrl, (data) => {

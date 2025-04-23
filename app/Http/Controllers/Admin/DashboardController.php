@@ -45,7 +45,7 @@ class DashboardController extends Controller
 
         $userGrowth = 0;
         if ($lastMonthUsers > 0) {
-            $userGrowth = (($currentUsers - $lastMonthUsers) / $lastMonthUsers) * 100;
+            $userGrowth = round((($currentUsers - $lastMonthUsers) / $lastMonthUsers) * 100, 2);
         }
 
         return [$currentUsers, $userGrowth];
@@ -61,7 +61,7 @@ class DashboardController extends Controller
 
         $physicalBookGrowth = 0;
         if ($lastMonthPhysicalBooks > 0) {
-            $physicalBookGrowth = (($currentPhysicalBooks - $lastMonthPhysicalBooks) / $lastMonthPhysicalBooks) * 100;
+            $physicalBookGrowth = round((($currentPhysicalBooks - $lastMonthPhysicalBooks) / $lastMonthPhysicalBooks) * 100, 2);
         }
 
         return [$currentPhysicalBooks, $physicalBookGrowth];
@@ -76,7 +76,7 @@ class DashboardController extends Controller
 
         $digitalBookGrowth = 0;
         if ($lastMonthDigitalBooks > 0) {
-            $digitalBookGrowth = (($currentDigitalBooks - $lastMonthDigitalBooks) / $lastMonthDigitalBooks) * 100;
+            $digitalBookGrowth = round((($currentDigitalBooks - $lastMonthDigitalBooks) / $lastMonthDigitalBooks) * 100, 2);
         }
 
         return [$currentDigitalBooks, $digitalBookGrowth];
@@ -92,7 +92,7 @@ class DashboardController extends Controller
 
         $ordersGrowth = 0;
         if ($lastMonthOrders > 0) {
-            $ordersGrowth = (($currentOrders - $lastMonthOrders) / $lastMonthOrders) * 100;
+            $ordersGrowth = round((($currentOrders - $lastMonthOrders) / $lastMonthOrders) * 100, 2);
         }
 
         return [$currentOrders, $ordersGrowth];

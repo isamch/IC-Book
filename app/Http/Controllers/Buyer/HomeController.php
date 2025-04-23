@@ -25,11 +25,15 @@ class HomeController extends Controller
 
         $topElecBooks = ElectronicBook::selectRaw('electronic_books.*, COALESCE(SUM(rating), 0) as total_rating')
             ->leftjoin('reviews', 'electronic_book_id', '=', 'electronic_books.id')
+            ->leftjoin('books', 'books.id', '=', 'electronic_books.id')
+            ->where('books.status', true)
+            // ->whereHas('Book', function($query){
+                //     $query->where('status', true);
+                // })
             ->groupBy('electronic_books.id')
             ->orderBy('total_rating', 'desc')
             ->take(10)
             ->get();
-
 
 
         return view('buyer.home', compact('topElecBooks', 'elecBookOfTheMonth'));
