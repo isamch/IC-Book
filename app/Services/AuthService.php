@@ -3,9 +3,9 @@
 namespace App\Services;
 
 use App\Models\Role;
-use App\Repositories\BuyerRepository;
-use App\Repositories\SellerRepository;
-use App\Repositories\UserRepository;
+use App\Repositories\Eloquent\UserRepository;
+use App\Repositories\Eloquent\SellerRepository;
+use App\Repositories\Eloquent\BuyerRepository;
 use Exception;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Support\Facades\Hash;
@@ -31,10 +31,8 @@ class AuthService
     {
         if ($data['user_type'] === 'buyer') {
             return $this->registerBuyer($data);
-
         } elseif ($data['user_type'] === 'seller') {
             return $this->registerSeller($data);
-
         }
         // elseif ($data['user_type'] === 'admin') {
         //     return $this->registerUser($data);
@@ -63,8 +61,6 @@ class AuthService
         $this->assignRole($user, $data['user_type']);
 
         return $user;
-
-
     }
 
     public function registerBuyer(array $data)
