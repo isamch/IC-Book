@@ -105,10 +105,9 @@ class ChatController extends Controller
             return $contact;
         });
 
-        return $contactsWithDetails->sortByDesc( function($contact){
+        return $contactsWithDetails->sortByDesc(function ($contact) {
             return $contact->last_message->created_at;
         });
-
     }
 
 
@@ -128,9 +127,9 @@ class ChatController extends Controller
 
 
         $unreadCount = Message::where('sender_id', Auth::user()->id)
-                ->where('receiver_id', $request->receiver_id)
-                ->where('is_read', false)
-                ->count();
+            ->where('receiver_id', $request->receiver_id)
+            ->where('is_read', false)
+            ->count();
 
 
         broadcast(new MessageSent($message, $unreadCount))->toOthers();
