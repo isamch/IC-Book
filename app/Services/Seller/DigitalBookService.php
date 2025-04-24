@@ -1,48 +1,36 @@
 <?php
 
-namespace App\Http\Controllers\Seller;
+namespace App\Services\Seller;
 
-use App\Http\Controllers\Controller;
 use App\Models\Book;
 use App\Models\ElectronicBook;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Http\Request;
 
-class DigitalBookController extends Controller
+class DigitalBookService
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+
+    public function getSellerElectronicBooks()
     {
-
-
-        $electronicBooks = ElectronicBook::whereHas('book', function ($query) {
+        return ElectronicBook::whereHas('book', function ($query) {
             $query->where('seller_id', Auth::user()->seller->id);
-        })->paginate(3);
-
-
-        return view('seller.books.digital.index', compact('electronicBooks'));
+        })
+            ->orderBy('created_at', 'desc')
+            ->paginate(3);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+
+    public function getSellerElectronicBookById($id)
     {
-        $this->authorize('create', Book::class);
-        return view('seller.books.digital.create');
+        return ElectronicBook::whereHas('book', function ($query) {
+            $query->where('seller_id', Auth::user()->seller->id);
+        })->findOrFail($id);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+
+    public function storeDigitalBook(Request $request)
     {
-
-        $this->authorize('create', Book::class);
-
         $request->validate([
             'images' => 'required|array|max:4',
             'images.*' => 'image|mimes:jpeg,png,jpg,svg,avif|max:2048',
@@ -53,7 +41,6 @@ class DigitalBookController extends Controller
             'book_file' => 'required|file|mimes:pdf,doc,docx|max:10240',
         ]);
 
-
         $book = Book::create([
             'title' => $request->title,
             'author' => $request->author,
@@ -62,15 +49,16 @@ class DigitalBookController extends Controller
             'seller_id' => Auth::user()->seller->id,
         ]);
 
-
-        $bookFilePath = $request->file('book_file')->storeAs('files/books/pdf', uniqid() . '_' . $request->file('book_file')->getClientOriginalName(), 'public');
-
+        $bookFilePath = $request->file('book_file')->storeAs(
+            'files/books/pdf',
+            uniqid() . '_' . $request->file('book_file')->getClientOriginalName(),
+            'public'
+        );
 
         $electronicBook = ElectronicBook::create([
             'file' => $bookFilePath,
             'book_id' => $book->id,
         ]);
-
 
         if ($request->has('images')) {
             foreach ($request->file('images') as $image) {
@@ -82,53 +70,14 @@ class DigitalBookController extends Controller
             }
         }
 
-        return redirect()->route('seller.books.show', $electronicBook->id)->with('success', 'Digital book created successfully.');
-    }
-
-    /**
-     * Display the specified resource.
-     */
-
-    public function show($id)
-    {
-        $electronicBook = ElectronicBook::findOrFail($id);
-
-        try {
-
-            $this->authorize('view', $electronicBook->book);
-        } catch (\Illuminate\Auth\Access\AuthorizationException $e) {
-
-            return redirect()->back()->withErrors(['You are not authorized to view this book.']);
-        }
-
-        return view('seller.books.digital.view', compact('electronicBook'));
+        return $electronicBook;
     }
 
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+
+
+    public function updateSellerDigitalBook(Request $request, $id)
     {
-        $electronicBook = ElectronicBook::findOrFail($id);
-
-        try {
-
-            $this->authorize('update', $electronicBook->book);
-        } catch (\Illuminate\Auth\Access\AuthorizationException $e) {
-            return redirect()->back()->withErrors(['You are not authorized to edit this book.']);
-        }
-
-        return view('seller.books.digital.edit', compact('electronicBook'));
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-
-
 
         $request->validate([
             'images' => 'nullable|array|max:4',
@@ -141,15 +90,7 @@ class DigitalBookController extends Controller
         ]);
 
 
-        $electronicBook = ElectronicBook::findOrFail($id);
-
-        try {
-
-            $this->authorize('update', $electronicBook->book);
-
-        } catch (\Illuminate\Auth\Access\AuthorizationException $e) {
-            return redirect()->back()->withErrors(['You are not authorized to update this book.']);
-        }
+        $electronicBook = $this->getSellerElectronicBookById($id);
 
         $electronicBook->book->update([
             'title' => $request->title,
@@ -178,23 +119,19 @@ class DigitalBookController extends Controller
 
         if ($request->hasFile('book_file')) {
             $filePath = $request->file('book_file')->storeAs('files/books/pdf', uniqid() . '__' . $request->file('book_file')->getClientOriginalName(), 'public');
-
             $electronicBook->update(['file' => $filePath]);
         }
 
 
-        return redirect()->route('seller.books.show', $id)->with('success', 'Book updated successfully!');
+        return $electronicBook;
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
+
+
+
+    public function deleteSellerElectronicBook(int $id)
     {
-        $electronicBook = ElectronicBook::findOrFail($id);
-
-        $this->authorize('delete', $electronicBook->book);
-
+        $electronicBook = $this->getSellerElectronicBookById($id);
 
         if (Storage::disk('public')->exists($electronicBook->file)) {
             Storage::disk('public')->delete($electronicBook->file);
@@ -203,6 +140,6 @@ class DigitalBookController extends Controller
         $electronicBook->delete();
         $electronicBook->book->delete();
 
-        return redirect()->route('seller.books.index')->with('success', 'Book deleted successfully!');
+        return true;
     }
 }

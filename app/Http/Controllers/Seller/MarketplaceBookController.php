@@ -8,21 +8,30 @@ use App\Models\PhysicalBook;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use App\Services\Seller\MarketplaceBookService as SellerMarketplaceBookService;
+
 
 class MarketplaceBookController extends Controller
 {
+
+    protected $marketplaceBookService;
+
+    public function __construct(SellerMarketplaceBookService  $marketplaceBookService)
+    {
+        $this->marketplaceBookService = $marketplaceBookService;
+    }
+
+
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-
-        $physicalBooks = PhysicalBook::whereHas('book', function ($query) {
-            $query->where('seller_id', Auth::user()->seller->id);
-        })->paginate(3);
-
+        $physicalBooks = $this->marketplaceBookService->getSellerPhysicalBooks();
         return view('seller.marketplace.books.index', compact('physicalBooks'));
     }
+
 
     /**
      * Show the form for creating a new resource.
@@ -34,6 +43,7 @@ class MarketplaceBookController extends Controller
         return view('seller.marketplace.books.create');
     }
 
+
     /**
      * Store a newly created resource in storage.
      */
@@ -42,157 +52,59 @@ class MarketplaceBookController extends Controller
 
         $this->authorize('create', Book::class);
 
-        $request->validate([
-            'images' => 'required|array|max:4',
-            'images.*' => 'image|mimes:jpeg,png,jpg,svg,avif|max:2048',
-            'title' => 'required|string|max:255',
-            'author' => 'required|string|max:255',
-            'price' => 'required|numeric|min:0',
-            'description' => 'required|string|min:10|max:1000',
-            'location' => 'required|string|min:3|max:255',
-        ]);
-
-
-        $book = Book::create([
-            'title' => $request->title,
-            'author' => $request->author,
-            'description' => $request->description,
-            'price' => $request->price,
-            'seller_id' => Auth::user()->seller->id,
-        ]);
-
-        $physicalBook = PhysicalBook::create([
-            'location' => $request->location,
-            'book_id' => $book->id,
-        ]);
-
-
-
-        if ($request->has('images')) {
-            foreach ($request->file('images') as $image) {
-                $imagePath = $image->store('images/books/physical', 'public');
-                $book->images()->create([
-                    'image' => $imagePath,
-                    'book_id' => $book->id,
-                ]);
-            }
-        }
+        $physicalBook = $this->marketplaceBookService->storePhysicalBook($request);
 
         return redirect()->route('seller.marketplace.books.show', $physicalBook->id)->with('success', 'Digital book created successfully.');
-
     }
+
+
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show($id)
     {
-        $physicalBook = PhysicalBook::findOrFail($id);
-        try {
-
-            $this->authorize('view', $physicalBook->book);
-        } catch (\Illuminate\Auth\Access\AuthorizationException $e) {
-            return redirect()->back()->withErrors(['You are not authorized to view this book.']);
-        }
+        $physicalBook = $this->marketplaceBookService->getSellerPhysicalBookById($id);
         return view('seller.marketplace.books.view', compact('physicalBook'));
     }
+
 
     /**
      * Show the form for editing the specified resource.
      */
     public function edit(string $id)
     {
-
-        $physicalBook = PhysicalBook::findOrFail($id);
-
-        try {
-
-            $this->authorize('update', $physicalBook->book);
-        } catch (\Illuminate\Auth\Access\AuthorizationException $e) {
-            return redirect()->back()->withErrors(['You are not authorized to edit this book.']);
-        }
-
+        $physicalBook = $this->marketplaceBookService->getSellerPhysicalBookById($id);
         return view('seller.marketplace.books.edit', compact('physicalBook'));
     }
+
+
 
     /**
      * Update the specified resource in storage.
      */
     public function update(Request $request, string $id)
     {
-
-
-        $request->validate([
-            'images' => 'nullable|array|max:4',
-            'images.*' => 'nullable|image|mimes:jpeg,png,jpg,svg,avif|max:2048',
-            'title' => 'required|string|max:255',
-            'author' => 'required|string|max:255',
-            'price' => 'required|numeric|min:0',
-            'description' => 'required|string|min:10|max:1000',
-            'location' => 'required|string|min:3|max:255',
-        ]);
-
-
-
-        $physicalBook = PhysicalBook::findOrFail($id);
-
-        try {
-
-            $this->authorize('update', $physicalBook->book);
-        } catch (\Illuminate\Auth\Access\AuthorizationException $e) {
-            return redirect()->back()->withErrors(['You are not authorized to update this book.']);
+        $physicalBook = $this->marketplaceBookService->updatePhysicalBook($request, $id);
+        if ($physicalBook) {
+            return redirect()->route('seller.marketplace.books.show', $id)->with('success', 'Book updated successfully!');
+        } else {
+            return redirect()->route('seller.marketplace.books.show', $id)->withErrors(['Failed to update the book.']);
         }
-
-        $physicalBook->book->update([
-            'title' => $request->title,
-            'author' => $request->author,
-            'price' => $request->price,
-            'description' => $request->description,
-        ]);
-
-        $physicalBook->update([
-            'location' => $request->location,
-        ]);
-
-
-
-        if ($request->hasFile('images')) {
-
-            foreach ($request->file('images') as $index => $image) {
-
-                if ($index < 4 && $physicalBook->book->images->count() <= 4) {
-                    $path = $image->store('images/books/physical', 'public');
-
-                    if (isset($physicalBook->book->images[$index])) {
-                        $physicalBook->book->images[$index]->update(['image' => $path]);
-                    } else {
-                        $physicalBook->book->images()->create(['image' => $path]);
-                    }
-                }
-            }
-        }
-
-
-        return redirect()->route('seller.marketplace.books.show', $id)->with('success', 'Book updated successfully!');
-
-
-
-
     }
+
+
 
     /**
      * Remove the specified resource from storage.
      */
     public function destroy(string $id)
     {
-        $physicalBook = PhysicalBook::findOrFail($id);
-
-        $this->authorize('delete', $physicalBook->book);
-
-        $physicalBook->delete();
-        $physicalBook->book->delete();
-
-        return redirect()->route('seller.marketplace.books.index')->with('success', 'Book deleted successfully!');
+        $resultDelete = $this->marketplaceBookService->deleteSellerPhysicalBook($id);
+        if ($resultDelete) {
+            return redirect()->route('seller.marketplace.books.index')->with('success', 'Book deleted successfully!');
+        } else {
+            return redirect()->route('seller.marketplace.books.index')->with('success', 'Failed to the Book!');
+        }
     }
-
 }
