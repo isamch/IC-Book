@@ -7,36 +7,37 @@ use App\Models\ElectronicBook;
 use App\Models\Order;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Services\Buyer\OrderService as BuyerOrderService;
+
 
 class OrderController extends Controller
 {
 
+
+    protected $orderService;
+
+    public function __construct(BuyerOrderService $orderService)
+    {
+        $this->orderService = $orderService;
+    }
+
+
     public function index()
     {
         $user = Auth::user();
-        $orders = Order::where('buyer_id', $user->buyer->id)
-            ->orderBy('created_at', 'desc')
-            ->paginate(5);
-
-
-
+        $orders = $this->orderService->getUserOrders($user);
         return view('buyer.digital-books.orders.order', compact('orders', 'user'));
     }
+
+
 
 
     public function show($id)
     {
         $user = Auth::user();
-        $electronicBook = ElectronicBook::whereHas('orders', function ($query) use ($user) {
-            $query->where('buyer_id', $user->buyer->id);
-        })
-            ->where('id', $id)
-            ->firstOrFail();
-
+        $electronicBook = $this->orderService->show($user, $id);
         return view('buyer.digital-books.orders.view', compact('electronicBook', 'user'));
     }
-
-
 
 
 
@@ -45,36 +46,15 @@ class OrderController extends Controller
     // preview book:
     public function preview($id)
     {
-        try {
-            $user = Auth::user();
+        $ElectronicBook = $this->orderService->preview($id);
 
-            $ElectronicBook = ElectronicBook::findOrFail($id);
-
-            if (!$this->checkIfAlreadyBuyBook($id)) {
-                return redirect()->route('buyer.books.show', $id)->withErrors(['You need to Buy this book to access the preview.']);
-            }
-
-
-            return view('buyer.digital-books.preview', [
-                'ElectronicBook' => $ElectronicBook,
-            ]);
-        } catch (\Exception $e) {
-            return redirect()->route('buyer.books.show', $id)->withErrors(['An error occurred while trying to preview the book.']);
+        if (!$ElectronicBook) {
+            return redirect()->route('buyer.books.show', $id)->withErrors(['You need to Buy this book to access the preview.']);
         }
+        return view('buyer.digital-books.preview', [
+            'ElectronicBook' => $ElectronicBook,
+        ]);
     }
 
 
-    private function checkIfAlreadyBuyBook($id)
-    {
-
-        $user = Auth::user();
-
-        $hasBuyBook = Order::where('buyer_id', $user->buyer->id)
-            ->where('electronic_book_id', $id)
-            ->where('status', 'completed')
-            ->exists();
-
-
-        return $hasBuyBook;
-    }
 }
