@@ -3,9 +3,9 @@
 namespace App\Services\Auth;
 
 use App\Models\Role;
-use App\Repositories\Eloquent\UserRepository;
-use App\Repositories\Eloquent\SellerRepository;
-use App\Repositories\Eloquent\BuyerRepository;
+use App\Repositories\Eloquent\Auth\UserRepository;
+use App\Repositories\Eloquent\Auth\SellerRepository;
+use App\Repositories\Eloquent\Auth\BuyerRepository;
 use Exception;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Support\Facades\Hash;

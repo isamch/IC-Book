@@ -5,42 +5,37 @@ namespace App\Services\Seller;
 use App\Models\ElectronicBook;
 use App\Models\Order;
 use App\Models\PhysicalBook;
+use App\Repositories\Eloquent\Seller\DashboardRepository;
 
 class DashboardService
 {
+
+    protected $dashboardRepository;
+
+    public function __construct(DashboardRepository $dashboardRepository)
+    {
+        $this->dashboardRepository = $dashboardRepository;
+    }
+
+
     public function getTotalDigitalBooks($sellerId)
     {
-        return ElectronicBook::whereHas('book', function ($bookQuery) use ($sellerId) {
-            $bookQuery->where('seller_id', $sellerId);
-        })->count();
+        return $this->dashboardRepository->getTotalDigitalBooks($sellerId);
     }
 
     public function getTotalPhysicalBooks($sellerId)
     {
-        return PhysicalBook::whereHas('book', function ($bookQuery) use ($sellerId) {
-            $bookQuery->where('seller_id', $sellerId);
-        })->count();
+        return $this->dashboardRepository->getTotalPhysicalBooks($sellerId);
     }
 
     public function getTotalOrders($sellerId)
     {
-        return Order::whereHas('electronicBook', function ($electronicBookQuery) use ($sellerId) {
-            $electronicBookQuery->whereHas('book', function ($bookQuery) use ($sellerId) {
-                $bookQuery->where('seller_id', $sellerId);
-            });
-        })->count();
+        return $this->dashboardRepository->getTotalOrders($sellerId);
     }
 
     public function getTotalRevenue($sellerId)
     {
-        return Order::whereHas('electronicBook', function ($electronicBookQuery) use ($sellerId) {
-            $electronicBookQuery->whereHas('book', function ($bookQuery) use ($sellerId) {
-                $bookQuery->where('seller_id', $sellerId);
-            });
-        })
-            ->where('status', 'completed')
-            ->sum('total_price');
-
-
+        return $this->dashboardRepository->getTotalRevenue($sellerId);
     }
+
 }
