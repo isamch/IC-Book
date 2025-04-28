@@ -48,5 +48,4 @@ class DigitalBookService
     {
         return $this->digitalBookRepository->deleteSellerElectronicBook($id);
     }
-
 }
