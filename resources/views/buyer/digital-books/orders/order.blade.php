@@ -9,7 +9,6 @@
 
 
     <div class="flex h-screen">
-        <!-- Sidebar -->
         <div class="w-64 bg-green-800 text-white p-4">
             <a href="{{ route('buyer.home') }}" class="flex items-center gap-3 mb-8">
                 <i class="fas fa-book-open text-2xl"></i>
@@ -33,9 +32,7 @@
             </nav>
         </div>
 
-        <!-- Main Content -->
         <div class="flex-1 overflow-y-auto p-8">
-            <!-- Header -->
             <div class="flex justify-between items-center mb-8">
                 <h2 class="text-2xl font-bold text-green-800">Buyer Dashboard</h2>
                 <div class="flex items-center gap-4">
@@ -59,7 +56,6 @@
 
 
 
-            <!-- Users Management -->
             <div class="bg-white rounded-xl shadow-lg p-6">
 
                 <div class="flex justify-between items-center mb-6">

@@ -49,21 +49,18 @@
 
 
 
-            <!-- Success Message -->
+            <!-- success mesage -->
             @if (session('status') === 'success')
-                <!-- Success Icon -->
                 <div class="flex justify-center mb-4">
                     <svg class="h-12 w-12 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                     </svg>
                 </div>
 
-                <!-- Success Message -->
                 <h3 class="text-2xl font-semibold text-gray-800 mb-4">
                     {{ session('message') ?? 'Operation successful!' }}
                 </h3>
 
-                <!-- Go Home Button -->
                 @if (session('action') === 'verify-done')
                     <a href="{{ url('/home') }}"
                         class="inline-block bg-green-500 text-white px-6 py-2 rounded-lg hover:bg-green-600 transition duration-300">
@@ -83,9 +80,8 @@
 
             @endif
 
-            <!-- Error Message -->
+            <!-- error mesage -->
             @if (session('status') === 'error')
-                <!-- Error Icon -->
                 <div class="flex justify-center mb-4">
                     <svg class="h-12 w-12 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -93,12 +89,10 @@
                     </svg>
                 </div>
 
-                <!-- Error Message -->
                 <h3 class="text-2xl font-semibold text-gray-800 mb-4">
                     {{ session('message') ?? 'An error occurred!' }}
                 </h3>
 
-                <!-- Go Home Button -->
                 <form action="{{ route('logout') }}" method="POST" style="display: inline;">
                     @csrf
                     <button type="submit"
@@ -116,9 +110,8 @@
                 </form>
             @endif
 
-            <!-- Warning Message -->
+            <!-- warning message -->
             @if (session('status') === 'warning')
-                <!-- Warning Icon -->
                 <div class="flex justify-center mb-4">
                     <svg class="h-12 w-12 text-yellow-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -126,21 +119,18 @@
                     </svg>
                 </div>
 
-                <!-- Warning Message -->
                 <h3 class="text-2xl font-semibold text-gray-800 mb-4">
                     {{ session('message') ?? 'Warning: Something needs your attention!' }}
                 </h3>
 
-                <!-- Go Home Button -->
                 <a href="{{ url('/home') }}"
                     class="inline-block bg-yellow-500 text-white px-6 py-2 rounded-lg hover:bg-yellow-600 transition duration-300">
                     Go Home
                 </a>
             @endif
 
-            <!-- Default Message (if no status is set) -->
+            <!-- default message  -->
             @if (!session('status') && !session('verify_email_needed'))
-                <!-- Default Icon -->
                 <div class="flex justify-center mb-4">
                     <svg class="h-12 w-12 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -148,12 +138,10 @@
                     </svg>
                 </div>
 
-                <!-- Default Message -->
                 <h3 class="text-2xl font-semibold text-gray-800 mb-4">
                     {{ session('message') ?? 'No message available.' }}
                 </h3>
 
-                <!-- Go Home Button -->
                 <a href="{{ url('/home') }}"
                     class="inline-block bg-gray-500 text-white px-6 py-2 rounded-lg hover:bg-gray-600 transition duration-300">
                     Go Home

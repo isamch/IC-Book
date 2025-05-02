@@ -12,7 +12,6 @@
         <div
             class="bg-white dark:bg-gray-800 rounded-xl shadow-2xl max-w-4xl w-full p-8 transition-all duration-300 animate-fade-in">
             <div class="flex flex-col md:flex-row">
-                <!-- Left Column - Profile Picture and Basic Info -->
                 <div class="md:w-1/3 text-center mb-8 md:mb-0">
                     <img src="{{ asset('storage/' . $user->photo) }}" alt="Profile Picture"
                         class="rounded-full w-48 h-48 mx-auto mb-4 border-4 border-green-800 dark:border-green-900 transition-transform duration-300 hover:scale-105 object-cover">
@@ -54,9 +53,7 @@
                 </div>
 
 
-                <!-- Right Column - Detailed Information -->
                 <div class="md:w-2/3 md:pl-8">
-                    <!-- About Section -->
                     <h2 class="text-xl font-semibold text-green-800 dark:text-white mb-4">About Me</h2>
                     <p class="text-gray-700 dark:text-gray-300 mb-6">
                         @if ($user->about_me)
@@ -66,7 +63,6 @@
                         @endif
                     </p>
 
-                    <!-- Joined Date -->
                     <h2 class="text-xl font-semibold text-green-800 dark:text-white mb-4">Member Since</h2>
                     <p class="text-gray-700 dark:text-gray-300 mb-6">
                         <span class="text-gray-700 dark:text-gray-300">
@@ -77,7 +73,6 @@
                         </span>
                     </p>
 
-                    <!-- Contact Information -->
                     <h2 class="text-xl font-semibold text-green-800 dark:text-white mb-4">Contact Information</h2>
                     <ul class="space-y-2 text-gray-700 dark:text-gray-300">
                         <li class="flex items-center">
@@ -108,7 +103,6 @@
                         </li>
                     </ul>
 
-                    <!-- Additional Profile Information -->
                     @if ($user->birthdate)
                         <div class="mt-6">
                             <h2 class="text-xl font-semibold text-green-800 dark:text-white mb-4">Additional Information

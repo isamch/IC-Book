@@ -9,7 +9,6 @@
 
 
     <div class="flex h-screen">
-        <!-- Sidebar -->
         <div class="w-64 bg-green-800 text-white p-4">
             <a  href="{{ route('buyer.home') }}"
                 class="flex items-center gap-3 mb-8">
@@ -37,9 +36,7 @@
             </nav>
         </div>
 
-        <!-- Main Content -->
         <div class="flex-1 overflow-y-auto p-8">
-            <!-- Header -->
             <div class="flex justify-between items-center mb-8">
                 <h2 class="text-2xl font-bold text-green-800">Seller Dashboard</h2>
                 <div class="flex items-center gap-4">
@@ -63,9 +60,7 @@
             <div class="rounded-xl p-6">
 
 
-                <!-- Main form container -->
                 <div class="bg-white rounded-xl shadow-lg overflow-hidden">
-                    <!-- Form header -->
                     <div class="bg-green-800 px-6 py-4">
                         <h3 class="text-lg font-semibold text-white">Edit Book Information</h3>
                     </div>
@@ -76,7 +71,6 @@
 
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
 
-                            <!-- Image Upload Section (4 Images) -->
                             <div class="col-span-1">
                                 <label class="block text-sm font-medium text-gray-700 mb-2">Book Images (4
                                     required)*</label>
@@ -110,9 +104,7 @@
                                 @enderror
                             </div>
 
-                            <!-- Book details form -->
                             <div class="col-span-1 md:col-span-2 space-y-6">
-                                <!-- Title -->
                                 <div>
                                     <label for="bookTitle" class="block text-sm font-medium text-gray-700">Title*</label>
                                     <input type="text" id="bookTitle" name="title"
@@ -123,7 +115,6 @@
                                     @enderror
                                 </div>
 
-                                <!-- Author and Price -->
                                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                     <div>
                                         <label for="bookAuthor"
@@ -152,7 +143,6 @@
                                     </div>
                                 </div>
 
-                                <!-- Description -->
                                 <div>
                                     <label for="bookDescription"
                                         class="block text-sm font-medium text-gray-700">Description*</label>
@@ -163,7 +153,6 @@
                                     @enderror
                                 </div>
 
-                                <!-- File Upload -->
                                 <div>
                                     <label for="bookFile" class="block text-sm font-medium text-gray-700">Upload
                                         File*</label>
@@ -190,7 +179,6 @@
                             </div>
                         </div>
 
-                        <!-- Form footer -->
                         <div class="mt-8 pt-6 border-t border-gray-200 flex justify-end space-x-4">
                             <a href="{{ route('seller.books.index') }}"
                                 type="button"
@@ -209,7 +197,6 @@
                 </div>
             </div>
 
-            <!-- Image Preview Script -->
             <script>
                 function previewImage(inputId, imgId) {
                     document.getElementById(inputId).addEventListener("change", function(e) {
@@ -230,7 +217,6 @@
                 previewImage("upload4", "preview4");
 
 
-                // for upload file:
                 document.getElementById('bookFile').addEventListener('change', function() {
 
                     const fileName = this.files.length > 0 ? this.files[0].name : "No file chosen";

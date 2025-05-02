@@ -77,10 +77,8 @@
             </div>
         </div>
 
-        <!-- Scrollable Posts Feed -->
         <div class="flex-1 overflow-hidden">
             <div class="max-w-2xl mx-auto px-3">
-                <!-- Feed Divider -->
                 <div class="relative my-3">
                     <div class="absolute inset-0 flex items-center">
                         <div class="w-full border-t border-gray-200"></div>
@@ -90,12 +88,10 @@
                     </div>
                 </div>
 
-                <!-- Scrollable Posts Container -->
                 <div id="posts-container" class="overflow-y-auto pb-4" style="height: calc(100vh - 180px);">
                     <div class="space-y-3">
                         @foreach ($posts as $post)
                             <div class="bg-white rounded-lg shadow-sm border border-gray-100 overflow-hidden transition-all duration-300 hover:shadow-md">
-                                <!-- Post Header -->
                                 <div class="p-3">
                                     <div class="flex items-center gap-2 group">
                                         <a href="{{ route('buyer.profile.show', $post->user->id) }}"
@@ -116,7 +112,6 @@
                                         </a>
                                     </div>
 
-                                    <!-- Post Content -->
                                     <div class="mt-2">
                                         <p class="text-sm text-gray-700 whitespace-pre-line">
                                             {{ $post->content }}
@@ -124,7 +119,6 @@
                                     </div>
                                 </div>
 
-                                <!-- Post Image (if exists) -->
                                 @if($post->photo)
                                     <div class="border-t border-b border-gray-100">
                                         <img src="{{ asset('storage/' . optional($post)->photo) }}" alt="Post Image"
@@ -132,7 +126,6 @@
                                     </div>
                                 @endif
 
-                                <!-- Post Stats -->
                                 <div class="px-3 py-2 flex items-center justify-between text-gray-500 text-xs">
                                     <div class="flex items-center gap-1">
                                         <div class="flex -space-x-1">
@@ -151,7 +144,6 @@
                                     </div>
                                 </div>
 
-                                <!-- Post Actions -->
                                 <div class="px-3 py-1 border-t border-gray-100 flex items-center justify-between">
                                     <button id="like-button-{{ $post->id }}" onclick="toggleLike({{ $post->id }})"
                                         class="flex items-center justify-center gap-1 py-1 px-2 rounded-md hover:bg-gray-50 transition-colors duration-200 w-1/2 {{ $post->liked_by_user ? 'text-green-600' : 'text-gray-600' }}">
@@ -169,9 +161,7 @@
                                     </button>
                                 </div>
 
-                                <!-- Comments Section -->
                                 <div class="px-3 py-2 bg-gray-50 border-t border-gray-100">
-                                    <!-- Comments List -->
                                     <div id="comments-container-{{ $post->id }}"
                                         class="max-h-40 overflow-y-auto space-y-2 pr-1 scrollbar-thin scrollbar-thumb-green-500 scrollbar-track-gray-100 scrollbar-w-1 mb-2">
                                         @foreach ($post->comments as $comment)
@@ -195,7 +185,6 @@
                                         @endforeach
                                     </div>
 
-                                    <!-- Add Comment -->
                                     <div class="flex items-center gap-2">
                                         <img src="{{ asset('storage/' . optional(Auth::user())->photo) }}" alt="Profile"
                                             class="w-6 h-6 rounded-full object-cover ring-1 ring-green-100">
@@ -215,7 +204,6 @@
                             </div>
                         @endforeach
 
-                        <!-- Load More Button -->
                         <div id="load-more-container" class="text-center py-4">
                             <button id="load-more-posts"
                                 class="inline-flex items-center gap-1 bg-white text-gray-700 border border-gray-300 py-1.5 px-4 rounded-full text-xs font-medium hover:bg-gray-50 transition-all duration-200 shadow-sm">
@@ -340,7 +328,13 @@
                         'Accept': 'application/json'
                     }
                 })
-                .then(response => response.json())
+                .then(response => {
+                    if (response.status === 429) {
+                        window.location.href = '/too-many-requests';
+                        return;
+                    }
+                    return response.json();
+                })
                 .then(data => callback(data))
                 .catch(() => showError());
         };
@@ -391,15 +385,12 @@
             offset += 5;
         });
 
-        // Initialize scrollable container
         document.addEventListener('DOMContentLoaded', function() {
             const postsContainer = document.getElementById('posts-container');
 
-            // Custom scrollbar styling
             postsContainer.style.scrollbarWidth = 'thin';
             postsContainer.style.scrollbarColor = '#22c55e #f9fafb';
 
-            // For webkit browsers
             const style = document.createElement('style');
             style.textContent = `
                 #posts-container::-webkit-scrollbar {

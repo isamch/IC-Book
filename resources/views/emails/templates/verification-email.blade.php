@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Email Verification</title>
     <style>
-        /* General body styling */
         body {
             font-family: 'Arial', sans-serif;
             background-color: #f8f9fa;
@@ -18,7 +17,6 @@
             min-height: 100vh;
         }
 
-        /* Container for the content */
         .container {
             background: #ffffff;
             padding: 40px;
@@ -29,14 +27,12 @@
             text-align: center;
         }
 
-        /* Header styling */
         h2 {
             color: #343a40;
             font-size: 24px;
             margin-bottom: 15px;
         }
 
-        /* Paragraph styling */
         p {
             color: #6c757d;
             font-size: 16px;
@@ -44,7 +40,6 @@
             margin-bottom: 25px;
         }
 
-        /* Verify button styling */
         .btn-verify {
             display: inline-block;
             padding: 12px 30px;
@@ -61,7 +56,6 @@
             background-color: #218838;
         }
 
-        /* Link styling for the verification URL */
         .verification-link {
             display: block;
             margin-top: 20px;
@@ -75,7 +69,6 @@
             text-decoration: underline;
         }
 
-        /* Footer styling */
         .footer {
             margin-top: 30px;
             font-size: 14px;

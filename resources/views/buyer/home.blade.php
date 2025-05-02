@@ -114,7 +114,6 @@
                 @endforeach
 
             </div>
-            <!-- Show More Button -->
             <div class="text-center pt-8">
                 <a href="{{ route('buyer.books.index') }}"
                     class="inline-flex items-center bg-transparent text-gray-600 border border-gray-600 py-2 px-6 rounded-full text-sm font-medium hover:bg-gray-100 hover:text-gray-700 transition-colors duration-200">
@@ -139,7 +138,6 @@
             <div class="swiper reviews-slider">
                 <div
                     class="swiper-wrapper grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-8 justify-center">
-                    <!-- Review 1 -->
                     <div
                         class="swiper-slide box bg-white rounded-xl shadow-lg overflow-hidden transform transition-transform hover:scale-101 duration-300 hover:shadow-2xl mx-auto">
                         <div class="p-6 flex flex-col items-center">
@@ -160,7 +158,6 @@
                         </div>
                     </div>
 
-                    <!-- Review 2 -->
                     <div
                         class="swiper-slide box bg-white rounded-xl shadow-lg overflow-hidden transform transition-transform hover:scale-101 duration-300 hover:shadow-2xl mx-auto">
                         <div class="p-6 flex flex-col items-center">
@@ -179,7 +176,6 @@
                         </div>
                     </div>
 
-                    <!-- Review 3 -->
                     <div
                         class="swiper-slide box bg-white rounded-xl shadow-lg overflow-hidden transform transition-transform hover:scale-101 duration-300 hover:shadow-2xl mx-auto">
                         <div class="p-6 flex flex-col items-center">

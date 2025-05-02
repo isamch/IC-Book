@@ -18,17 +18,14 @@
 
             <div class="flex flex-col lg:flex-row gap-8">
 
-                <!-- Sidebar Filter -->
                 <div class="w-full lg:w-1/4 bg-white rounded-xl shadow-lg p-6"
                     style="height: 800px; overflow-y: auto; scrollbar-width: thin; scrollbar-color: #48bb78 #f7fafc;">
 
-                    <!-- Apply Filter Button -->
                     <button id="apply-filter"
                         class="w-full bg-green-600 text-white py-2 px-4 rounded-lg mb-6 hover:bg-green-700 transition-colors duration-200">
                         Apply Filter
                     </button>
 
-                    <!-- Search Bar -->
                     <div class="mb-6">
                         <input id="search-filter" type="text" placeholder="Search products..."
                             class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500">
@@ -37,7 +34,6 @@
 
 
                     <div class="space-y-6">
-                        <!-- Category Filter -->
                         <div>
                             <h4 class="text-lg font-medium text-gray-800 mb-3">Categories</h4>
                             <ul class="space-y-2 max-h-48 overflow-y-auto"
@@ -171,7 +167,6 @@
                     </div>
                 </div>
 
-                <!-- Product Grid -->
                 <div class="w-full lg:w-3/4 bg-white rounded-xl shadow-lg p-6"
                     style="height: 800px; overflow-y: auto; scrollbar-width: thin; scrollbar-color: #48bb78 #f7fafc;">
 
@@ -266,11 +261,20 @@
                         'Accept': 'application/json'
                     }
                 })
-                .then(response => response.json())
+                .then(response => {
+                    if (response.status === 429) {
+                        window.location.href = '/too-many-requests';
+                        return;
+                    }
+                    return response.json();
+                })
                 .then(data => callback(data))
                 .catch(() => showError());
         };
 
+        function showThrottleAlert() {
+            alert('You have exceeded the maximum number of requests. Please wait a moment before trying again.');
+        }
 
         const updateBooks = (data) => {
 

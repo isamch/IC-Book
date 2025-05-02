@@ -1,8 +1,3 @@
-{{-- {{ dd($electronicBook) }} --}}
-{{-- {{ dd( $electronicBooks[0]->reviews->avg('rating') ) }} --}}
-
-
-
 @extends('layouts.seller')
 
 @section('title', 'Book')
@@ -12,7 +7,6 @@
 
 
     <div class="flex h-screen">
-        <!-- Sidebar -->
         <div class="w-64 bg-green-800 text-white p-4">
             <a  href="{{ route('buyer.home') }}"
                 class="flex items-center gap-3 mb-8">
@@ -39,9 +33,7 @@
             </nav>
         </div>
 
-        <!-- Main Content -->
         <div class="flex-1 overflow-y-auto p-8">
-            <!-- Header -->
             <div class="flex justify-between items-center mb-8">
                 <h2 class="text-2xl font-bold text-green-800">Seller Dashboard</h2>
                 <div class="flex items-center gap-4">
@@ -65,24 +57,19 @@
             <div class="rounded-xl p-6">
 
 
-                <!-- Main content container -->
                 <div class="bg-white rounded-xl shadow-lg overflow-hidden">
-                    <!-- Page header -->
                     <div class="bg-green-800 px-6 py-4">
                         <h1 class="text-2xl font-semibold text-white" id="bookTitle">Book Details</h1>
                     </div>
 
-                    <!-- Page content -->
                     <div class="p-6">
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-center">
-                            <!-- Book cover -->
                             <div class="col-span-1 flex justify-center items-center">
                                 <img id="bookCover"
                                     src="{{ asset('storage/' . $electronicBook->book->images->first()->image) }}"
                                     alt="Book cover" class="w-full max-w-xs h-auto object-cover rounded-lg shadow-md">
                             </div>
 
-                            <!-- Book details -->
                             <div class="col-span-1 md:col-span-2 flex flex-col justify-between">
                                 <div class="space-y-6">
                                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">

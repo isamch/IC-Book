@@ -27,12 +27,7 @@ class PostService
 
     public function loadMore(int $offset)
     {
-        if ($offset > 1000) {
-            return response()->json(['message' => 'Too many requests'], 429);
-        }
-
         $posts = $this->fetchPosts($offset);
-
         return $posts;
     }
 

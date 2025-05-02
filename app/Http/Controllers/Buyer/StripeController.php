@@ -86,7 +86,7 @@ class StripeController extends Controller
     }
 
 
-    // private methods to create orders
+    // private methods to create order
     private function createOrder($ElectronicBook)
     {
 

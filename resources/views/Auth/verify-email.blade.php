@@ -8,7 +8,6 @@
         <div class="bg-yellow-100 border-l-4 border-yellow-500 p-4 rounded-lg">
             <div class="flex items-center">
                 <div class="flex-shrink-0">
-                    <!-- Warning Icon -->
                     <svg class="h-5 w-5 text-yellow-500" xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 0 20 20" fill="currentColor">
                         <path fill-rule="evenodd"

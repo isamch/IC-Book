@@ -1,8 +1,3 @@
-{{-- {{ dd( $physicalBooks[1]->reviews->count()  ) }} --}}
-{{-- {{ dd( $physicalBooks[0]->reviews->avg('rating') ) }} --}}
-
-
-
 @extends('layouts.seller')
 
 @section('title', 'Book')
@@ -40,9 +35,7 @@
             </nav>
         </div>
 
-        <!-- Main Content -->
         <div class="flex-1 overflow-y-auto p-8">
-            <!-- Header -->
             <div class="flex justify-between items-center mb-8">
                 <h2 class="text-2xl font-bold text-green-800">Seller Dashboard</h2>
                 <div class="flex items-center gap-4">

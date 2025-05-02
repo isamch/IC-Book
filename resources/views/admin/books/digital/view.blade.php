@@ -12,7 +12,6 @@
 
 
     <div class="flex h-screen">
-        <!-- Sidebar -->
         <div class="w-64 bg-green-800 text-white p-4">
             <a href="{{ route('buyer.home') }}" class="flex items-center gap-3 mb-8">
                 <i class="fas fa-book-open text-2xl"></i>
@@ -77,24 +76,19 @@
 
 
 
-                <!-- Main content container -->
                 <div class="bg-white rounded-xl shadow-lg overflow-hidden">
-                    <!-- Page header -->
                     <div class="bg-green-800 px-6 py-4">
                         <h1 class="text-2xl font-semibold text-white" id="bookTitle">Book Details</h1>
                     </div>
 
-                    <!-- Page content -->
                     <div class="p-6">
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-center">
-                            <!-- Book cover -->
                             <div class="col-span-1 flex justify-center">
                                 <img id="bookCover"
                                     src="{{ asset('storage/' . optional($electronicBook->book->images->first())->image) }}"
                                     alt="Book cover" class="w-full max-w-xs h-auto object-cover rounded-lg shadow-md">
                             </div>
 
-                            <!-- Book details -->
                             <div class="col-span-1 md:col-span-2 flex flex-col justify-between">
                                 <div class="space-y-6">
                                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">

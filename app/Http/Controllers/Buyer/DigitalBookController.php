@@ -25,10 +25,6 @@ class DigitalBookController extends Controller
     public function loadMore(Request $request, int $offset)
     {
 
-        if ($offset > 1000) {
-            return response()->json(['message' => 'Too many requests'], 429);
-        }
-
         $electronicBooks = $this->fetchBooks($request, $offset);
         $view = view('buyer.digital-books.components.card', compact('electronicBooks'))->render();
 
@@ -50,9 +46,7 @@ class DigitalBookController extends Controller
     }
 
 
-    /**
-     * Fetch books with applied filters.
-     */
+
     private function fetchBooks(?Request $request = null, int $offset = 0)
     {
 

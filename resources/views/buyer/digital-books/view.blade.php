@@ -7,10 +7,8 @@
 @section('content')
     <section class="bg-gray-100 py-10 px-4">
         <div class="max-w-7xl mx-auto">
-            <!-- Book Details Section -->
             <div class="bg-white items-center rounded-xl shadow-lg p-8 flex flex-col lg:flex-row gap-8">
 
-                <!-- Book Images -->
                 <div class="flex-1 flex flex-col items-center justify-center">
 
                     <div class="mb-6 flex justify-center">
@@ -97,7 +95,6 @@
             </div>
 
 
-            <!-- Reviews Section -->
             <div class="bg-white rounded-xl shadow-lg p-8 mt-8">
                 <h2 class="text-2xl font-bold text-gray-800 mb-6" style="text-align: center">Reviews</h2>
                 <div class="w-full h-px bg-gradient-to-r from-transparent via-gray-300 to-transparent my-5"></div>
@@ -156,7 +153,6 @@
                 @endif
 
 
-                <!-- Reviews List -->
                 <div class="space-y-6 mt-4">
                     <h3 class="text-base font-bold text-gray-700 mb-4">Customer Reviews</h3>
 

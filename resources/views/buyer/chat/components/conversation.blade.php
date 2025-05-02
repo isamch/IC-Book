@@ -8,7 +8,6 @@
             <h1 class="text-2xl sm:text-3xl font-bold text-gray-800 mb-6">Messages</h1>
 
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
-                <!-- Conversations List -->
                 <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-4 flex flex-col h-[calc(100vh-180px)] sm:h-[calc(100vh-200px)]">
                     <div class="flex items-center justify-between mb-4">
                         <h2 class="text-lg font-semibold text-gray-800">Conversations</h2>
@@ -64,14 +63,11 @@
                         </button>
                     </div>
 
-                    <!-- Loading Spinner -->
                     <div class="spinner hidden absolute inset-0 flex justify-center items-center bg-white bg-opacity-80 z-10">
                         <div class="w-12 h-12 border-4 border-gray-200 border-t-green-500 rounded-full animate-spin"></div>
                     </div>
 
-                    <!-- Active Chat -->
                     <div class="flex flex-col h-full">
-                        <!-- Chat Header -->
                         <div class="flex items-center justify-between pb-4 border-b border-gray-100">
                             <div class="flex items-center gap-3">
                                 <img src="{{ asset('storage/images/profile/default/default-profile.png') }}" alt="User Image"
@@ -96,16 +92,13 @@
                         </div>
 
 
-                        <!-- Messages Area -->
                         <div class="flex-grow overflow-y-auto py-4 scrollbar-thin scrollbar-thumb-green-500 scrollbar-track-gray-100 px-1">
                             <div class="space-y-4">
-                                <!-- Date Separator -->
                                 <div class="flex justify-center">
                                     <span class="text-xs bg-gray-100 text-gray-500 px-3 py-1 rounded-full">Today</span>
                                 </div>
 
                                 @for ($i = 1; $i <= 8; $i++)
-                                    <!-- Incoming Message -->
                                     @if($i % 2 == 1)
                                         <div class="flex items-end gap-2 max-w-[85%]">
                                             <img src="{{ asset('storage/images/profile/default/default-profile.png') }}" alt="User Image"
@@ -118,7 +111,6 @@
                                             </div>
                                         </div>
                                     @else
-                                        <!-- Outgoing Message -->
                                         <div class="flex justify-end">
                                             <div class="max-w-[85%]">
                                                 <div class="bg-green-500 text-white rounded-2xl rounded-br-none p-3 shadow-sm">
@@ -135,7 +127,6 @@
                                     @endif
                                 @endfor
 
-                                <!-- Typing Indicator -->
                                 <div class="flex items-end gap-2 max-w-[85%]">
                                     <img src="{{ asset('storage/images/profile/default/default-profile.png') }}" alt="User Image"
                                         class="w-8 h-8 rounded-full object-cover border border-gray-200 flex-shrink-0">
@@ -150,7 +141,6 @@
                             </div>
                         </div>
 
-                        <!-- Message Input -->
                         <div class="mt-4 border-t border-gray-100 pt-4">
                             <div class="flex items-end gap-2">
                                 <button class="text-gray-400 hover:text-gray-600 transition-colors">
@@ -188,25 +178,20 @@
             const emptyState = document.querySelector(".flex-col.items-center.justify-center");
             const activeChat = document.querySelector(".flex.flex-col.h-full");
 
-            // Show active chat, hide empty state
             emptyState.classList.add("hidden");
             activeChat.classList.remove("hidden");
 
             conversations.forEach(conversation => {
                 conversation.addEventListener("click", function () {
-                    // Remove active class from all conversations
                     conversations.forEach(conv => {
                         conv.classList.remove("bg-green-50", "border-l-4", "border-green-500");
                     });
 
-                    // Add active class to clicked conversation
                     this.classList.add("bg-green-50", "border-l-4", "border-green-500");
 
-                    // Show active chat, hide empty state
                     emptyState.classList.add("hidden");
                     activeChat.classList.remove("hidden");
 
-                    // Show loading spinner briefly
                     const spinner = document.querySelector(".spinner");
                     spinner.classList.remove("hidden");
                     setTimeout(() => {

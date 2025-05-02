@@ -18,13 +18,11 @@
                 <div class="w-full lg:w-1/4 bg-white rounded-xl shadow-lg p-6"
                     style="height: 800px; overflow-y: auto; scrollbar-width: thin; scrollbar-color: #48bb78 #f7fafc;">
 
-                    <!-- Apply Filter Button -->
                     <button id="apply-filter"
                         class="w-full bg-green-600 text-white py-2 px-4 rounded-lg mb-6 hover:bg-green-700 transition-colors duration-200">
                         Apply Filter
                     </button>
 
-                    <!-- Search Bar -->
                     <div class="mb-6">
                         <input id="search-filter" type="text" placeholder="Search products..."
                             class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500">
@@ -44,11 +42,9 @@
                                 class="w-full px-4 py-2 border border-green-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 text-gray-800 bg-white transition-colors duration-300 ease-in-out"
                                 size="5">
 
-                                <!-- Default option -->
                                 <option value="All-location" selected class="text-gray-800 hover:bg-green-100 py-1">All
                                 </option>
 
-                                <!-- Loop through locations -->
                                 @foreach ($locations as $location)
                                     <option value="{{ $location }}" class="text-gray-800 hover:bg-green-100 py-1">
                                         {{ ucfirst($location) }}</option>
@@ -60,7 +56,6 @@
 
 
 
-                        <!-- Category Filter -->
                         <div>
                             <h4 class="text-lg font-medium text-gray-800 mb-3">Categories</h4>
                             <ul class="space-y-2 max-h-48 overflow-y-auto"
@@ -144,7 +139,6 @@
                     </div>
                 </div>
 
-                <!-- Product Grid -->
                 <div class="w-full lg:w-3/4 bg-white rounded-xl shadow-lg p-6"
                     style="height: 800px; overflow-y: auto; scrollbar-width: thin; scrollbar-color: #48bb78 #f7fafc;">
 
@@ -162,7 +156,7 @@
                                         class="w-full h-60 object-cover object-center">
                                     <div
                                         class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-80 flex items-end p-3">
-                                        <a href="{{ route('buyer.chat.conversation',  $physicalBook->book->seller->user->id) }}"
+                                        <a href="{{ route('buyer.chat.conversation', $physicalBook->book->seller->user->id) }}"
                                             class="inline-flex items-center bg-green-600 text-white py-1.5 px-4 rounded-full text-xs font-semibold hover:bg-green-800 transition-colors duration-100">
                                             <svg class="w-3.5 h-3.5 mr-1" fill="none" stroke="currentColor"
                                                 viewBox="0 0 24 24">
@@ -178,7 +172,8 @@
                                 <div class="p-4">
                                     <h4 class="text-lg font-semibold text-gray-900 mb-1 truncate">
 
-                                        <a href="{{ route('buyer.marketplace.books.show', $physicalBook->id) }}" class="text-gray-900 hover:text-green-500 cursor-pointer">
+                                        <a href="{{ route('buyer.marketplace.books.show', $physicalBook->id) }}"
+                                            class="text-gray-900 hover:text-green-500 cursor-pointer">
                                             {{ $physicalBook->book->title }}
                                         </a>
                                     </h4>
@@ -202,7 +197,6 @@
 
                     </div>
 
-                    <!-- Show More Button -->
                     <div class="text-center pt-8">
                         <button id="load-more"
                             class="inline-flex items-center bg-transparent text-gray-600 border border-gray-600 py-2 px-6 rounded-full text-sm font-medium hover:bg-gray-100 hover:text-gray-700 transition-colors duration-200">
@@ -253,7 +247,13 @@
                         'Accept': 'application/json'
                     }
                 })
-                .then(response => response.json())
+                .then(response => {
+                    if (response.status === 429) {
+                        window.location.href = '/too-many-requests';
+                        return;
+                    }
+                    return response.json();
+                })
                 .then(data => callback(data))
                 .catch(() => showError());
         };

@@ -13,9 +13,7 @@
                 @method('PUT')
 
                 <div class="flex flex-col md:flex-row">
-                    <!-- Left Column - Profile Picture and Basic Info -->
                     <div class="md:w-1/3 text-center mb-8 md:mb-0">
-                        <!-- Profile Picture Upload -->
                         <div class="relative mx-auto w-48 h-48 mb-4">
                             <img id="profileImagePreview" src="{{ asset('storage/' . optional($user)->photo) }}" alt="Profile Picture"
                                 class="rounded-full w-full h-full border-4 border-green-800 dark:border-green-900 object-cover">
@@ -26,7 +24,6 @@
                             </label>
                         </div>
 
-                        <!-- First Name -->
                         <div class="mb-4">
                             <label for="first_name"
                                 class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">First Name</label>
@@ -38,7 +35,6 @@
                             @enderror
                         </div>
 
-                        <!-- Last Name -->
                         <div class="mb-4">
                             <label for="last_name"
                                 class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Last Name</label>
@@ -50,7 +46,6 @@
                             @enderror
                         </div>
 
-                        <!-- Gender -->
                         <div class="mb-4">
                             <label for="gender"
                                 class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Gender</label>
@@ -67,9 +62,7 @@
                         </div>
                     </div>
 
-                    <!-- Right Column - Detailed Information -->
                     <div class="md:w-2/3 md:pl-8">
-                        <!-- About Me -->
                         <div class="mb-6">
                             <label for="about_me"
                                 class="block text-xl font-semibold text-green-800 dark:text-white mb-2">About Me</label>
@@ -80,11 +73,9 @@
                             @enderror
                         </div>
 
-                        <!-- Contact Information -->
                         <h2 class="text-xl font-semibold text-green-800 dark:text-white mb-4">Contact Information</h2>
 
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-6">
-                            <!-- Email -->
                             <div>
                                 <label for="email"
                                     class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Email</label>
@@ -96,7 +87,6 @@
                                 @enderror
                             </div>
 
-                            <!-- Phone -->
                             <div>
                                 <label for="phone"
                                     class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Phone</label>
@@ -108,7 +98,6 @@
                                 @enderror
                             </div>
 
-                            <!-- Address -->
                             <div class="sm:col-span-2">
                                 <label for="address"
                                     class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Address</label>
@@ -121,7 +110,6 @@
                             </div>
                         </div>
 
-                        <!-- Form Actions -->
                         <div class="flex justify-end space-x-4 mt-8">
                             <a href="{{ route('buyer.profile.show', $user->id) }}"
                                 class="px-6 py-2 border border-gray-300 rounded-lg text-base font-medium text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none">
@@ -142,7 +130,6 @@
     </section>
 
     <script>
-        // Preview image before upload
         document.getElementById('photo').addEventListener('change', function(e) {
             const file = e.target.files[0];
             if (file) {

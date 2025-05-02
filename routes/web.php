@@ -71,6 +71,10 @@ Route::prefix('email')->group(function () {
 
 Route::get('email/message', [VerificationController::class, 'ShowMessage'])->name('verification.notice');
 
+Route::get('/too-many-requests', function () {
+    return view('errors.too-many-requests');
+})->name('too-many-requests');
+
 
 
 
@@ -116,19 +120,18 @@ Route::middleware(['auth', 'email.verified', 'role.check:seller'])->prefix('sell
 Route::middleware(['auth', 'email.verified', 'role.check:buyer'])->name('buyer.')->group(function () {
 
 
-    Route::prefix('profile')->as('profile.')->group(function(){
+    Route::prefix('profile')->as('profile.')->group(function () {
 
         Route::get('/{id}', [BuyerProfileController::class, 'show'])->name('show');
         Route::get('/{id}/edit', [BuyerProfileController::class, 'edit'])->name('edit');
         Route::put('/{id}', [BuyerProfileController::class, 'update'])->name('update');
-
     });
 
 
 
     Route::prefix('books')->as('books.')->group(function () {
         Route::get('/', [BuyerDigitalBookController::class, 'index'])->name('index');
-        Route::get('/load-more/{offset}', [BuyerDigitalBookController::class, 'loadMore'])->name('loadMore');
+        Route::get('/load-more/{offset}', [BuyerDigitalBookController::class, 'loadMore'])->name('loadMore')->middleware('throttle:10,1');
         Route::get('/filter', [BuyerDigitalBookController::class, 'applyFilter'])->name('applyFilter');
 
         Route::get('/orders', [BuyerOrderController::class, 'index'])->name('orders.index');
@@ -139,16 +142,13 @@ Route::middleware(['auth', 'email.verified', 'role.check:buyer'])->name('buyer.'
 
         Route::get('/{id}', [BuyerDigitalBookController::class, 'show'])->name('show');
         Route::post('/{id}/reviews/create', [BuyerDigitalBookController::class, 'createReview'])->name('review.create');
-
-
-
     });
 
 
     Route::prefix('marketplace/books')->as('marketplace.books.')->group(function () {
 
         Route::get('/', [BuyerMarketplaceBookController::class, 'index'])->name('index');
-        Route::get('/load-more/{offset}', [BuyerMarketplaceBookController::class, 'loadMore'])->name('loadMore');
+        Route::get('/load-more/{offset}', [BuyerMarketplaceBookController::class, 'loadMore'])->name('loadMore')->middleware('throttle:10,1');
         Route::get('/filter', [BuyerMarketplaceBookController::class, 'applyFilter'])->name('applyFilter');
 
         Route::get('/{id}', [BuyerMarketplaceBookController::class, 'show'])->name('show');
@@ -159,11 +159,10 @@ Route::middleware(['auth', 'email.verified', 'role.check:buyer'])->name('buyer.'
     Route::prefix('posts')->as('posts.')->group(function () {
 
         Route::get('/', [BuyePostController::class, 'index'])->name('index');
-        Route::get('/load-more/{offset}', [BuyePostController::class, 'loadMore']);
+        Route::get('/load-more/{offset}', [BuyePostController::class, 'loadMore'])->middleware('throttle:10,1');
         Route::post('/', [BuyePostController::class, 'storePost'])->name('store');
         Route::post('/{post}/like', [BuyePostController::class, 'toggleLike'])->name('likes');
         Route::post('/{post}/comment/create', [BuyePostController::class, 'addComment'])->name('comments');
-
     });
 
 
@@ -186,14 +185,6 @@ Route::middleware(['auth', 'email.verified', 'role.check:buyer'])->name('buyer.'
             // Route::get('/', [StripeController::class, 'index'])->name('index');
             Route::post('/checkout/{id}', [StripeController::class, 'createSession'])->name('checkout');
             Route::get('/success/{id}', [StripeController::class, 'success'])->name('success');
-
         });
-
-
     });
 });
-
-
-
-
-

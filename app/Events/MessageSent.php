@@ -53,9 +53,5 @@ class MessageSent implements ShouldBroadcast
                 'count_unread' => $this->unreadCount,
             ],
         ];
-
     }
-
-
-
 }

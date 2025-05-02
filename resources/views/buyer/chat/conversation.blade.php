@@ -91,9 +91,7 @@
 
                 <div class="lg:col-span-2 bg-white rounded-xl shadow-lg p-4 flex flex-col">
 
-                    <!-- Active Chat -->
                     <div class="flex flex-col h-full justify-between">
-                        <!-- Chat Header -->
                         <div class="flex items-center justify-between pb-4 border-b border-gray-100">
                             <div class="flex items-center gap-3">
                                 <img src="{{ asset('storage/' . optional($contactChat)->photo) }}" alt="User Image"
@@ -128,7 +126,6 @@
                         </div>
 
 
-                        <!-- Messages Area -->
                         <div id="scroll-conversation" class="overflow-y-auto space-y-3"
                             style="max-height: calc(100vh - 250px); overflow-y: auto; scrollbar-width: thin; scrollbar-color: #48bb78 #f7fafc;">
 
@@ -175,7 +172,6 @@
                                             </div>
                                         </div>
                                     @else
-                                        <!-- Outgoing Message -->
                                         <div class="flex justify-end">
 
                                             <div class="max-w-[85%]">
@@ -210,7 +206,6 @@
 
 
 
-                        <!-- Message Input -->
                         <div class="mt-4 border-t border-gray-100 pt-4">
                             <div class="flex items-center gap-2">
                                 <div class="flex-grow relative">
