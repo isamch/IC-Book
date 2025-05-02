@@ -101,9 +101,10 @@
     </div>
 
     <nav class="bg-green-500 relative">
-        <button id="mobile-menu-toggle" class="md:hidden absolute left-4 top-1/2 transform -translate-y-1/2 text-green-700">
+
+        {{-- <button id="mobile-menu-toggle" class="md:hidden absolute left-4 top-1/2 transform -translate-y-1/2 text-green-700">
             <i class="fas fa-bars text-lg"></i>
-        </button>
+        </button> --}}
 
         <div class="container mx-auto hidden md:flex justify-center space-x-6 py-2">
             <a href="/home" class="text-white hover:text-gray-200">Home</a>
