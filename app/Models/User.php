@@ -4,13 +4,15 @@ namespace App\Models;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Foundation\Auth\Access\Authorizable;
+use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable, Authorizable;
 
     /**
      * The attributes that are mass assignable.
@@ -23,7 +25,14 @@ class User extends Authenticatable
         'email',
         'password',
         'photo',
-        'age'
+        'age',
+        'verification_token',
+        'birthdate',
+        'status',
+        'about_me',
+        'gender',
+        'address',
+        'phone',
     ];
 
     /**
@@ -76,6 +85,19 @@ class User extends Authenticatable
         return $this->hasMany(Message::class, 'receiver_id');
     }
 
+    public function contacts()
+    {
+        $sentIds = $this->sentMessages()->pluck('receiver_id')->toArray();
+        $receivedIds = $this->receivedMessages()->pluck('sender_id')->toArray();
+
+        $allIds = collect($sentIds)->merge($receivedIds)->unique();
+
+        // $allIds = array_unique(array_merge($sentIds, $receivedIds));
+
+        return User::whereIn('id', $allIds)->get();
+    }
+
+
     // posts:
     public function posts()
     {
@@ -91,5 +113,4 @@ class User extends Authenticatable
     {
         return $this->hasMany(Like::class);
     }
-
 }
